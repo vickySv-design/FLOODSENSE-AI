@@ -82,3 +82,4 @@ OK
 1. **Satellite Raster Streaming:** Full multi-gigabyte raw Copernicus `.SAFE` scenes require user credentials; metadata stubs are generated if credentials are not configured.
 2. **DEM Data:** Elevation grids use hydro-conditioned procedural elevation rasters calibrated to regional slopes when live Copernicus DEM GLO-30/90 endpoints are unreachable.
 3. **PDF Export:** PDF generation uses clean client-side browser printing (`window.print()`) rather than a server-side headless binary compiler (e.g. ReportLab or Puppeteer).
+

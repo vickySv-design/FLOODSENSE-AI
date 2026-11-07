@@ -154,3 +154,4 @@ The monolithic single-page layout is reorganized into an **Application Shell wit
 | **Warning** | `#D97706` (Amber 600) | 100m buffer risk, moderate damage, cached data |
 | **Danger** | `#DC2626` (Red 600) | Flooded areas, severed roads, critical damage |
 | **Info / Cyan** | `#0891B2` (Cyan 600) | Permanent water, hydrological indicators, radar |
+
