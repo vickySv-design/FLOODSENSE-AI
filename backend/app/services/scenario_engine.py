@@ -1,7 +1,7 @@
 """Interactive Cyclone & Extreme Rainfall Scenario Simulation Engine for FloodSense-AI.
 Supports user-configured hypothetical disaster scenarios, spatial-temporal cyclone vortex rainfall,
 2D shallow-water diffusive wave fluid mechanics, building exposure grading, dynamic A* rescue routing,
-and structured scenario report generation.
+parameter provenance tracking, and structured scenario report generation.
 """
 import os
 import time
@@ -20,6 +20,7 @@ from app.config import (
     CLASS_DRY_LAND,
     CLASS_NEW_FLOOD,
     CLASS_PERMANENT_WATER,
+    PRESETS_DIR,
     SCENARIOS_DIR,
     SPATIAL_RESOLUTION_M,
     PIXEL_AREA_M2,
@@ -33,29 +34,312 @@ logger = logging.getLogger("floodsense.scenario_engine")
 
 
 def calculate_cyclone_category(max_wind_kmh: float) -> Dict[str, str]:
-    """Classifies cyclone on both Indian Meteorological Department (IMD) and Saffir-Simpson scales."""
+    """
+    Classifies cyclone on both Indian Meteorological Department (IMD 3-min sustained wind)
+    and Saffir-Simpson Hurricane Wind Scale (SSHWS 1-min sustained wind).
+    Applies WMO standard conversion: V_1min = 1.14 * V_3min.
+    """
+    # 1. IMD Classification (3-min sustained wind in km/h)
     if max_wind_kmh < 51:
-        imd = "Depression"
-        ss = "Tropical Depression"
+        imd = "Depression (31–50 km/h)"
     elif max_wind_kmh < 62:
-        imd = "Deep Depression"
-        ss = "Tropical Depression"
+        imd = "Deep Depression (51–61 km/h)"
     elif max_wind_kmh < 88:
-        imd = "Cyclonic Storm (CS)"
-        ss = "Tropical Storm"
+        imd = "Cyclonic Storm (62–87 km/h)"
     elif max_wind_kmh < 117:
-        imd = "Severe Cyclonic Storm (SCS)"
-        ss = "Tropical Storm"
+        imd = "Severe Cyclonic Storm (88–116 km/h)"
     elif max_wind_kmh < 166:
-        imd = "Very Severe Cyclonic Storm (VSCS)"
-        ss = "Category 1-2 Hurricane"
+        imd = "Very Severe Cyclonic Storm (117–165 km/h)"
     elif max_wind_kmh < 221:
-        imd = "Extremely Severe Cyclonic Storm (ESCS)"
-        ss = "Category 3-4 Major Hurricane"
+        imd = "Extremely Severe Cyclonic Storm (166–220 km/h)"
     else:
-        imd = "Super Cyclonic Storm (SuCS)"
-        ss = "Category 5 Major Hurricane"
-    return {"imd_scale": imd, "saffir_simpson": ss}
+        imd = "Super Cyclonic Storm (≥ 221 km/h)"
+
+    # 2. Saffir-Simpson (1-min sustained wind: V_1min = 1.14 * V_3min)
+    v_1min_kmh = max_wind_kmh * 1.14
+    if v_1min_kmh < 63:
+        ss = "Tropical Depression (< 63 km/h 1-min)"
+    elif v_1min_kmh < 119:
+        ss = "Tropical Storm (63–118 km/h 1-min)"
+    elif v_1min_kmh < 154:
+        ss = "Category 1 Hurricane (119–153 km/h 1-min)"
+    elif v_1min_kmh < 178:
+        ss = "Category 2 Hurricane (154–177 km/h 1-min)"
+    elif v_1min_kmh < 209:
+        ss = "Category 3 Major Hurricane (178–208 km/h 1-min)"
+    elif v_1min_kmh < 252:
+        ss = "Category 4 Major Hurricane (209–251 km/h 1-min)"
+    else:
+        ss = "Category 5 Major Hurricane (≥ 252 km/h 1-min)"
+
+    return {
+        "imd_scale": imd,
+        "saffir_simpson": ss,
+        "v_3min_kmh": round(max_wind_kmh, 1),
+        "v_1min_estimated_kmh": round(v_1min_kmh, 1),
+    }
+
+
+def resolve_effective_parameters(
+    bbox: List[float],
+    cyclone_params: Optional[Dict[str, Any]] = None,
+    rainfall_params: Optional[Dict[str, Any]] = None,
+    duration_hours: Optional[int] = None,
+    preset_id: Optional[str] = None,
+) -> Dict[str, Any]:
+    """
+    Resolves the 14 effective simulation parameters, explicitly recording their values,
+    provenance source ('USER_INPUT', 'SELECTED_PRESET', 'BACKEND_DEFAULT', 'REAL_EXTERNAL_DATA', 'SYNTHETIC_ASSUMPTION'),
+    and scientific justifications to prevent silent substitution.
+    """
+    cyclone_params = cyclone_params or {}
+    rainfall_params = rainfall_params or {}
+    preset = ScenarioManager.PRESET_SCENARIOS.get(preset_id) if preset_id else None
+
+    center_lat = round((bbox[0] + bbox[2]) * 0.5, 5)
+    center_lon = round((bbox[1] + bbox[3]) * 0.5, 5)
+
+    params: Dict[str, Dict[str, Any]] = {}
+
+    # 1. Rainfall Intensity (mm/hr)
+    if "rainfall_intensity_mm_hr" in rainfall_params and rainfall_params["rainfall_intensity_mm_hr"] not in [None, ""]:
+        val = float(rainfall_params["rainfall_intensity_mm_hr"])
+        src = "USER_INPUT"
+        just = "Explicitly configured by operator via simulation control panel."
+    elif preset and "rainfall_params" in preset and "rainfall_intensity_mm_hr" in preset["rainfall_params"]:
+        val = float(preset["rainfall_params"]["rainfall_intensity_mm_hr"])
+        src = "SELECTED_PRESET"
+        just = f"Inherited from calibrated preset '{preset['name']}'."
+    else:
+        val = 45.0
+        src = "BACKEND_DEFAULT"
+        just = "Documented IMD severe monsoon depressive burst standard fallback."
+    params["rainfall_intensity_mm_hr"] = {
+        "name": "Rainfall Intensity",
+        "value": val,
+        "units": "mm/hour",
+        "source": src,
+        "justification": just,
+        "is_required": True,
+    }
+
+    # 2. Wind Speed (km/h)
+    if "max_wind_speed_kmh" in cyclone_params and cyclone_params["max_wind_speed_kmh"] not in [None, ""]:
+        val = float(cyclone_params["max_wind_speed_kmh"])
+        src = "USER_INPUT"
+        just = "Explicitly configured by operator."
+    elif preset and "cyclone_params" in preset and "max_wind_speed_kmh" in preset["cyclone_params"]:
+        val = float(preset["cyclone_params"]["max_wind_speed_kmh"])
+        src = "SELECTED_PRESET"
+        just = f"Inherited from preset '{preset['name']}'."
+    else:
+        val = 120.0
+        src = "BACKEND_DEFAULT"
+        just = "Standard IMD Very Severe Cyclonic Storm (VSCS) reference speed."
+    params["wind_speed_kmh"] = {
+        "name": "Maximum Sustained Wind Speed",
+        "value": val,
+        "units": "km/hour",
+        "source": src,
+        "justification": just,
+        "is_required": True,
+    }
+
+    # 3. Rainfall / Wind Direction (degrees)
+    if "wind_direction_deg" in cyclone_params and cyclone_params["wind_direction_deg"] not in [None, ""]:
+        val = float(cyclone_params["wind_direction_deg"])
+        src = "USER_INPUT"
+        just = "Explicitly entered track heading angle (0-360°)."
+    elif preset and "cyclone_params" in preset and "wind_direction_deg" in preset["cyclone_params"]:
+        val = float(preset["cyclone_params"]["wind_direction_deg"])
+        src = "SELECTED_PRESET"
+        just = f"Inherited from preset '{preset['name']}'."
+    else:
+        val = 315.0
+        src = "BACKEND_DEFAULT"
+        just = "Climatological North-West heading typical for North Indian Ocean cyclone tracks."
+    params["rainfall_direction_deg"] = {
+        "name": "Rainfall & Storm Track Heading",
+        "value": val,
+        "units": "degrees (0-360°)",
+        "source": src,
+        "justification": just,
+        "is_required": True,
+    }
+
+    # 4. Cyclone Movement Speed (km/h)
+    if "movement_speed_kmh" in cyclone_params and cyclone_params["movement_speed_kmh"] not in [None, ""]:
+        val = float(cyclone_params["movement_speed_kmh"])
+        src = "USER_INPUT"
+        just = "Explicit translational forward speed entered by operator."
+    elif preset and "cyclone_params" in preset and "movement_speed_kmh" in preset["cyclone_params"]:
+        val = float(preset["cyclone_params"]["movement_speed_kmh"])
+        src = "SELECTED_PRESET"
+        just = f"Inherited from preset '{preset['name']}'."
+    else:
+        val = 18.0
+        src = "BACKEND_DEFAULT"
+        just = "Typical forward translational velocity of Bay of Bengal tropical storms."
+    params["movement_speed_kmh"] = {
+        "name": "Cyclone Forward Movement Speed",
+        "value": val,
+        "units": "km/hour",
+        "source": src,
+        "justification": just,
+        "is_required": False,
+    }
+
+    # 5. Cyclone Centre Coordinates
+    if "landfall_coords" in cyclone_params and cyclone_params["landfall_coords"]:
+        val = cyclone_params["landfall_coords"]
+        src = "USER_INPUT"
+        just = "Custom landfall coordinates specified by operator."
+    else:
+        val = [center_lat, center_lon]
+        src = "BACKEND_DEFAULT"
+        just = "Geometric centroid of selected Area of Interest (AOI)."
+    params["cyclone_centre_coordinates"] = {
+        "name": "Cyclone Initial Center Coordinates",
+        "value": val,
+        "units": "lat, lon",
+        "source": src,
+        "justification": just,
+        "is_required": False,
+    }
+
+    # 6. Radius of Maximum Winds (km)
+    if "cyclone_radius_km" in cyclone_params and cyclone_params["cyclone_radius_km"] not in [None, ""]:
+        val = float(cyclone_params["cyclone_radius_km"])
+        src = "USER_INPUT"
+        just = "Operator specified radius of eyewall / maximum tangential velocity."
+    elif preset and "cyclone_params" in preset and "cyclone_radius_km" in preset["cyclone_params"]:
+        val = float(preset["cyclone_params"]["cyclone_radius_km"])
+        src = "SELECTED_PRESET"
+        just = f"Inherited from preset '{preset['name']}'."
+    else:
+        val = 45.0
+        src = "BACKEND_DEFAULT"
+        just = "Climatological radius of maximum winds for mid-latitude tropical cyclones."
+    params["radius_maximum_winds_km"] = {
+        "name": "Radius of Maximum Winds",
+        "value": val,
+        "units": "km",
+        "source": src,
+        "justification": just,
+        "is_required": False,
+    }
+
+    # 7. Simulation Duration (hours)
+    if duration_hours is not None and duration_hours > 0:
+        val = int(duration_hours)
+        src = "USER_INPUT"
+        just = "Configured simulation time horizon."
+    elif preset and "duration_hours" in preset:
+        val = int(preset["duration_hours"])
+        src = "SELECTED_PRESET"
+        just = f"Inherited from preset '{preset['name']}'."
+    else:
+        val = 24
+        src = "BACKEND_DEFAULT"
+        just = "Standard 24-hour tactical operational emergency briefing window."
+    params["simulation_duration_hours"] = {
+        "name": "Simulation Duration Horizon",
+        "value": val,
+        "units": "hours",
+        "source": src,
+        "justification": just,
+        "is_required": True,
+    }
+
+    # 8. Numerical Simulation Timestep (seconds)
+    params["simulation_timestep_sec"] = {
+        "name": "Numerical Integration Time-Step (dt)",
+        "value": 180.0,
+        "units": "seconds (3 minutes)",
+        "source": "BACKEND_DEFAULT",
+        "justification": "Satisfies Courant-Friedrichs-Lewy (CFL) numerical stability condition for 10m grid cells.",
+        "is_required": False,
+    }
+
+    # 9. Rainfall Distribution Model
+    if "rainfall_distribution" in rainfall_params and rainfall_params["rainfall_distribution"]:
+        val = str(rainfall_params["rainfall_distribution"])
+        src = "USER_INPUT"
+        just = "Selected storm hyetograph distribution profile."
+    elif preset and "rainfall_params" in preset and "rainfall_distribution" in preset["rainfall_params"]:
+        val = str(preset["rainfall_params"]["rainfall_distribution"])
+        src = "SELECTED_PRESET"
+        just = f"Inherited from preset '{preset['name']}'."
+    else:
+        val = "front_loaded"
+        src = "BACKEND_DEFAULT"
+        just = "Standard convective cloudburst pattern with peak rainfall in first quartile."
+    params["rainfall_distribution_model"] = {
+        "name": "Hyetograph Temporal Distribution",
+        "value": val,
+        "units": "profile curve",
+        "source": src,
+        "justification": just,
+        "is_required": False,
+    }
+
+    # 10. Terrain Elevation Source
+    has_real_dem = False
+    if preset_id:
+        preset_dem_path = os.path.join(str(PRESETS_DIR), preset_id, "dem.npy")
+        if os.path.exists(preset_dem_path):
+            has_real_dem = True
+
+    params["terrain_source"] = {
+        "name": "Terrain Topography Source",
+        "value": "Hydro-conditioned DEM (Copernicus GLO-30 Preset Vault)" if has_real_dem else "Procedural Hydro-Conditioned Talweg (Synthetic DEM)",
+        "units": "Elevation raster",
+        "source": "REAL_EXTERNAL_DATA" if has_real_dem else "SYNTHETIC_ASSUMPTION",
+        "justification": "Calibrated DEM raster verified on disk." if has_real_dem else "No pre-existing calibrated DEM found on disk; synthesizing procedural hydro-conditioned talweg.",
+        "is_required": False,
+    }
+
+    # 11. DEM Resolution & Grid Dimensions
+    params["dem_source_and_resolution"] = {
+        "name": "DEM Grid Spatial Resolution",
+        "value": "10.0m metric spatial resolution (Copernicus GLO-30 aligned)" if has_real_dem else "10.0m metric spatial resolution (256x256 synthetic domain grid)",
+        "units": "meters per pixel",
+        "source": "REAL_EXTERNAL_DATA" if has_real_dem else "SYNTHETIC_ASSUMPTION",
+        "justification": "Matches European Space Agency Sentinel-1/2 10m Ground Sampling Distance (GSD)." if has_real_dem else "Synthetic uniform 10m grid spacing assumption.",
+        "is_required": False,
+    }
+
+    # 12. Infiltration Parameters
+    params["infiltration_parameters"] = {
+        "name": "Soil Infiltration Rate",
+        "value": 8.0,
+        "units": "mm/hour (2.22e-6 m/s)",
+        "source": "SYNTHETIC_ASSUMPTION",
+        "justification": "Represents saturated hydraulic conductivity (K_sat) for semi-urban clay loam soil.",
+        "is_required": False,
+    }
+
+    # 13. Stormwater Drainage Capacity
+    params["drainage_parameters"] = {
+        "name": "Municipal Stormwater Drainage Capacity",
+        "value": 14.0,
+        "units": "mm/hour (3.89e-6 m/s)",
+        "source": "SYNTHETIC_ASSUMPTION",
+        "justification": "Standard urban stormwater canal outfall pump rate before backwater surcharging.",
+        "is_required": False,
+    }
+
+    # 14. Initial Water Depth
+    params["initial_water_depth_m"] = {
+        "name": "Initial Surface Water Depth",
+        "value": 0.0,
+        "units": "meters",
+        "source": "SYNTHETIC_ASSUMPTION",
+        "justification": "Assumes zero initial overland standing water outside pre-existing baseline water bodies.",
+        "is_required": False,
+    }
+
+    return params
 
 
 class CycloneScenarioSimulator:
@@ -88,6 +372,9 @@ class CycloneScenarioSimulator:
 
         self.h = np.zeros((self.H, self.W), dtype=np.float32)
         self.cell_area_m2 = PIXEL_AREA_M2  # 100 m^2
+
+        # In-memory storage of hourly water depth rasters for dynamic routing & XAI
+        self.hourly_depth_grids: Dict[int, np.ndarray] = {}
 
         # Cyclone track coordinates
         self.landfall_coords = cyclone_params.get(
@@ -189,6 +476,7 @@ class CycloneScenarioSimulator:
         dH_west = np.maximum(H_total - np.roll(H_total, shift=1, axis=1), 0.0)
         dH_east = np.maximum(H_total - np.roll(H_total, shift=-1, axis=1), 0.0)
 
+        # Reflective wall boundary condition (closed domain)
         dH_north[0, :] = 0.0
         dH_south[-1, :] = 0.0
         dH_west[:, 0] = 0.0
@@ -208,7 +496,7 @@ class CycloneScenarioSimulator:
         q_total_out = q_n + q_s + q_w + q_e
         avail_vol = self.h * self.cell_area_m2
 
-        # Flux limiter to ensure mass conservation
+        # Flux limiter to guarantee non-negative depth and strict mass conservation
         flux_limiter = np.where(q_total_out > 0, np.minimum(1.0, avail_vol / (q_total_out + 1e-6)), 1.0)
         q_n_lim = q_n * flux_limiter
         q_s_lim = q_s * flux_limiter
@@ -258,19 +546,19 @@ class CycloneScenarioSimulator:
 
     def _capture_snapshot(self, hour: int) -> Dict[str, Any]:
         """Assembles comprehensive telemetry and GeoJSON contours for a specific hour."""
-        flooded_cells = np.sum(self.h > 0.15)
+        # Store raw depth raster for dynamic routing and analytical inspections
+        self.hourly_depth_grids[hour] = self.h.copy()
+
+        flooded_cells = int(np.sum(self.h > 0.15))
         flooded_km2 = round(float(flooded_cells * PIXEL_AREA_KM2), 3)
         max_depth_m = round(float(np.max(self.h)), 2)
         mean_depth_m = round(float(np.mean(self.h[self.h > 0.05]) if np.any(self.h > 0.05) else 0.0), 2)
         current_water_m3 = float(np.sum(self.h) * self.cell_area_m2)
 
-        # Mass balance error check: Input - Infil - Drain - Stored
-        net_budget_m3 = self.cum_rain_m3 - self.cum_infil_m3 - self.cum_drain_m3
-        mass_error_pct = round(
-            abs(current_water_m3 - max(net_budget_m3, 0.0)) / max(current_water_m3 + 1.0, 1.0) * 100.0, 2
-        )
-        if mass_error_pct > 1.0:
-            mass_error_pct = 0.00  # Numerical flux limiters enforce exact conservation
+        # Real mass balance error computation (Input - Infiltration - Drainage - Stored)
+        net_budget_m3 = max(self.cum_rain_m3 - self.cum_infil_m3 - self.cum_drain_m3, 0.0)
+        denom_m3 = max(current_water_m3, self.cum_rain_m3, 100.0)
+        actual_mass_error_pct = round(float(abs(current_water_m3 - net_budget_m3) / denom_m3 * 100.0), 4)
 
         # Vector contour generation for interactive map
         binary_mask = (self.h > 0.15).astype(np.uint8)
@@ -308,7 +596,8 @@ class CycloneScenarioSimulator:
             "stored_water_volume_m3": round(current_water_m3, 1),
             "cumulative_rainfall_m3": round(self.cum_rain_m3, 1),
             "cumulative_infiltration_m3": round(self.cum_infil_m3, 1),
-            "mass_balance_error_pct": 0.00,
+            "cumulative_drainage_m3": round(self.cum_drain_m3, 1),
+            "mass_balance_error_pct": actual_mass_error_pct,
             "cyclone_eye_coordinates": {"lat": round(eye_lat, 5), "lon": round(eye_lon, 5)},
             "geojson": {"type": "FeatureCollection", "features": features},
             "submerged_buildings_estimate": int(flooded_cells * 0.06),
@@ -317,7 +606,7 @@ class CycloneScenarioSimulator:
 
 
 class ScenarioManager:
-    """Manages creation, execution, presets, and reports for hypothetical scenarios."""
+    """Manages creation, execution, presets, parameter transparency, and reports for hypothetical scenarios."""
 
     PRESET_SCENARIOS = {
         "extreme_rainfall_event": {
@@ -386,6 +675,45 @@ class ScenarioManager:
     def get_preset_scenarios(self) -> List[Dict[str, Any]]:
         return list(self.PRESET_SCENARIOS.values())
 
+    def inspect_parameters(
+        self,
+        bbox: List[float],
+        cyclone_params: Optional[Dict[str, Any]] = None,
+        rainfall_params: Optional[Dict[str, Any]] = None,
+        duration_hours: Optional[int] = None,
+        preset_id: Optional[str] = None,
+    ) -> Dict[str, Any]:
+        """Provides full pre-simulation transparency breakdown for all 14 effective parameters."""
+        effective = resolve_effective_parameters(
+            bbox=bbox,
+            cyclone_params=cyclone_params,
+            rainfall_params=rainfall_params,
+            duration_hours=duration_hours,
+            preset_id=preset_id,
+        )
+        defaults_applied = [k for k, v in effective.items() if v["source"] == "BACKEND_DEFAULT"]
+        synthetic_applied = [k for k, v in effective.items() if v["source"] == "SYNTHETIC_ASSUMPTION"]
+
+        return {
+            "effective_parameters": effective,
+            "total_parameters_count": len(effective),
+            "defaults_substituted_count": len(defaults_applied),
+            "synthetic_assumptions_count": len(synthetic_applied),
+            "defaults_applied_keys": defaults_applied,
+            "provenance_summary": {
+                "user_inputs": sum(1 for v in effective.values() if v["source"] == "USER_INPUT"),
+                "preset_inputs": sum(1 for v in effective.values() if v["source"] == "SELECTED_PRESET"),
+                "backend_defaults": len(defaults_applied),
+                "synthetic_assumptions": len(synthetic_applied),
+                "real_external": sum(1 for v in effective.values() if v["source"] == "REAL_EXTERNAL_DATA"),
+            },
+            "scientific_disclaimer": (
+                "HYPOTHETICAL DISASTER SIMULATION ONLY — NOT AN OFFICIAL METEOROLOGICAL FORECAST. "
+                "2D diffusive wave fluid mechanics solve overland sheet flow under closed boundary conditions. "
+                "Storm surge coastal wave runup and subsurface municipal pipe networks are excluded."
+            ),
+        }
+
     def create_scenario(
         self,
         name: str,
@@ -393,19 +721,31 @@ class ScenarioManager:
         cyclone_params: Dict[str, Any],
         rainfall_params: Dict[str, Any],
         duration_hours: int = 24,
+        preset_id: Optional[str] = None,
     ) -> str:
         scenario_id = str(uuid.uuid4())[:8]
+        effective = resolve_effective_parameters(
+            bbox=bbox,
+            cyclone_params=cyclone_params,
+            rainfall_params=rainfall_params,
+            duration_hours=duration_hours,
+            preset_id=preset_id,
+        )
+
         with self._lock:
             self._scenarios[scenario_id] = {
                 "scenario_id": scenario_id,
                 "name": name,
                 "bbox": bbox,
+                "preset_id": preset_id,
                 "cyclone_params": cyclone_params,
                 "rainfall_params": rainfall_params,
                 "duration_hours": duration_hours,
+                "effective_parameters": effective,
                 "status": "CONFIGURED",
                 "progress_pct": 0.0,
                 "snapshots": [],
+                "depth_grids": {},
                 "results": None,
                 "error": None,
                 "created_at": datetime.now(timezone.utc).isoformat(),
@@ -437,21 +777,32 @@ class ScenarioManager:
                 duration_hours=sc_data["duration_hours"],
             )
 
-            snapshots = sim.run_full_simulation() if hasattr(sim, "run_full_simulation") else sim.run_simulation()
-
+            snapshots = sim.run_simulation()
             final_snap = snapshots[-1] if snapshots else {}
+            final_mass_error = final_snap.get("mass_balance_error_pct", 0.0)
+
             results = {
                 "scenario_id": scenario_id,
                 "name": sc_data["name"],
                 "cyclone_category": sim.category,
                 "total_rain_volume_m3": round(sim.cum_rain_m3, 1),
                 "total_infiltration_m3": round(sim.cum_infil_m3, 1),
+                "total_drainage_m3": round(sim.cum_drain_m3, 1),
                 "final_flooded_km2": final_snap.get("flooded_area_km2", 0.0),
                 "max_flood_depth_m": final_snap.get("max_water_depth_m", 0.0),
                 "mean_flood_depth_m": final_snap.get("mean_water_depth_m", 0.0),
                 "submerged_buildings": final_snap.get("submerged_buildings_estimate", 0),
                 "severed_roads": final_snap.get("severed_roads_estimate", 0),
-                "mass_balance_error_pct": 0.00,
+                "mass_balance_error_pct": final_mass_error,
+                "mass_balance_status": "CONSERVED" if final_mass_error < 1.0 else "DRIFT",
+                "effective_parameters": sc_data.get("effective_parameters"),
+                "physical_assumptions": {
+                    "governing_equations": "2D Diffusive Wave Shallow-Water (dh/dt + div(q) = R - I - D)",
+                    "boundary_condition": "Closed reflective wall (dH_boundary = 0)",
+                    "storm_surge_included": False,
+                    "drainage_model": "Uniform sink flux (14 mm/h)",
+                    "infiltration_model": "Horton decay (8 mm/h)",
+                },
                 "disclaimer": "This is a hypothetical scenario simulation for project review and testing, not an actual disaster forecast.",
             }
 
@@ -460,6 +811,7 @@ class ScenarioManager:
                 self._scenarios[scenario_id]["progress_pct"] = 100.0
                 self._scenarios[scenario_id]["snapshots"] = snapshots
                 self._scenarios[scenario_id]["results"] = results
+                self._scenarios[scenario_id]["depth_grids"] = sim.hourly_depth_grids
 
         except Exception as e:
             logger.error(f"Scenario {scenario_id} failed: {e}", exc_info=True)
@@ -470,6 +822,20 @@ class ScenarioManager:
     def get_scenario_status(self, scenario_id: str) -> Optional[Dict[str, Any]]:
         with self._lock:
             return self._scenarios.get(scenario_id)
+
+    def get_scenario_depth_raster(self, scenario_id: str, hour: int = 0) -> Optional[np.ndarray]:
+        """Returns the actual simulated 2D numpy water depth array (in meters) for an exact simulation hour."""
+        with self._lock:
+            sc = self._scenarios.get(scenario_id)
+            if not sc:
+                return None
+            grids = sc.get("depth_grids", {})
+            if hour in grids:
+                return grids[hour]
+            if not grids:
+                return None
+            closest_h = min(grids.keys(), key=lambda h: abs(h - hour))
+            return grids[closest_h]
 
     def generate_scenario_report(self, scenario_id: str) -> Dict[str, Any]:
         with self._lock:
@@ -488,13 +854,17 @@ class ScenarioManager:
                 "rainfall": sc["rainfall_params"],
                 "duration_hours": sc["duration_hours"],
             },
+            "effective_parameters": sc.get("effective_parameters"),
             "summary_results": sc.get("results"),
             "progression_timesteps": [
                 {
+                    "hour": s["hour"],
                     "label": s["label"],
                     "flooded_km2": s["flooded_area_km2"],
                     "max_depth_m": s["max_water_depth_m"],
                     "mean_depth_m": s["mean_water_depth_m"],
+                    "stored_water_m3": s.get("stored_water_volume_m3"),
+                    "mass_balance_error_pct": s.get("mass_balance_error_pct"),
                 }
                 for s in sc.get("snapshots", [])
             ],
@@ -502,4 +872,3 @@ class ScenarioManager:
 
 
 scenario_manager = ScenarioManager()
-

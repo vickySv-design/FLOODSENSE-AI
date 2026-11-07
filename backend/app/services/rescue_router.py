@@ -51,7 +51,8 @@ def _sample_line_flood_status(
                 dense_pixels.append((c, r))
 
     if not dense_pixels:
-        return False, 0.0, "PASSABLE"
+        # Roads outside the raster domain cannot be confirmed safe
+        return True, 100.0, "BLOCKED_OUT_OF_BOUNDS"
 
     class2_hits = 0
     class1_hits = 0
@@ -292,6 +293,9 @@ def compute_osm_rescue_routes(
         route_id = f"OSM-ROUTE-0{idx + 1}"
 
         try:
+            if base_node not in G_safe or target_node not in G_safe:
+                raise nx.NetworkXNoPath("Base or target node is submerged or isolated from safe road network")
+
             path_nodes = nx.astar_path(
                 G_safe, base_node, target_node, heuristic=astar_heuristic, weight="weight"
             )
@@ -308,6 +312,19 @@ def compute_osm_rescue_routes(
                     full_path_coords.extend(edge_coords[1:])
                 else:
                     full_path_coords.extend(edge_coords)
+
+            if len(path_nodes) < 2 or not full_path_coords:
+                route_summary = {
+                    "route_id": route_id,
+                    "destination": dest_spec["name"],
+                    "distance_km": 0.0,
+                    "eta_minutes": 0.0,
+                    "segments_count": 0,
+                    "status": "NO_SAFE_ROUTE_AVAILABLE",
+                    "color": "#94a3b8",
+                }
+                route_summaries.append(route_summary)
+                continue
 
             total_km = round(max(total_km, 0.25), 2)
             eta_mins = round((total_km / AVERAGE_RESCUE_SPEED_KMH) * 60.0 + 2.0, 1)
@@ -338,7 +355,7 @@ def compute_osm_rescue_routes(
                 }
             )
 
-        except nx.NetworkXNoPath:
+        except (nx.NetworkXNoPath, nx.NodeNotFound):
             # Explicit academic requirement: Never fabricate synthetic lines when road is blocked
             route_summary = {
                 "route_id": route_id,

@@ -6,6 +6,7 @@ import time
 from typing import Any, Dict, List, Optional, Tuple
 import urllib.request
 import urllib.error
+import numpy as np
 
 from app.config import OSM_CACHE_DIR, DISASTER_PRESETS_METADATA
 

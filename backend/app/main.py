@@ -124,6 +124,15 @@ class GPMFetchRequest(BaseModel):
 class ScenarioCreateRequest(BaseModel):
     name: str = Field(default="Custom Cyclone Scenario")
     bbox: List[float] = Field(default=[12.980, 80.190, 13.060, 80.290])
+    preset_id: Optional[str] = None
+    cyclone_params: Dict[str, Any] = Field(default_factory=dict)
+    rainfall_params: Dict[str, Any] = Field(default_factory=dict)
+    duration_hours: int = Field(default=24)
+
+
+class ScenarioInspectRequest(BaseModel):
+    bbox: List[float] = Field(default=[12.980, 80.190, 13.060, 80.290])
+    preset_id: Optional[str] = None
     cyclone_params: Dict[str, Any] = Field(default_factory=dict)
     rainfall_params: Dict[str, Any] = Field(default_factory=dict)
     duration_hours: int = Field(default=24)
@@ -932,6 +941,18 @@ async def get_scenario_presets() -> List[Dict[str, Any]]:
     return scenario_manager.get_preset_scenarios()
 
 
+@app.post("/api/scenarios/inspect-parameters")
+async def inspect_scenario_parameters(req: ScenarioInspectRequest) -> Dict[str, Any]:
+    """Provides full pre-simulation transparency breakdown for all 14 effective parameters with provenance."""
+    return scenario_manager.inspect_parameters(
+        bbox=req.bbox,
+        cyclone_params=req.cyclone_params,
+        rainfall_params=req.rainfall_params,
+        duration_hours=req.duration_hours,
+        preset_id=req.preset_id,
+    )
+
+
 @app.post("/api/scenarios/create")
 async def create_custom_scenario(req: ScenarioCreateRequest) -> Dict[str, Any]:
     """Creates a user-configured hypothetical cyclone and extreme rainfall disaster scenario."""
@@ -941,6 +962,7 @@ async def create_custom_scenario(req: ScenarioCreateRequest) -> Dict[str, Any]:
         cyclone_params=req.cyclone_params,
         rainfall_params=req.rainfall_params,
         duration_hours=req.duration_hours,
+        preset_id=req.preset_id,
     )
     return {
         "scenario_id": scenario_id,
@@ -1028,9 +1050,28 @@ async def recalculate_scenario_rescue_routes(
         raise HTTPException(status_code=404, detail=f"Scenario {scenario_id} not found.")
 
     bbox = status["bbox"]
-    # Synthesize flood mask matching current hour
+    # Retrieve actual 2D simulated water depth raster for the requested scenario hour
+    depth_grid = scenario_manager.get_scenario_depth_raster(scenario_id, req.hour)
     seg_mask = np.zeros((256, 256), dtype=np.uint8)
-    seg_mask[100:150, 100:150] = CLASS_NEW_FLOOD
+    if depth_grid is not None:
+        seg_mask[depth_grid >= req.depth_threshold_m] = CLASS_NEW_FLOOD
+    else:
+        # Fallback to rasterizing snapshot contours if simulation worker is progressing
+        snaps = status.get("snapshots", [])
+        snap = next((s for s in snaps if s["hour"] == req.hour), snaps[-1] if snaps else None)
+        if snap and "geojson" in snap:
+            import cv2
+            for f in snap["geojson"].get("features", []):
+                coords = f.get("geometry", {}).get("coordinates", [])
+                if coords:
+                    ring = coords[0]
+                    pts = []
+                    georef = GeoSpatialTransform(bbox, width=256, height=256)
+                    for pt in ring:
+                        c, r = georef.lonlat_to_pixel(pt[0], pt[1])
+                        pts.append([int(c), int(r)])
+                    if pts:
+                        cv2.fillPoly(seg_mask, [np.array(pts, dtype=np.int32)], CLASS_NEW_FLOOD)
 
     custom_start = (req.start_coords[1], req.start_coords[0]) if req.start_coords else None
     custom_dest = [{"lat": req.end_coords[0], "lon": req.end_coords[1], "name": "Scenario Triage Evac Center"}] if req.end_coords else None

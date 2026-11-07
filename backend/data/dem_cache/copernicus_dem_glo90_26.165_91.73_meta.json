@@ -1,0 +1,17 @@
+{
+  "dem_id": "copernicus_dem_glo90_26.165_91.73",
+  "provider": "copernicus_dem",
+  "product": "GLO-90",
+  "bounds": {
+    "min_lat": 26.14,
+    "min_lon": 91.7,
+    "max_lat": 26.19,
+    "max_lon": 91.76
+  },
+  "resolution_m": 90.0,
+  "vertical_crs": "EGM2008 geoid",
+  "horizontal_crs": "EPSG:4326 (WGS84)",
+  "elevation_units": "meters",
+  "source_url": "https://dataspace.copernicus.eu/explore-data/data-collections/copernicus-contributing-missions/collections-description/COP-DEM",
+  "licence": "Copernicus WorldDEM-30 Public Open Access Licence"
+}

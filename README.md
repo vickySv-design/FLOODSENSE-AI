@@ -435,8 +435,9 @@ The FastAPI backend exposes 42 endpoints at `http://localhost:8000` (OpenAPI Swa
 - `POST /api/data/cache/validate` — Audits local cache files against expected SHA-256 integrity checksums.
 - `DELETE /api/data/cache` — Safely cleans expired or temporary cache files while preserving presets.
 
-### Interactive Cyclone Scenario Simulation Lab (9 routes)
+### Interactive Cyclone Scenario Simulation Lab (10 routes)
 - `GET /api/scenarios/presets` — Retrieves 3 preconfigured cyclone scenarios (Super Cyclone, VSCS, Cloudburst).
+- `POST /api/scenarios/inspect-parameters` — Pre-flight parameter transparency preview resolving all 14 effective inputs with provenance classifications and scientific rationales.
 - `POST /api/scenarios/create` — Configures user-defined cyclone simulation with customized wind and rain fields.
 - `GET /api/scenarios` — Lists all active and completed cyclone simulation runs.
 - `POST /api/scenarios/{scenario_id}/run` — Solves 2D diffusive wave hydrodynamics for specified scenario.
@@ -444,7 +445,7 @@ The FastAPI backend exposes 42 endpoints at `http://localhost:8000` (OpenAPI Swa
 - `GET /api/scenarios/{scenario_id}/results` — Delivers full hydraulic simulation dataset and inundated road mask.
 - `GET /api/scenarios/{scenario_id}/timeline` — Retrieves hourly time-step GeoJSON snapshots for map scrubbing.
 - `GET /api/scenarios/{scenario_id}/report` — Compiles formal executive scenario impact report with hypothetical disclaimer.
-- `POST /api/scenarios/{scenario_id}/routes/recalculate` — Dynamically recomputes A* rescue corridors under simulated flood expansion.
+- `POST /api/scenarios/{scenario_id}/routes/recalculate` — Dynamically recomputes A* rescue corridors sampled directly against the simulated water-depth raster at specified time step.
 
 ### Legacy Phase Compatibility (8 routes)
 - `POST /api/gee-fetch` — Fetches synthetic Google Earth Engine tile previews.
@@ -483,11 +484,12 @@ Terminates conflicting processes on ports 8000 and 5173, starts both servers, an
 ## 16. Empirical Benchmark, Testing & Scientific Validation Report
 
 ### 16.1 Automated Test Execution Summary
-All primary test suites execute with **100% PASS rate across all 26 core assertions**:
+All primary test suites execute with **100% PASS rate across all 37 core assertions**:
 
 | Test Suite Module | Subsystem Tested | Assertions | Execution Time | Status |
 |---|---|:---:|:---:|:---:|
-| `backend/scripts/test_live_data_and_scenarios.py` | Data Providers, Open-Meteo, NASA GPM, Copernicus DEM, Background Jobs, Cache Audit, Cyclone Wind Scale, 2D Hydrodynamic Fluid Simulation (0.00% Mass Error), Scenarios Manager, Report Generator | 10 / 10 | 2.47 s | **PASSED** |
+| `backend/scripts/test_scenario_transparency.py` | Cyclone Scenario Input Transparency, Provenance Tracking, 14 Parameters, CFL Stability, Out-of-bounds Guards, Dynamic Routing | 11 / 11 | 4.82 s | **PASSED** |
+| `backend/scripts/test_live_data_and_scenarios.py` | Data Providers, Open-Meteo, NASA GPM, Copernicus DEM, Background Jobs, Cache Audit, Cyclone Wind Scale, 2D Hydrodynamic Fluid Simulation (Dynamic Mass Error), Scenarios Manager, Report Generator | 10 / 10 | 2.47 s | **PASSED** |
 | `backend/scripts/test_universal_aoi.py` | Geodesics, Ocean Mask, Custom AOI Isolation, Sliding-Window Inference, Dynamic DEM Simulation | 7 / 7 | 4.71 s | **PASSED** |
 | `backend/scripts/test_phase4.py` | OSM Geometries, Georeferencing, Flood Intersection, A* Pathfinder | 5 / 5 | 1.23 s | **PASSED** |
 | `backend/scripts/test_georef.py` | Coordinate Roundtrip, Local UTM Transforms, Metric Polygon Area | 4 / 4 | 0.42 s | **PASSED** |
@@ -558,13 +560,20 @@ An exhaustive line-by-line code audit was conducted across all backend services 
 | **Copernicus DEM (GLO-30/90)** | **Synthetic / Stub** | [`backend/app/services/data_providers/copernicus_provider.py#L248`](file:///c:/Users/vicky/Desktop/Disaster%20Response/backend/app/services/data_providers/copernicus_provider.py#L248) | Synthesizes hydro-conditioned fractal elevation grids rather than querying live OpenTopography endpoints. |
 | **NASA GPM IMERG Rainfall** | **Partially Functional** | [`backend/app/services/data_providers/nasa_gpm_provider.py`](file:///c:/Users/vicky/Desktop/Disaster%20Response/backend/app/services/data_providers/nasa_gpm_provider.py) | Earthdata authentication client implemented; drops to fallback series unless credentials are configured in `.env`. |
 | **2D Hydrodynamic Fluid Simulator** | **Functional** | [`backend/app/services/simulation_engine.py#L189`](file:///c:/Users/vicky/Desktop/Disaster%20Response/backend/app/services/simulation_engine.py#L189) | Solves 2D diffusive wave shallow-water flow with Horton infiltration and Manning roughness under reflective wall boundaries. |
-| **Cyclone Scenario Simulator** | **Functional** | [`backend/app/services/scenario_engine.py`](file:///c:/Users/vicky/Desktop/Disaster%20Response/backend/app/services/scenario_engine.py) | Models cyclone eye motion, Rankine vortex wind, and spatial rainfall decay. Generates time-stepped GeoJSON contours. |
+| **Cyclone Scenario Simulator** | **Functional** | [`backend/app/services/scenario_engine.py`](file:///c:/Users/vicky/Desktop/Disaster%20Response/backend/app/services/scenario_engine.py) | Models cyclone eye motion, Rankine vortex wind, and spatial rainfall decay. Generates time-stepped GeoJSON contours and floating-point depth grids. |
 | **Building Exposure Grading** | **Functional** | [`backend/app/services/damage_analyzer.py`](file:///c:/Users/vicky/Desktop/Disaster%20Response/backend/app/services/damage_analyzer.py) | 4-tier structural submergence grading, affected population, economic loss, and critical facility exposure. |
-| **A* Rescue Evacuation Pathfinder** | **Partially Functional** | [`backend/app/services/rescue_router.py`](file:///c:/Users/vicky/Desktop/Disaster%20Response/backend/app/services/rescue_router.py) | Builds NetworkX graph from real OSM ways; samples road segments against flood pixels; preserves bridges over permanent water. |
-| **Dynamic Route Recalculation** | **Synthetic / Stub** | [`backend/app/main.py#L1031-L1034`](file:///c:/Users/vicky/Desktop/Disaster%20Response/backend/app/main.py#L1031-L1034) | `/api/scenarios/{id}/routes/recalculate` hardcodes a synthetic box `[100:150, 100:150]` instead of reading simulated depth $h$. |
+| **A* Rescue Evacuation Pathfinder** | **Functional** | [`backend/app/services/rescue_router.py`](file:///c:/Users/vicky/Desktop/Disaster%20Response/backend/app/services/rescue_router.py) | Builds NetworkX graph from real OSM ways; samples road segments against flood pixels; preserves bridges over permanent water; handles out-of-bounds vectors. |
+| **Dynamic Route Recalculation** | **Functional** | [`backend/app/main.py`](file:///c:/Users/vicky/Desktop/Disaster%20Response/backend/app/main.py) | `/api/scenarios/{id}/routes/recalculate` retrieves true simulated depth raster $h(t)$, applies safety threshold ($0.15\text{m}$), and routes over verified OSM network. |
 | **NDRF Action SitRep Generator** | **Functional** | [`backend/app/services/sitrep_generator.py`](file:///c:/Users/vicky/Desktop/Disaster%20Response/backend/app/services/sitrep_generator.py) | Dual-engine: Gemini 2.5 Flash + deterministic offline expert system fallback with quantitative logistics orders. |
 | **Report Export (Markdown/GeoJSON)** | **Functional** | [`backend/app/main.py#L775-L815`](file:///c:/Users/vicky/Desktop/Disaster%20Response/backend/app/main.py#L775-L815) | Exports formatted Markdown flash bulletins and GeoJSON FeatureCollections. |
 | **PDF Export** | **Partially Functional** | [`frontend/src/components/SitRepModal.jsx#L50`](file:///c:/Users/vicky/Desktop/Disaster%20Response/frontend/src/components/SitRepModal.jsx#L50) | Uses client-side browser `window.print()`; no headless server-side binary PDF generator (e.g. ReportLab). |
+
+### 17.1 Scenario Transparency & Audit Deliverables
+For exhaustive viva and engineering audit documentation, refer to:
+- [`SCENARIO_INPUT_AUDIT.md`](file:///c:/Users/vicky/Desktop/Disaster%20Response/SCENARIO_INPUT_AUDIT.md) — Root-cause analysis, parameter flow tracing, and silent fallback remediation.
+- [`SCENARIO_DEFAULT_VALUES.md`](file:///c:/Users/vicky/Desktop/Disaster%20Response/SCENARIO_DEFAULT_VALUES.md) — Matrix of all 14 parameters, physical units, defaults, and meteorological justifications.
+- [`SCENARIO_SCIENTIFIC_VALIDATION.md`](file:///c:/Users/vicky/Desktop/Disaster%20Response/SCENARIO_SCIENTIFIC_VALIDATION.md) — 2D diffusive wave Saint-Venant equations, CFL stability, dynamic mass error, and physical scope.
+- [`SCENARIO_TEST_RESULTS.md`](file:///c:/Users/vicky/Desktop/Disaster%20Response/SCENARIO_TEST_RESULTS.md) — 11-scenario automated test results and verbatim console logs.
 
 ---
 

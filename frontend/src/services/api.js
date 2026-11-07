@@ -167,6 +167,11 @@ export async function validateDataCache() {
 }
 
 // Cyclone Scenario Simulation API Client
+export async function inspectScenarioParameters(payload) {
+  const { data } = await apiClient.post("/api/scenarios/inspect-parameters", payload);
+  return data;
+}
+
 export async function fetchScenarioPresets() {
   const { data } = await apiClient.get("/api/scenarios/presets");
   return data;
