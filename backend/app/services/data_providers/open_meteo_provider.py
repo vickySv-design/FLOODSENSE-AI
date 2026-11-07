@@ -201,3 +201,4 @@ class OpenMeteoWeatherProvider:
 
 
 open_meteo_provider = OpenMeteoWeatherProvider()
+
