@@ -67,3 +67,38 @@ export async function refreshOsmData(presetId) {
   return data;
 }
 
+export async function fetchDataProvidersStatus() {
+  const { data } = await apiClient.get("/api/data-providers/status");
+  return data;
+}
+
+export async function searchDataProviders(payload) {
+  const { data } = await apiClient.post("/api/data-providers/search", payload);
+  return data;
+}
+
+export async function startDynamicSimulation(payload) {
+  const { data } = await apiClient.post("/api/simulate-dynamic", payload);
+  return data;
+}
+
+export async function fetchDynamicSimulationStatus(jobId) {
+  const { data } = await apiClient.get(`/api/simulation-status/${jobId}`);
+  return data;
+}
+
+export async function recalculateDynamicRoute(payload) {
+  const { data } = await apiClient.post("/api/route-dynamic", payload);
+  return data;
+}
+
+export async function exportSitRepMarkdown(payload) {
+  const { data } = await apiClient.post("/api/sitrep/export-markdown", payload);
+  return data.markdown;
+}
+
+export async function exportSitRepGeoJSON(payload) {
+  const { data } = await apiClient.post("/api/sitrep/export-geojson", payload);
+  return data;
+}
+

@@ -230,3 +230,38 @@ def generate_disaster_sitrep(payload: Dict[str, Any]) -> Dict[str, Any]:
 
     return base_sitrep
 
+
+def export_sitrep_markdown(payload: Dict[str, Any]) -> str:
+    """Returns pure formatted markdown string for download or print."""
+    sitrep = generate_disaster_sitrep(payload)
+    return sitrep.get("markdown_report", "")
+
+
+def export_sitrep_geojson(payload: Dict[str, Any]) -> Dict[str, Any]:
+    """Compiles all geo-referenced vectors from analysis into an official single GeoJSON bulletin."""
+    geojson_layers = payload.get("geojson_layers", {})
+    features = []
+
+    for key, layer in geojson_layers.items():
+        if isinstance(layer, dict) and "features" in layer:
+            for feat in layer.get("features", []):
+                feat_copy = dict(feat)
+                feat_props = dict(feat_copy.get("properties", {}))
+                feat_props["disaster_layer_source"] = key
+                feat_copy["properties"] = feat_props
+                features.append(feat_copy)
+
+    scenario = payload.get("scenario", {})
+    return {
+        "type": "FeatureCollection",
+        "metadata": {
+            "title": "FloodSense-AI Operational Disaster Spatial Telemetry",
+            "scenario": scenario.get("name", "Active Flood Sector"),
+            "region": scenario.get("region", "Disaster AOI"),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "crs": "urn:ogc:def:crs:OGC:1.3:CRS84",
+        },
+        "features": features,
+    }
+
+

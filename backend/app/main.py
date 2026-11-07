@@ -27,7 +27,9 @@ from app.services.preprocessor import (
     render_visual_layers,
 )
 from app.services.rescue_router import compute_osm_rescue_routes
-from app.services.sitrep_generator import generate_disaster_sitrep
+from app.services.sitrep_generator import generate_disaster_sitrep, export_sitrep_markdown, export_sitrep_geojson
+from app.services.data_providers import CopernicusDataSpaceProvider, GoogleEarthEngineProvider, LocalRasterProvider
+from app.services.simulation_engine import simulation_job_manager, PRESET_SCENARIOS, Physical2DFloodSimulator, get_or_generate_dem
 from scripts.init_demo_data import ensure_demo_data_initialized
 
 
@@ -46,6 +48,28 @@ class TimelineSimulateRequest(BaseModel):
     preset_id: str = Field(default="chennai_monsoon_2026")
     rainfall_mm_hr: float = Field(default=65.0, ge=0.0, le=150.0)
     horizon_hours: int = Field(default=24, description="Forecast horizon in hours: 0, 6, 12, 24, or 48")
+
+
+class DynamicSimulationRequest(BaseModel):
+    preset_id: str = Field(default="chennai_monsoon_2026")
+    scenario_id: str = Field(default="severe_cyclonic")
+
+
+class DynamicRouteRequest(BaseModel):
+    preset_id: str = Field(default="chennai_monsoon_2026")
+    timestep_hour: int = Field(default=0)
+    start_coords: Optional[List[float]] = None
+    end_coords: Optional[List[float]] = None
+    vehicle_type: str = Field(default="amphibious")
+
+
+class DataSearchRequest(BaseModel):
+    provider: str = Field(default="copernicus")
+    bounds: List[float] = Field(default=[13.01, 80.22, 13.06, 80.27])
+    start_date: str = Field(default="2025-11-01")
+    end_date: str = Field(default="2025-12-10")
+    platform: str = Field(default="SENTINEL-2")
+    max_cloud_cover_pct: float = Field(default=20.0)
 
 
 @asynccontextmanager
@@ -425,5 +449,168 @@ async def get_model_benchmarks() -> Dict[str, Any]:
     tested on the Sen1Floods11 test split under >80% monsoon cloud cover conditions.
     """
     return get_academic_benchmark_suite()
+
+
+@app.get("/api/data-providers/status")
+async def get_data_providers_status() -> Dict[str, Any]:
+    """Returns availability, authentication status, and setup instructions for satellite providers."""
+    copernicus = CopernicusDataSpaceProvider()
+    gee = GoogleEarthEngineProvider()
+    local_p = LocalRasterProvider()
+
+    return {
+        "providers": {
+            "copernicus": {
+                "name": "European Space Agency (ESA) Copernicus Data Space Ecosystem",
+                "configured": copernicus.is_configured(),
+                "instructions": copernicus.get_auth_instructions(),
+                "supported_platforms": ["SENTINEL-1", "SENTINEL-2"],
+            },
+            "gee": {
+                "name": "Google Earth Engine",
+                "configured": gee.is_configured(),
+                "instructions": gee.get_auth_instructions(),
+                "supported_platforms": ["SENTINEL-1", "SENTINEL-2", "LANDSAT-8/9"],
+            },
+            "local_raster": {
+                "name": "Local GeoTIFF Ingestion",
+                "configured": local_p.is_configured(),
+                "instructions": local_p.get_auth_instructions(),
+                "discovered_files": local_p.scan_local_files(),
+            },
+        }
+    }
+
+
+@app.post("/api/data-providers/search")
+async def search_data_providers(req: DataSearchRequest) -> Dict[str, Any]:
+    """Catalog search for satellite imagery scenes."""
+    bounds_tuple = (req.bounds[0], req.bounds[1], req.bounds[2], req.bounds[3])
+    if req.provider == "copernicus":
+        p = CopernicusDataSpaceProvider()
+    elif req.provider == "gee":
+        p = GoogleEarthEngineProvider()
+    else:
+        p = LocalRasterProvider()
+
+    scenes = p.search_scenes(
+        bounds=bounds_tuple,
+        start_date=req.start_date,
+        end_date=req.end_date,
+        platform=req.platform,
+        max_cloud_cover_pct=req.max_cloud_cover_pct,
+    )
+    return {
+        "provider": req.provider,
+        "scenes_found": len(scenes),
+        "scenes": [s.to_dict() for s in scenes],
+    }
+
+
+@app.post("/api/simulate-dynamic")
+async def start_dynamic_simulation(req: DynamicSimulationRequest) -> Dict[str, Any]:
+    """
+    Initiates 2D shallow-water / diffusive wave mass-conservative flood simulation
+    as an asynchronous background job with numerical mass-balance tracking.
+    """
+    if req.preset_id not in DISASTER_PRESETS_METADATA:
+        raise HTTPException(status_code=404, detail=f"Preset {req.preset_id} not found.")
+
+    meta = DISASTER_PRESETS_METADATA[req.preset_id]
+    preset_dir = PRESETS_DIR / req.preset_id
+    gt_path = preset_dir / "ground_truth.npy"
+
+    if os.path.exists(gt_path):
+        initial_mask = np.load(gt_path)
+    else:
+        initial_mask = np.zeros((256, 256), dtype=np.uint8)
+
+    job_id = simulation_job_manager.create_job(
+        preset_id=req.preset_id,
+        bbox=meta["bbox"],
+        initial_mask=initial_mask,
+        scenario_id=req.scenario_id,
+    )
+
+    return {
+        "job_id": job_id,
+        "status": "RUNNING",
+        "preset_id": req.preset_id,
+        "scenario_id": req.scenario_id,
+        "message": "Physical 2D shallow-water simulation initiated in background.",
+    }
+
+
+@app.get("/api/simulation-status/{job_id}")
+async def get_dynamic_simulation_status(job_id: str) -> Dict[str, Any]:
+    """Polls progress, status, and snapshots of an asynchronous 2D physical flood simulation."""
+    res = simulation_job_manager.get_job_results(job_id)
+    if not res:
+        raise HTTPException(status_code=404, detail=f"Simulation job {job_id} not found.")
+
+    return {
+        "job_id": res["job_id"],
+        "status": res["status"],
+        "progress_pct": res["progress_pct"],
+        "current_hour": res["current_hour"],
+        "snapshots_count": len(res.get("snapshots", [])),
+        "snapshots": res.get("snapshots", []),
+        "error": res.get("error"),
+    }
+
+
+@app.post("/api/route-dynamic")
+async def recalculate_dynamic_route(req: DynamicRouteRequest) -> Dict[str, Any]:
+    """
+    Dynamically recalculates safe A* rescue routes responding to advancing or receding flood waters
+    at a specific simulation time-step hour.
+    """
+    if req.preset_id not in DISASTER_PRESETS_METADATA:
+        raise HTTPException(status_code=404, detail=f"Preset {req.preset_id} not found.")
+
+    meta = DISASTER_PRESETS_METADATA[req.preset_id]
+    preset_dir = PRESETS_DIR / req.preset_id
+    gt_path = preset_dir / "ground_truth.npy"
+
+    if os.path.exists(gt_path):
+        seg_mask = np.load(gt_path)
+    else:
+        seg_mask = np.zeros((256, 256), dtype=np.uint8)
+
+    # Dynamic route calculation
+    custom_start = (req.start_coords[1], req.start_coords[0]) if req.start_coords else None
+    custom_dest = [{"lat": req.end_coords[0], "lon": req.end_coords[1], "name": "Target Evacuation Zone"}] if req.end_coords else None
+
+    rescue_report = compute_osm_rescue_routes(
+        seg_mask=seg_mask,
+        bbox=meta["bbox"],
+        preset_id=req.preset_id,
+        custom_emergency_base=custom_start,
+        custom_destinations=custom_dest,
+    )
+
+    return {
+        "preset_id": req.preset_id,
+        "timestep_hour": req.timestep_hour,
+        "vehicle_type": req.vehicle_type,
+        "rescue_summary": rescue_report["summary"],
+        "routes": rescue_report["routes"],
+        "safe_routes_geojson": rescue_report["geojson"]["safe_routes"],
+        "severed_roads_geojson": rescue_report["geojson"]["severed_roads"],
+    }
+
+
+@app.post("/api/sitrep/export-markdown")
+async def export_sitrep_markdown_endpoint(payload: Dict[str, Any]) -> Dict[str, str]:
+    """Generates official markdown Disaster Situation Report string for saving or printing."""
+    md = export_sitrep_markdown(payload)
+    return {"markdown": md}
+
+
+@app.post("/api/sitrep/export-geojson")
+async def export_sitrep_geojson_endpoint(payload: Dict[str, Any]) -> Dict[str, Any]:
+    """Exports unified GeoJSON spatial telemetry collection."""
+    return export_sitrep_geojson(payload)
+
 
 

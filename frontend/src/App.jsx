@@ -6,6 +6,7 @@ import MapViewport from "./components/MapViewport.jsx";
 import SplitCompareSlider from "./components/SplitCompareSlider.jsx";
 import AnalyticsDock from "./components/AnalyticsDock.jsx";
 import SitRepModal from "./components/SitRepModal.jsx";
+import ProjectWalkthroughModal from "./components/ProjectWalkthroughModal.jsx";
 import {
   analyzeCustomUpload,
   analyzePresetScenario,
@@ -30,6 +31,7 @@ export default function App() {
   const [isSitRepOpen, setIsSitRepOpen] = useState(false);
   const [sitrepData, setSitrepData] = useState(null);
   const [isGeneratingSitRep, setIsGeneratingSitRep] = useState(false);
+  const [isWalkthroughOpen, setIsWalkthroughOpen] = useState(false);
 
   const [layerVisibility, setLayerVisibility] = useState({
     allRoads: true,
@@ -192,6 +194,7 @@ export default function App() {
         onOpenSitRep={handleOpenSitRep}
         onExportGeoJSON={handleExportGeoJSON}
         onPrintSitRep={handlePrintSitRep}
+        onOpenWalkthrough={() => setIsWalkthroughOpen(true)}
       />
 
       {/* Main Tactical Command Workspace */}
@@ -301,6 +304,12 @@ export default function App() {
         onClose={() => setIsSitRepOpen(false)}
         sitrepData={sitrepData}
         isGenerating={isGeneratingSitRep}
+      />
+
+      {/* Project Review Guided Walkthrough Modal for Viva Defense */}
+      <ProjectWalkthroughModal
+        isOpen={isWalkthroughOpen}
+        onClose={() => setIsWalkthroughOpen(false)}
       />
     </div>
   );
