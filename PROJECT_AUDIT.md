@@ -231,3 +231,4 @@ The upgrade will be systematically executed across the following phases:
    - Support Markdown, JSON, GeoJSON, and printable report export with clear data provenance labels.
 9. **Module 9: Academic Documentation Suite & End-to-End Verification:**
    - Author all 8 required system documentation files and verify the entire platform with end-to-end tests.
+

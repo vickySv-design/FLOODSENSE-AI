@@ -71,3 +71,4 @@ The offline training and evaluation suite is calibrated against the **Sen1Floods
   - `chennai_monsoon_2026`: Coastal urban basin (Adyar & Cooum estuaries, Tamil Nadu)
   - `assam_brahmaputra_surge`: Braided alluvial floodplain (Kaziranga sector, Assam)
   - `wayanad_kerala_flashflood`: Mountainous high-relief catchment (Meppadi sector, Kerala)
+

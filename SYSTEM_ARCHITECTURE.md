@@ -104,3 +104,4 @@ flowchart TD
 7. **2D Simulation:** Dynamic flood expansion is modeled over 48 hours under selected rainfall regimes.
 8. **Evacuation Routing:** NetworkX computes shortest safe corridors from emergency response staging bases to isolated structures.
 9. **SitRep Dispatch:** Metrics are compiled into military-grade emergency bulletins and broadcast to the dashboard.
+

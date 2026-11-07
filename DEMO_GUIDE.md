@@ -77,3 +77,4 @@ This script:
 
 **Q3: How do you handle OpenStreetMap rate limits during an emergency?**  
 *Answer:* We employ a dual-tier strategy: the system first attempts an Overpass QL query; if rate-limited or offline, it seamlessly falls back to the direct OSM API 0.6 bbox query and our persistent local GeoJSON disk cache (`backend/data/osm_cache/`).
+

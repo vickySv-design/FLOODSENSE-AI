@@ -160,3 +160,4 @@ class LocalRasterProvider(BaseSatelliteProvider):
     ) -> Dict[str, str]:
         path = scene_metadata.local_cached_path or ""
         return {b: path for b in bands}
+

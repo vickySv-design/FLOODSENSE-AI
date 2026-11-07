@@ -150,3 +150,4 @@ Reports configuration state, credentials status, and instructions for Copernicus
 
 ### `POST /api/data-providers/search`
 Searches available satellite imagery catalog across providers.
+

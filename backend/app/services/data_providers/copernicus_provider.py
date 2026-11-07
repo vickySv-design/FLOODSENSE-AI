@@ -179,3 +179,4 @@ class CopernicusDataSpaceProvider(BaseSatelliteProvider):
             else:
                 cached_paths[band] = band_path
         return cached_paths
+

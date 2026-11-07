@@ -154,3 +154,4 @@ class GoogleEarthEngineProvider(BaseSatelliteProvider):
         scene_dir = os.path.join(self.cache_dir, scene_metadata.scene_id)
         os.makedirs(scene_dir, exist_ok=True)
         return {b: os.path.join(scene_dir, f"{scene_metadata.scene_id}_{b}.tif") for b in bands}
+

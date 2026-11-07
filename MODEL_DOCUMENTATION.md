@@ -95,3 +95,4 @@ Evaluation performed across held-out tiles from the `mini_sen1floods11/val` spli
 | **Dual-Stream Attention U-Net (Ours)** | **100.00%** | **100.00%** | **100.00%** | **100.00%** | **38.0 ms (GPU) / 1075 ms (CPU)** |
 
 *Note: In the procedural calibration mini-split, our Dual-Stream Attention U-Net accurately isolates 100% of labeled flood contours while suppressing speckle false positives.*
+

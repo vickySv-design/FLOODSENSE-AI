@@ -52,3 +52,4 @@ Despite the above scientific boundaries, FloodSense-AI operates as an academical
 - **Zero fabricated metrics:** Benchmark telemetry reflects real empirical evaluations.
 - **Zero synthetic road shortcuts:** Evacuation routes follow real OpenStreetMap geometries.
 - **Zero fluid mass leakage:** 2D shallow-water simulation strictly conserves water volume with $0.00\%$ numerical error.
+

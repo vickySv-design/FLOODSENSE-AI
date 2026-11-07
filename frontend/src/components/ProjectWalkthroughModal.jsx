@@ -306,3 +306,4 @@ export default function ProjectWalkthroughModal({ isOpen, onClose }) {
     </div>
   );
 }
+

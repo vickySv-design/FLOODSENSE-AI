@@ -90,3 +90,4 @@ class BaseSatelliteProvider(ABC):
     ) -> Dict[str, str]:
         """Download or read specified spectral/radar bands, caching locally and returning dict of band_name -> file_path."""
         pass
+
