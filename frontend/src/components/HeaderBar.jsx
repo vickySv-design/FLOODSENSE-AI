@@ -4,12 +4,14 @@ import {
   BookOpen,
   Compass,
   Cpu,
+  Database,
   Download,
   FileWarning,
   Printer,
   Radar,
   Satellite,
   ShieldAlert,
+  Wind,
 } from "lucide-react";
 
 export default function HeaderBar({
@@ -21,6 +23,8 @@ export default function HeaderBar({
   onPrintSitRep,
   onOpenWalkthrough,
   onOpenAOIModal,
+  onOpenDataModal,
+  onOpenScenarioModal,
 }) {
   const deviceLabel =
     analysisData?.engine?.device || health?.device || "PyTorch Engine";
@@ -113,6 +117,26 @@ export default function HeaderBar({
 
       {/* Right: Mission Export & NDRF AI SitRep Actions */}
       <div className="flex items-center gap-2">
+        <button
+          type="button"
+          onClick={onOpenDataModal}
+          className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-mono font-bold bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/40 transition shadow-sm"
+          title="Live Data API Providers (Copernicus, DEM, OSM, Open-Meteo, GPM, Offline Cache)"
+        >
+          <Database className="w-3.5 h-3.5 text-emerald-400" />
+          <span className="hidden sm:inline">Data &amp; Cache</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={onOpenScenarioModal}
+          className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-mono font-bold bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/40 transition shadow-sm"
+          title="Interactive Cyclone & Extreme Rainfall Scenario Simulator (Viva Lab)"
+        >
+          <Wind className="w-3.5 h-3.5 text-cyan-400" />
+          <span className="hidden sm:inline">Cyclone Lab</span>
+        </button>
+
         <button
           type="button"
           onClick={onOpenWalkthrough}

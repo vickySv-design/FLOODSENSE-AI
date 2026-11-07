@@ -8,6 +8,8 @@ import AnalyticsDock from "./components/AnalyticsDock.jsx";
 import SitRepModal from "./components/SitRepModal.jsx";
 import ProjectWalkthroughModal from "./components/ProjectWalkthroughModal.jsx";
 import UniversalAOIModal from "./components/UniversalAOIModal.jsx";
+import DataAcquisitionModal from "./components/DataAcquisitionModal.jsx";
+import ScenarioSimulationModal from "./components/ScenarioSimulationModal.jsx";
 import {
   analyzeCustomUpload,
   analyzeDynamicAOI,
@@ -35,6 +37,8 @@ export default function App() {
   const [isGeneratingSitRep, setIsGeneratingSitRep] = useState(false);
   const [isWalkthroughOpen, setIsWalkthroughOpen] = useState(false);
   const [isAOIModalOpen, setIsAOIModalOpen] = useState(false);
+  const [isDataModalOpen, setIsDataModalOpen] = useState(false);
+  const [isScenarioModalOpen, setIsScenarioModalOpen] = useState(false);
 
   const [layerVisibility, setLayerVisibility] = useState({
     allRoads: true,
@@ -225,6 +229,8 @@ export default function App() {
         onPrintSitRep={handlePrintSitRep}
         onOpenWalkthrough={() => setIsWalkthroughOpen(true)}
         onOpenAOIModal={() => setIsAOIModalOpen(true)}
+        onOpenDataModal={() => setIsDataModalOpen(true)}
+        onOpenScenarioModal={() => setIsScenarioModalOpen(true)}
       />
 
       {/* Main Tactical Command Workspace */}
@@ -240,6 +246,8 @@ export default function App() {
           onToggleLayer={handleToggleLayer}
           isLoading={isLoading}
           onOpenAOIModal={() => setIsAOIModalOpen(true)}
+          onOpenDataModal={() => setIsDataModalOpen(true)}
+          onOpenScenarioModal={() => setIsScenarioModalOpen(true)}
         />
 
         {/* Center & Bottom Multi-Modal Viewport + Analytics Dock */}
@@ -350,6 +358,20 @@ export default function App() {
         currentAOI={analysisData?.scenario}
         presets={presets}
         onApplyAOI={handleApplyAOI}
+      />
+
+      {/* Live Data Acquisition & Offline Cache Manager */}
+      <DataAcquisitionModal
+        isOpen={isDataModalOpen}
+        onClose={() => setIsDataModalOpen(false)}
+        currentAOI={analysisData?.scenario}
+      />
+
+      {/* Interactive Cyclone & Extreme Rainfall Scenario Simulator */}
+      <ScenarioSimulationModal
+        isOpen={isScenarioModalOpen}
+        onClose={() => setIsScenarioModalOpen(false)}
+        currentAOI={analysisData?.scenario}
       />
     </div>
   );

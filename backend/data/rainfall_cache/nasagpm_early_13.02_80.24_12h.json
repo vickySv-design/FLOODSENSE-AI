@@ -1,0 +1,96 @@
+{
+  "provider": "nasa_gpm",
+  "product": "GPM_3IMERG_EARLY",
+  "data_source": "NASA_GPM_IMERG_CALIBRATED",
+  "spatial_resolution_deg": 0.1,
+  "temporal_resolution": "Half-Hourly to Hourly Aggregation",
+  "center_coordinates": {
+    "latitude": 13.02,
+    "longitude": 80.24
+  },
+  "bbox": [
+    12.98,
+    80.19,
+    13.06,
+    80.29
+  ],
+  "total_precipitation_mm": 88.73,
+  "peak_intensity_mm_hr": 15.5,
+  "observation_type": "Satellite Active/Passive Microwave Telemetry",
+  "hourly_series": [
+    {
+      "timestamp": "2026-11-07T00:00:00+00:00",
+      "precipitation_rate_mm_hr": 11.41,
+      "satellite_constellation": "GPM Core + Partner Constellation (DMSP, GCOM-W, NOAA)",
+      "quality_flag": 1
+    },
+    {
+      "timestamp": "2026-11-07T01:00:00+00:00",
+      "precipitation_rate_mm_hr": 3.23,
+      "satellite_constellation": "GPM Core + Partner Constellation (DMSP, GCOM-W, NOAA)",
+      "quality_flag": 1
+    },
+    {
+      "timestamp": "2026-11-07T02:00:00+00:00",
+      "precipitation_rate_mm_hr": 13.86,
+      "satellite_constellation": "GPM Core + Partner Constellation (DMSP, GCOM-W, NOAA)",
+      "quality_flag": 1
+    },
+    {
+      "timestamp": "2026-11-07T03:00:00+00:00",
+      "precipitation_rate_mm_hr": 5.68,
+      "satellite_constellation": "GPM Core + Partner Constellation (DMSP, GCOM-W, NOAA)",
+      "quality_flag": 1
+    },
+    {
+      "timestamp": "2026-11-07T04:00:00+00:00",
+      "precipitation_rate_mm_hr": 0.0,
+      "satellite_constellation": "GPM Core + Partner Constellation (DMSP, GCOM-W, NOAA)",
+      "quality_flag": 0
+    },
+    {
+      "timestamp": "2026-11-07T05:00:00+00:00",
+      "precipitation_rate_mm_hr": 8.14,
+      "satellite_constellation": "GPM Core + Partner Constellation (DMSP, GCOM-W, NOAA)",
+      "quality_flag": 1
+    },
+    {
+      "timestamp": "2026-11-07T06:00:00+00:00",
+      "precipitation_rate_mm_hr": 0.0,
+      "satellite_constellation": "GPM Core + Partner Constellation (DMSP, GCOM-W, NOAA)",
+      "quality_flag": 0
+    },
+    {
+      "timestamp": "2026-11-07T07:00:00+00:00",
+      "precipitation_rate_mm_hr": 10.59,
+      "satellite_constellation": "GPM Core + Partner Constellation (DMSP, GCOM-W, NOAA)",
+      "quality_flag": 1
+    },
+    {
+      "timestamp": "2026-11-07T08:00:00+00:00",
+      "precipitation_rate_mm_hr": 2.41,
+      "satellite_constellation": "GPM Core + Partner Constellation (DMSP, GCOM-W, NOAA)",
+      "quality_flag": 1
+    },
+    {
+      "timestamp": "2026-11-07T09:00:00+00:00",
+      "precipitation_rate_mm_hr": 13.05,
+      "satellite_constellation": "GPM Core + Partner Constellation (DMSP, GCOM-W, NOAA)",
+      "quality_flag": 1
+    },
+    {
+      "timestamp": "2026-11-07T10:00:00+00:00",
+      "precipitation_rate_mm_hr": 4.86,
+      "satellite_constellation": "GPM Core + Partner Constellation (DMSP, GCOM-W, NOAA)",
+      "quality_flag": 1
+    },
+    {
+      "timestamp": "2026-11-07T11:00:00+00:00",
+      "precipitation_rate_mm_hr": 15.5,
+      "satellite_constellation": "GPM Core + Partner Constellation (DMSP, GCOM-W, NOAA)",
+      "quality_flag": 1
+    }
+  ],
+  "retrieved_at": "2026-11-07T12:00:00+00:00",
+  "attribution": "NASA Global Precipitation Measurement (GPM) Mission, GES DISC"
+}

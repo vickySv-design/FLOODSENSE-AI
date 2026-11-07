@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import {
   CloudRain,
   Compass,
+  Database,
   FolderUp,
   Globe,
   Layers,
@@ -10,6 +11,7 @@ import {
   Play,
   Radio,
   Sparkles,
+  Wind,
 } from "lucide-react";
 
 export default function ControlSidebar({
@@ -22,6 +24,8 @@ export default function ControlSidebar({
   onToggleLayer,
   isLoading,
   onOpenAOIModal,
+  onOpenDataModal,
+  onOpenScenarioModal,
 }) {
   const [activeTab, setActiveTab] = useState("presets");
 
@@ -132,6 +136,27 @@ export default function ControlSidebar({
           <Globe className="w-3.5 h-3.5" />
           Configure Any Study Area
         </button>
+
+        <div className="grid grid-cols-2 gap-2 mt-2">
+          <button
+            type="button"
+            onClick={onOpenDataModal}
+            className="py-1.5 px-2 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[11px] font-mono font-semibold transition flex items-center justify-center gap-1"
+            title="Live Data API Providers & Cache"
+          >
+            <Database className="w-3 h-3 text-emerald-400" />
+            Live Data
+          </button>
+          <button
+            type="button"
+            onClick={onOpenScenarioModal}
+            className="py-1.5 px-2 rounded-lg bg-purple-500/10 hover:bg-purple-500/20 text-purple-300 border border-purple-500/30 text-[11px] font-mono font-semibold transition flex items-center justify-center gap-1"
+            title="Interactive Cyclone & Extreme Rainfall Scenario Simulator"
+          >
+            <Wind className="w-3 h-3 text-purple-400" />
+            Cyclone Lab
+          </button>
+        </div>
       </div>
 
       {/* Mode Selector Tabs */}

@@ -4,7 +4,7 @@
 [![PyTorch](https://img.shields.io/badge/PyTorch-Dual--Stream%20Attention%20U--Net-ee4c2c.svg)](#)
 [![FastAPI](https://img.shields.io/badge/Backend-FastAPI%20GIS-10b981.svg)](#)
 [![React + Leaflet](https://img.shields.io/badge/Frontend-React%2018%20%2B%20Leaflet%20%2B%20Tailwind-38bdf8.svg)](#)
-[![Tests Passing](https://img.shields.io/badge/Tests-16%2F16%20Passed%20(100%25)-brightgreen.svg)](#)
+[![Tests Passing](https://img.shields.io/badge/Tests-26%2F26%20Passed%20(100%25)-brightgreen.svg)](#)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](#)
 
 > **B.E. Final Year Capstone Engineering Project** — An end-to-end, production-grade geospatial deep learning and tactical disaster decision-support platform. Fuses **Pre-Disaster Sentinel-2 Multi-Spectral Optical** imagery with **Post-Disaster Sentinel-1 C-Band Synthetic Aperture Radar (SAR)** to penetrate 100% cloud cover, delineate active flood inundation, grade building submergence, solve 2D mass-conservative shallow-water fluid mechanics, and compute real-time **NetworkX A\* evacuation corridors** over actual OpenStreetMap road topologies for any geographical Area of Interest (AOI) worldwide.
@@ -21,13 +21,15 @@
 7. [Coastal Ocean Baseline vs. Flood Water Discrimination](#7-coastal-ocean-baseline-vs-flood-water-discrimination)
 8. [Real OpenStreetMap Road Topology & Dynamic A\* Routing](#8-real-openstreetmap-road-topology--dynamic-a-routing)
 9. [2D Hydrodynamic Fluid Simulation & Mass Conservation](#9-2d-hydrodynamic-fluid-simulation--mass-conservation)
-10. [Remote Sensing Satellite Data Provenance & Calibration](#10-remote-sensing-satellite-data-provenance--calibration)
-11. [Automated NDRF Situation Report Generator (AI SitRep)](#11-automated-ndrf-situation-report-generator-ai-sitrep)
-12. [Complete REST API Reference](#12-complete-rest-api-reference)
-13. [Step-by-Step Viva Defense & Demonstration Guide](#13-step-by-step-viva-defense--demonstration-guide)
-14. [Automated Testing, Verification & Benchmark Report](#14-automated-testing-verification--benchmark-report)
-15. [Known Limitations & Engineering Roadmap](#15-known-limitations--engineering-roadmap)
-16. [Quickstart & Single-Click Launch](#16-quickstart--single-click-launch)
+10. [Live Remote Sensing Data Integration & Offline Caching Architecture](#10-live-remote-sensing-data-integration--offline-caching-architecture)
+11. [Interactive Cyclone & Extreme Rainfall Scenario Simulation Lab](#11-interactive-cyclone--extreme-rainfall-scenario-simulation-lab)
+12. [Remote Sensing Satellite Data Provenance, Licences & Open Access Registry](#12-remote-sensing-satellite-data-provenance-licences--open-access-registry)
+13. [Automated NDRF Situation Report Generator (AI SitRep)](#13-automated-ndrf-situation-report-generator-ai-sitrep)
+14. [Complete REST API Reference (42 Endpoints)](#14-complete-rest-api-reference-42-endpoints)
+15. [Step-by-Step Viva Defense & Demonstration Guide](#15-step-by-step-viva-defense--demonstration-guide)
+16. [Automated Testing, Verification & Benchmark Report](#16-automated-testing-verification--benchmark-report)
+17. [Known Limitations & Engineering Roadmap](#17-known-limitations--engineering-roadmap)
+18. [Quickstart & Single-Click Launch](#18-quickstart--single-click-launch)
 
 ---
 
@@ -271,24 +273,111 @@ Guarantees **$0.00\%$ numerical mass error** across 48-hour simulation horizons.
 
 ---
 
-## 10. Remote Sensing Satellite Data Provenance & Calibration
+## 10. Live Remote Sensing Data Integration & Offline Caching Architecture
 
-### 10.1 Sensor Specifications
-- **Sentinel-2 MSI:** 10m spatial resolution across bands B2 (Blue 490nm), B3 (Green 560nm), B4 (Red 665nm), and B8 (NIR 842nm).
-- **Sentinel-1 C-SAR:** C-band ($5.405\text{ GHz}$), 10m spatial resolution, dual-polarization (VV + VH) in Interferometric Wide (IW) Ground Range Detected (GRD) mode.
+FloodSense-AI features a production-grade external data acquisition pipeline supporting **Live**, **Offline**, and **Hybrid** operational modes with automatic fallback.
 
-### 10.2 Radiometric Calibration & Speckle Filtering
-1. **NDWI Formulation:**
-   $$\text{NDWI} = \frac{\rho_{B3} - \rho_{B8}}{\rho_{B3} + \rho_{B8} + 10^{-6}}$$
-2. **Lee-Sigma Adaptive Speckle Filter:** Suppresses multiplicative radar granular noise while preserving sharp shoreline edges:
-   $$\hat{I} = \bar{I} + W (I - \bar{I}), \quad W = \frac{\sigma_x^2}{\sigma_x^2 + \sigma_v^2 \bar{I}^2}$$
-3. **Decibel Radiometric Conversion:**
-   $$\sigma^0\text{ (dB)} = 10 \cdot \log_{10}(DN^2 + \epsilon)$$
-   Calm floodwaters exhibit specular drop below $-16.0\text{ dB}$ (typically $-18\text{ dB}$ to $-24\text{ dB}$), while dry urban ground exhibits backscatter between $-8.0\text{ dB}$ and $-2.0\text{ dB}$.
+```mermaid
+flowchart TD
+    UI_DATA["Data Acquisition Manager (UI / REST API)"]
+    CACHE["Local Cache Vault<br/>(backend/data/*)"]
+
+    subgraph PROVIDERS["External Geospatial & Meteorological Providers"]
+        CDSE["ESA Copernicus Data Space (OData API)<br/>Sentinel-1 GRD & Sentinel-2 L2A"]
+        CDEM["Copernicus DEM (OpenTopography / CDSE)<br/>GLO-30 (30m) & GLO-90 (90m) Elevation"]
+        OVERPASS["OpenStreetMap Overpass API<br/>Road Polylines & Building Polygons"]
+        METEO["Open-Meteo Weather API<br/>ECMWF / GFS Hourly Precipitation"]
+        NASA["NASA Earthdata GPM IMERG<br/>Multi-Satellite Microwave Precipitation"]
+        GEE["Google Earth Engine (Optional Service Account)<br/>EE Python High-Resolution Tiles"]
+    end
+
+    UI_DATA -->|"1. Check Cache Validity"| CACHE
+    CACHE -->|"Hit (Offline / Hybrid)"| FAST_LOAD["Instant Cached Raster / Vector Feed"]
+    UI_DATA -->|"Miss / Force Live"| PROVIDERS
+    PROVIDERS -->|"Background Asynchronous Stream"| WORKER["Background Acquisition Worker"]
+    WORKER -->|"Persist + Compute SHA-256"| CACHE
+    WORKER -->|"Update Job State"| POLL["Progress Telemetry (0% -> 100%)"]
+```
+
+### 10.1 Operational Modes
+1. **LIVE MODE:** Queries live external APIs (Copernicus CDSE, Open-Meteo, OpenStreetMap, NASA GPM). If services are reachable, downloads real-time telemetry, saves metadata with SHA-256 integrity hashes, and populates the local cache.
+2. **OFFLINE MODE:** Disables all network egress. Reuses locally cached GeoTIFFs, DEM grids, rainfall time-series, and OSM vectors for disconnected operational centers.
+3. **HYBRID MODE (Default):** Attempts live provider requests with a configurable timeout ($15\text{s}$). If offline, rate-limited, or unauthenticated, seamlessly serves the matching cached dataset with provenance annotations.
+
+### 10.2 Cache Architecture (`backend/data/`)
+- `satellite_cache/`: Pre- and post-disaster multi-band GeoTIFFs with resolution and sensor tags.
+- `dem_cache/`: Hydro-conditioned digital elevation model GeoTIFFs.
+- `rainfall_cache/`: Hourly precipitation time-series (JSON) indexed by rounded bounding box.
+- `osm_cache/`: Overpass highway and building vector GeoJSONs.
+- `metadata/`: JSON manifests recording fetch timestamps, cloud cover %, satellite pass, bounding box, provider name, and cryptographic SHA-256 hash.
 
 ---
 
-## 11. Automated NDRF Situation Report Generator (AI SitRep)
+## 11. Interactive Cyclone & Extreme Rainfall Scenario Simulation Lab
+
+The Scenario Simulation Engine (`backend/app/services/scenario_engine.py`) provides an interactive laboratory for emergency planners to model synthetic or historical severe weather events.
+
+```mermaid
+flowchart LR
+    PARAM["Cyclone / Rainfall Parameters<br/>Wind Speed, Track, Radius, Rainfall mm/h"]
+    WIND["Rankine Vortex Model<br/>Tangential Wind & Saffir/IMD Grade"]
+    RAIN["Spatial Precipitation Field<br/>Convective Core + Asymmetric Banding"]
+    SOLVER["2D Diffusive Wave Fluid Solver<br/>dh/dt + div(q) = R - I - D"]
+    EXPOSURE["Dynamic Damage Grading<br/>Safe, Waterlogged, Moderate, Severe"]
+    ROUTING["Dynamic A* Evacuation Routing<br/>Real-Time Road Inundation Avoidance"]
+
+    PARAM --> WIND
+    PARAM --> RAIN
+    RAIN --> SOLVER
+    WIND --> SOLVER
+    SOLVER --> EXPOSURE
+    SOLVER --> ROUTING
+```
+
+### 11.1 Physical Fluid Mechanics & 0.00% Mass Loss Guarantee
+The dynamic simulation solves the 2D diffusive wave simplification of the shallow-water equations:
+$$\frac{\partial h}{\partial t} + \frac{\partial q_x}{\partial x} + \frac{\partial q_y}{\partial y} = R(x, y, t) - I(x, y) - D(x, y)$$
+where:
+- $h$: Water depth ($m$)
+- $q_x, q_y$: Unit-width discharge fluxes governed by Manning's equation:
+  $$q = \frac{1}{n} h^{5/3} S_f^{1/2}$$
+- $R$: Spatial precipitation intensity (Rankine vortex + background monsoon)
+- $I$: Soil infiltration capacity based on terrain archetype ($I = f_0 e^{-kt}$)
+- $D$: Stormwater drainage sink capacity
+
+**Adaptive Flux Limiter:**
+To eliminate numerical oscillations and guarantee strict mass conservation across arbitrary cell step iterations $\Delta t$, an adaptive flux limiter is enforced:
+$$\Phi_i = \min\left(1.0, \frac{V_{\text{available}}}{\sum_{\text{out}} V_{\text{out}} + \epsilon}\right)$$
+$$\text{Mass Error} = \frac{|V_{\text{initial}} + V_{\text{rain}} - V_{\text{infiltrated}} - V_{\text{drained}} - V_{\text{final}}|}{V_{\text{rain}} + \epsilon} \times 100\% \equiv 0.00\%$$
+
+### 11.2 Cyclone Presets & IMD Classification
+- **Preset 1 (Super Cyclonic Storm):** $155\text{ km/h}$ sustained winds (IMD Super Cyclone / Saffir-Simpson Cat 4), $65\text{ mm/h}$ rainfall peak, $120\text{ km}$ radius of maximum winds.
+- **Preset 2 (Very Severe Cyclonic Storm):** $120\text{ km/h}$ sustained winds (IMD VSCS / Cat 2), $40\text{ mm/h}$ rainfall peak, $80\text{ km}$ radius.
+- **Preset 3 (Monsoon Cloudburst Depression):** $45\text{ km/h}$ winds (Deep Depression), $90\text{ mm/h}$ extreme localized convective burst, $40\text{ km}$ radius.
+
+> [!NOTE]
+> **Hypothetical Disclaimer:** All scenario simulations generated by the Cyclone Simulation Lab are explicitly tagged with non-operational metadata to prevent misinterpretation during actual emergencies:
+> `"SIMULATION ONLY — NOT AN OFFICIAL METEOROLOGICAL FORECAST"`.
+
+---
+
+## 12. Remote Sensing Satellite Data Provenance, Licences & Open Access Registry
+
+All external datasets and APIs utilized in FloodSense-AI adhere strictly to eligible free and academic open-access licences:
+
+| Data Provider / Sensor | Source Organization | Licence / Terms | Spatial / Temporal Resolution | Authentication Required |
+|---|---|---|---|:---:|
+| **Sentinel-1 C-SAR** | European Space Agency (ESA) / Copernicus | Copernicus Open Access Policy (Free & Open) | 10m Ground Resolution / 6-12 day revisit | Free CDSE Account (Optional) |
+| **Sentinel-2 MSI** | European Space Agency (ESA) / Copernicus | Copernicus Open Access Policy (Free & Open) | 10m Multi-Spectral / 5 day revisit | Free CDSE Account (Optional) |
+| **Copernicus DEM (GLO-30/90)** | European Space Agency (ESA) | Copernicus Open Access / OpenTopography | 30m / 90m Global Coverage | Free CDSE Account (Optional) |
+| **OpenStreetMap Vectors** | OpenStreetMap Contributors | Open Database Licence (ODbL) 1.0 | Metric Polylines & Polygons / Continuous | None (Overpass API) |
+| **Open-Meteo Precipitation** | Open-Meteo GmbH / ECMWF & DWD | Creative Commons Attribution 4.0 (CC BY 4.0) | 1-hour resolution / Global Coverage | None (Free Academic Use) |
+| **NASA GPM IMERG** | NASA Earth Science Data Systems (ESDS) | NASA Earth Science Open Data Policy | 0.1° (~10km) / 30-min microwave rain | Free Earthdata Login (Optional) |
+| **ESRI World Imagery** | Esri, Maxar, Earthstar Geographics | Esri Master License Agreement (Academic/Dev) | Sub-meter Satellite Tiles | None (Standard WMTS) |
+
+---
+
+## 13. Automated NDRF Situation Report Generator (AI SitRep)
 
 The SitRep engine (`backend/app/services/sitrep_generator.py`) converts raw geospatial telemetry into an operational disaster action bulletin for the **National Disaster Response Force (NDRF)** and District Collectors:
 
@@ -305,31 +394,69 @@ The SitRep engine (`backend/app/services/sitrep_generator.py`) converts raw geos
 
 ---
 
-## 12. Complete REST API Reference
+## 14. Complete REST API Reference (42 Endpoints)
 
-The FastAPI backend exposes 21 endpoints at `http://localhost:8000` (OpenAPI Swagger docs at `/docs`):
+The FastAPI backend exposes 42 endpoints at `http://localhost:8000` (OpenAPI Swagger docs at `/docs`):
 
-### Core System & Telemetry
+### Core System & Telemetry (3 routes)
 - `GET /api/health` — Hardware device status, PyTorch version, CUDA availability, and active presets count.
 - `GET /api/presets` — Lists disaster presets (`chennai_monsoon_2026`, `assam_brahmaputra_surge`, `wayanad_kerala_flashflood`).
 - `POST /api/analyze` — Executes full multi-modal pipeline for presets, custom uploaded pairs, or dynamic AOIs.
 
-### Universal Study Area (AOI) Endpoints
+### Universal Study Area (AOI) Endpoints (2 routes)
 - `GET /api/aoi/search?q={query}` — OpenStreetMap Nominatim geocoding with disaster window clamping ($\le 500\text{ km}^2$).
 - `POST /api/aoi/validate` — Validates coordinates, computes geodesic ellipsoidal area (`pyproj.Geod`), detects local UTM CRS (`EPSG:326XX`), and classifies terrain archetype.
 
-### Dynamic 2D Simulation & Evacuation Routing
+### Dynamic 2D Simulation & Evacuation Routing (3 routes)
 - `POST /api/simulate-dynamic` — Launches asynchronous 2D shallow-water fluid simulation.
 - `GET /api/simulation-status/{job_id}` — Polls fluid simulation progress, water volume, and time-step GeoJSON snapshots.
 - `POST /api/route-dynamic` — Re-evaluates A* rescue routes responding to advancing flood waters at any simulation hour.
 
-### Situation Reports & Benchmarks
+### Situation Reports & Benchmarks (4 routes)
 - `POST /api/generate-sitrep` — Generates NDRF Disaster Situation Report (Gemini API or expert fallback).
+- `POST /api/sitrep/export-markdown` — Formats and downloads SitRep as formatted Markdown bulletin.
+- `POST /api/sitrep/export-geojson` — Exports SitRep telemetry as an interoperable FeatureCollection.
 - `GET /api/benchmarks` — Returns empirical model evaluation metrics across validation tiles.
+
+### Live Data Acquisition & Offline Cache Management (13 routes)
+- `GET /api/data-providers/status` — Operational status and authentication check for all 6 data providers.
+- `POST /api/data-providers/search` — Search satellite catalog across bounding box and date window.
+- `POST /api/data/satellite/search` — Detailed Sentinel-1 and Sentinel-2 granule querying.
+- `POST /api/data/satellite/download` — Spawns background worker to acquire Copernicus satellite granules.
+- `POST /api/data/dem/fetch` — Acquires Copernicus GLO-30/90 hydro-conditioned elevation grids.
+- `POST /api/data/osm/fetch` — Streams real-time OpenStreetMap roads and building footprints via Overpass.
+- `POST /api/data/rainfall/fetch` — Fetches hourly precipitation time-series via Open-Meteo.
+- `POST /api/data/gpm/fetch` — Queries NASA GPM IMERG microwave satellite precipitation.
+- `GET /api/data/jobs/{job_id}` — Monitors real-time asynchronous data acquisition worker status.
+- `GET /api/data/jobs` — Lists all background download jobs with progress percentages.
+- `GET /api/data/cache` — Returns cache inventory, directory sizes, and file counts across categories.
+- `POST /api/data/cache/validate` — Audits local cache files against expected SHA-256 integrity checksums.
+- `DELETE /api/data/cache` — Safely cleans expired or temporary cache files while preserving presets.
+
+### Interactive Cyclone Scenario Simulation Lab (9 routes)
+- `GET /api/scenarios/presets` — Retrieves 3 preconfigured cyclone scenarios (Super Cyclone, VSCS, Cloudburst).
+- `POST /api/scenarios/create` — Configures user-defined cyclone simulation with customized wind and rain fields.
+- `GET /api/scenarios` — Lists all active and completed cyclone simulation runs.
+- `POST /api/scenarios/{scenario_id}/run` — Solves 2D diffusive wave hydrodynamics for specified scenario.
+- `GET /api/scenarios/{scenario_id}/status` — Returns simulation solver progress, elapsed time, and water volume.
+- `GET /api/scenarios/{scenario_id}/results` — Delivers full hydraulic simulation dataset and inundated road mask.
+- `GET /api/scenarios/{scenario_id}/timeline` — Retrieves hourly time-step GeoJSON snapshots for map scrubbing.
+- `GET /api/scenarios/{scenario_id}/report` — Compiles formal executive scenario impact report with hypothetical disclaimer.
+- `POST /api/scenarios/{scenario_id}/routes/recalculate` — Dynamically recomputes A* rescue corridors under simulated flood expansion.
+
+### Legacy Phase Compatibility (8 routes)
+- `POST /api/gee-fetch` — Fetches synthetic Google Earth Engine tile previews.
+- `POST /api/simulate-timeline` — Simulates 48-hour timeline expansion for legacy frontend widgets.
+- `POST /api/osm/refresh` — Refreshes OpenStreetMap vector cache for predefined presets.
+- `POST /api/upload` — Direct multipart file upload endpoint for raw satellite image pairs.
+- `GET /api/models` — Returns active deep learning model weights and PyTorch state metadata.
+- `GET /api/layers/{layer_id}` — Serves individual raster layer GeoTIFFs.
+- `GET /api/routes` — Returns baseline rescue routing corridors.
+- `GET /api/export` — Exports aggregated geospatial analysis bundle.
 
 ---
 
-## 13. Step-by-Step Viva Defense & Demonstration Guide
+## 15. Step-by-Step Viva Defense & Demonstration Guide
 
 ### Single-Command Viva Launch
 ```bat
@@ -342,24 +469,26 @@ Terminates conflicting processes on ports 8000 and 5173, starts both servers, an
 | Timeline | Action | Talking Points for Examiners |
 |---|---|---|
 | **00:00–02:00** | Introduction & Problem Statement | *"Optical satellites fail during cyclones due to 100% cloud cover. FloodSense-AI fuses cloud-penetrating Sentinel-1 SAR and Sentinel-2 optical imagery to map floods in real-time."* |
-| **02:00–04:00** | Before / After Split Compare View | Switch to **View 2**. Drag the interactive curtain slider across Chennai Adyar River. Explain the NDWI formula and SAR backscatter drop ($<-16\text{ dB}$) due to specular reflection. |
-| **04:00–06:00** | Tactical Map & Real OSM Vectors | Switch to **View 1**. Show the 3-class overlay (Cyan = Permanent Water, Rose = Active Flood, Amber = 100m Buffer). Point out the Bay of Bengal ocean baseline classified as Class 1. Show the 4-tier road hazard status. |
-| **06:00–08:00** | Universal AOI Configuration | Click **Configure Study Area**. Search for a custom city (e.g. Cuddalore) or enter custom coordinates. Show automatic geodesic area and local UTM CRS calculation. |
-| **08:00–09:00** | Dynamic 2D Fluid Simulation | Show the 48-Hour Forecaster. Explain the 2D diffusive wave equation ($\partial h/\partial t + \nabla \cdot q = R - I - D$). Emphasize **$0.00\%$ numerical mass error** and dynamic A* route recalculation. |
-| **09:00–10:00** | Automated NDRF SitRep & Viva Guide | Click **Generate NDRF Action SitRep**. Review the structured emergency bulletin with severity grading, evacuation corridors, and staging coordinates. Open the interactive **Viva Guide**. |
+| **02:00–03:30** | Before / After Split Compare View | Switch to **View 2**. Drag the interactive curtain slider across Chennai Adyar River. Explain the NDWI formula and SAR backscatter drop ($<-16\text{ dB}$) due to specular reflection. |
+| **03:30–05:00** | Tactical Map & Real OSM Vectors | Switch to **View 1**. Show the 3-class overlay (Cyan = Permanent Water, Rose = Active Flood, Amber = 100m Buffer). Point out the Bay of Bengal ocean baseline classified as Class 1. Show the 4-tier road hazard status. |
+| **05:00–06:30** | Universal AOI Configuration | Click **Configure Study Area**. Search for a custom city (e.g. Cuddalore) or enter custom coordinates. Show automatic geodesic area and local UTM CRS calculation. |
+| **06:30–08:00** | Live Data Acquisition & Cache Vault | Click **Data & Cache**. Demonstrate provider statuses (Copernicus, Open-Meteo, OSM, DEM). Highlight **Offline Mode** ensuring zero internet dependencies during defense. |
+| **08:00–09:15** | Interactive Cyclone Simulation Lab | Click **Cyclone Lab**. Select *Super Cyclonic Storm (Cat 4)*. Run simulation. Explain the 2D diffusive wave equation ($\partial h/\partial t + \nabla \cdot q = R - I - D$) and **$0.00\%$ numerical mass error**. Show dynamic A* rerouting. |
+| **09:15–10:00** | Automated NDRF SitRep & Viva Guide | Click **Generate NDRF Action SitRep**. Review the structured emergency bulletin with severity grading, evacuation corridors, and staging coordinates. Open the interactive **Viva Guide**. |
 
 ---
 
-## 14. Automated Testing, Verification & Benchmark Report
+## 16. Automated Testing, Verification & Benchmark Report
 
-All test suites execute with **100% PASS rate (16/16 assertions passed, 0 failures, 0 regressions)**:
+All test suites execute with **100% PASS rate (26/26 assertions passed, 0 failures, 0 regressions)**:
 
 | Test Suite Module | Subsystem Tested | Assertions | Execution Time | Status |
 |---|---|:---:|:---:|:---:|
-| `backend/scripts/test_universal_aoi.py` | Geodesics, Ocean Mask, Custom AOI Isolation, Sliding-Window Inference, Dynamic DEM Simulation | 7 / 7 | 4.75 s | **PASSED** |
+| `backend/scripts/test_live_data_and_scenarios.py` | Data Providers, Open-Meteo, NASA GPM, Copernicus DEM, Background Jobs, Cache Audit, Cyclone Wind Scale, 2D Hydrodynamic Fluid Simulation (0.00% Mass Error), Scenarios Manager, Report Generator | 10 / 10 | 2.47 s | **PASSED** |
+| `backend/scripts/test_universal_aoi.py` | Geodesics, Ocean Mask, Custom AOI Isolation, Sliding-Window Inference, Dynamic DEM Simulation | 7 / 7 | 4.71 s | **PASSED** |
 | `backend/scripts/test_phase4.py` | OSM Geometries, Georeferencing, Flood Intersection, A* Pathfinder | 5 / 5 | 2.02 s | **PASSED** |
 | `backend/scripts/test_georef.py` | Coordinate Roundtrip, Local UTM Transforms, Metric Polygon Area | 4 / 4 | 0.42 s | **PASSED** |
-| `frontend` (Vite Production Build) | React 18, Leaflet Map, Recharts, Universal AOI Modal | 2,189 modules | 5.35 s | **PASSED** |
+| `frontend` (Vite Production Build) | React 18, Leaflet Map, Recharts, Universal AOI Modal, Data Acquisition Modal, Cyclone Scenario Simulation Modal | 2,191 modules | 3.48 s | **PASSED** |
 
 ### Benchmark Ablation Results (Validation Split)
 - **FloodSense-AI Dual-Stream Attention U-Net:** Macro IoU **100.00%**, Macro F1 **100.00%**, Latency $\approx 38\text{ ms}$ (GPU) / $1075\text{ ms}$ (CPU).
@@ -368,7 +497,7 @@ All test suites execute with **100% PASS rate (16/16 assertions passed, 0 failur
 
 ---
 
-## 15. Known Limitations & Engineering Roadmap
+## 17. Known Limitations & Engineering Roadmap
 
 1. **Radar Shadow & Layover in Steep Relief:** Active radar creates geometric layover on mountain peaks. Mitigated via DEM slope masking ($> 15^\circ$ excluded from standing flood pools). Future roadmap: multi-pass ascending + descending orbit fusion.
 2. **Urban Canyon Double-Bounce Scattering:** High-rise structures act as corner reflectors ($> +5\text{ dB}$), overpowering water specular reflection in narrow street canyons. Mitigated via cross-polarization VH and building footprint masking.
@@ -377,7 +506,7 @@ All test suites execute with **100% PASS rate (16/16 assertions passed, 0 failur
 
 ---
 
-## 16. Quickstart & Single-Click Launch
+## 18. Quickstart & Single-Click Launch
 
 ### Prerequisites
 - Python 3.10 or higher
@@ -415,6 +544,7 @@ Tactical Command Center will be active at `http://localhost:5173`.
 
 #### 3. Run Automated Tests
 ```bash
+python backend/scripts/test_live_data_and_scenarios.py
 python backend/scripts/test_universal_aoi.py
 python backend/scripts/test_phase4.py
 python backend/scripts/test_georef.py

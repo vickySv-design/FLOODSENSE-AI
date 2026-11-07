@@ -9,11 +9,31 @@ PRESETS_DIR = DATA_DIR / "presets"
 CHECKPOINTS_DIR = DATA_DIR / "checkpoints"
 OSM_CACHE_DIR = DATA_DIR / "osm_cache"
 AOI_CACHE_DIR = DATA_DIR / "aoi_cache"
+SATELLITE_CACHE_DIR = DATA_DIR / "satellite_cache"
+DEM_CACHE_DIR = DATA_DIR / "dem_cache"
+RAINFALL_CACHE_DIR = DATA_DIR / "rainfall_cache"
+PROCESSED_CACHE_DIR = DATA_DIR / "processed_cache"
+METADATA_DIR = DATA_DIR / "metadata"
+DOWNLOADS_DIR = DATA_DIR / "downloads"
+SCENARIOS_DIR = DATA_DIR / "scenarios"
 
-PRESETS_DIR.mkdir(parents=True, exist_ok=True)
-CHECKPOINTS_DIR.mkdir(parents=True, exist_ok=True)
-OSM_CACHE_DIR.mkdir(parents=True, exist_ok=True)
-AOI_CACHE_DIR.mkdir(parents=True, exist_ok=True)
+for d in [
+    PRESETS_DIR,
+    CHECKPOINTS_DIR,
+    OSM_CACHE_DIR,
+    AOI_CACHE_DIR,
+    SATELLITE_CACHE_DIR,
+    DEM_CACHE_DIR,
+    RAINFALL_CACHE_DIR,
+    PROCESSED_CACHE_DIR,
+    METADATA_DIR,
+    DOWNLOADS_DIR,
+    SCENARIOS_DIR,
+]:
+    d.mkdir(parents=True, exist_ok=True)
+
+DATA_MODE = os.environ.get("DATA_MODE", "hybrid").lower()
+CACHE_ENABLED = os.environ.get("CACHE_ENABLED", "true").lower() == "true"
 
 MODEL_WEIGHTS_PATH = CHECKPOINTS_DIR / "dual_stream_attention_unet.pth"
 

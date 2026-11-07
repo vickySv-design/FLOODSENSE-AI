@@ -120,3 +120,91 @@ export async function analyzeDynamicAOI({ aoiName, bbox, geojsonGeometry, terrai
   return data;
 }
 
+// Data Provider & Offline Caching API Client
+export async function searchSatelliteCatalog(params) {
+  const { data } = await apiClient.post("/api/data/satellite/search", params);
+  return data;
+}
+
+export async function startDataDownloadJob(payload) {
+  const { data } = await apiClient.post("/api/data/satellite/download", payload);
+  return data;
+}
+
+export async function fetchDEMData(payload) {
+  const { data } = await apiClient.post("/api/data/dem/fetch", payload);
+  return data;
+}
+
+export async function fetchOSMData(payload) {
+  const { data } = await apiClient.post("/api/data/osm/fetch", payload);
+  return data;
+}
+
+export async function fetchRainfallData(payload) {
+  const { data } = await apiClient.post("/api/data/rainfall/fetch", payload);
+  return data;
+}
+
+export async function fetchGPMData(payload) {
+  const { data } = await apiClient.post("/api/data/gpm/fetch", payload);
+  return data;
+}
+
+export async function fetchDataJobStatus(jobId) {
+  const { data } = await apiClient.get(`/api/data/jobs/${jobId}`);
+  return data;
+}
+
+export async function fetchDataCache() {
+  const { data } = await apiClient.get("/api/data/cache");
+  return data;
+}
+
+export async function validateDataCache() {
+  const { data } = await apiClient.post("/api/data/cache/validate");
+  return data;
+}
+
+// Cyclone Scenario Simulation API Client
+export async function fetchScenarioPresets() {
+  const { data } = await apiClient.get("/api/scenarios/presets");
+  return data;
+}
+
+export async function createScenario(payload) {
+  const { data } = await apiClient.post("/api/scenarios/create", payload);
+  return data;
+}
+
+export async function runScenario(scenarioId) {
+  const { data } = await apiClient.post(`/api/scenarios/${scenarioId}/run`);
+  return data;
+}
+
+export async function fetchScenarioStatus(scenarioId) {
+  const { data } = await apiClient.get(`/api/scenarios/${scenarioId}/status`);
+  return data;
+}
+
+export async function fetchScenarioResults(scenarioId) {
+  const { data } = await apiClient.get(`/api/scenarios/${scenarioId}/results`);
+  return data;
+}
+
+export async function fetchScenarioTimeline(scenarioId) {
+  const { data } = await apiClient.get(`/api/scenarios/${scenarioId}/timeline`);
+  return data;
+}
+
+export async function fetchScenarioReport(scenarioId) {
+  const { data } = await apiClient.get(`/api/scenarios/${scenarioId}/report`);
+  return data;
+}
+
+export async function recalculateScenarioRoute(scenarioId, payload) {
+  const { data } = await apiClient.post(`/api/scenarios/${scenarioId}/routes/recalculate`, payload);
+  return data;
+}
+
+
