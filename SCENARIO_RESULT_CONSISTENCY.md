@@ -191,3 +191,4 @@ Rainfall Distribution: front_loaded [USER_INPUT]
 
 ## 6. Audit Conclusion
 The discrepancy between the dashboard display and the exported JSON report has been completely resolved. Dashboard metrics, scrubbed progression snapshots, and exported JSON reports now agree with 100% mathematical consistency across all timesteps and parameters.
+

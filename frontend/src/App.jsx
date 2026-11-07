@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { AlertCircle, Columns, Loader2, Map } from "lucide-react";
-import HeaderBar from "./components/HeaderBar.jsx";
-import ControlSidebar from "./components/ControlSidebar.jsx";
-import MapViewport from "./components/MapViewport.jsx";
-import SplitCompareSlider from "./components/SplitCompareSlider.jsx";
-import AnalyticsDock from "./components/AnalyticsDock.jsx";
+import AppLayout from "./components/layout/AppLayout.jsx";
+import DashboardPage from "./pages/DashboardPage.jsx";
+import SatelliteAnalysisPage from "./pages/SatelliteAnalysisPage.jsx";
+import FloodSimulationPage from "./pages/FloodSimulationPage.jsx";
+import RescueInfrastructurePage from "./pages/RescueInfrastructurePage.jsx";
+import DisasterReportsPage from "./pages/DisasterReportsPage.jsx";
+import DataSourcesPage from "./pages/DataSourcesPage.jsx";
+import SettingsPage from "./pages/SettingsPage.jsx";
+
+// Global Modals preserved
 import SitRepModal from "./components/SitRepModal.jsx";
 import ProjectWalkthroughModal from "./components/ProjectWalkthroughModal.jsx";
 import UniversalAOIModal from "./components/UniversalAOIModal.jsx";
-import DataAcquisitionModal from "./components/DataAcquisitionModal.jsx";
-import ScenarioSimulationModal from "./components/ScenarioSimulationModal.jsx";
+
 import {
   analyzeCustomUpload,
   analyzeDynamicAOI,
@@ -20,36 +23,59 @@ import {
   generateNdrfSitRep,
 } from "./services/api.js";
 
+const VALID_PAGES = [
+  "dashboard",
+  "satellite-analysis",
+  "flood-simulation",
+  "rescue",
+  "reports",
+  "data-sources",
+  "settings",
+];
+
 export default function App() {
+  // Hash-based navigation with back/forward history support
+  const getInitialPage = () => {
+    const hash = window.location.hash.replace("#", "");
+    return VALID_PAGES.includes(hash) ? hash : "dashboard";
+  };
+
+  const [activePage, setActivePage] = useState(getInitialPage);
   const [health, setHealth] = useState(null);
   const [presets, setPresets] = useState([]);
-  const [selectedPresetId, setSelectedPresetId] = useState(
-    "chennai_monsoon_2026"
-  );
+  const [selectedPresetId, setSelectedPresetId] = useState("chennai_monsoon_2026");
   const [analysisData, setAnalysisData] = useState(null);
-  const [viewportTab, setViewportTab] = useState("map"); // "map" | "split"
   const [isLoading, setIsLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState(null);
 
-  // NDRF AI SitRep Modal State
+  // Global Modals
   const [isSitRepOpen, setIsSitRepOpen] = useState(false);
   const [sitrepData, setSitrepData] = useState(null);
   const [isGeneratingSitRep, setIsGeneratingSitRep] = useState(false);
   const [isWalkthroughOpen, setIsWalkthroughOpen] = useState(false);
   const [isAOIModalOpen, setIsAOIModalOpen] = useState(false);
-  const [isDataModalOpen, setIsDataModalOpen] = useState(false);
-  const [isScenarioModalOpen, setIsScenarioModalOpen] = useState(false);
 
-  const [layerVisibility, setLayerVisibility] = useState({
-    allRoads: true,
-    newFlood: true,
-    permanentWater: true,
-    highRiskBuffer: true,
-    buildings: true,
-    safeRoutes: true,
-    severedRoads: true,
-  });
+  // Synchronize hash on page change and popstate
+  const handleNavigate = (pageId) => {
+    if (VALID_PAGES.includes(pageId)) {
+      setActivePage(pageId);
+      window.location.hash = pageId;
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
 
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.replace("#", "");
+      if (VALID_PAGES.includes(hash) && hash !== activePage) {
+        setActivePage(hash);
+      }
+    };
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, [activePage]);
+
+  // Initial Load & Telemetry Boot
   useEffect(() => {
     let mounted = true;
     async function bootMissionControl() {
@@ -63,8 +89,7 @@ export default function App() {
         if (!mounted) return;
         setHealth(healthRes);
         setPresets(presetsRes.presets || []);
-        const defaultId =
-          presetsRes.default_preset_id || "chennai_monsoon_2026";
+        const defaultId = presetsRes.default_preset_id || "chennai_monsoon_2026";
         setSelectedPresetId(defaultId);
 
         const initialAnalysis = await analyzePresetScenario(defaultId);
@@ -189,155 +214,102 @@ export default function App() {
     }
   };
 
-  const handleToggleLayer = (layerKey) => {
-    setLayerVisibility((prev) => ({
-      ...prev,
-      [layerKey]: !prev[layerKey],
-    }));
-  };
-
-  const handleExportGeoJSON = () => {
-    if (!analysisData?.export_geojson) return;
-    const blob = new Blob(
-      [JSON.stringify(analysisData.export_geojson, null, 2)],
-      { type: "application/geo+json" }
-    );
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    const safeId = analysisData?.scenario?.id || "floodsense_mission";
-    a.href = url;
-    a.download = `${safeId}_sitrep_vectors.geojson`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  };
-
-  const handlePrintSitRep = () => {
-    window.print();
-  };
-
   return (
-    <div className="min-h-screen lg:h-screen w-full bg-slate-950 text-slate-100 flex flex-col overflow-x-hidden lg:overflow-hidden">
-      {/* Top Telemetry Navbar */}
-      <HeaderBar
-        health={health}
-        analysisData={analysisData}
-        isLoading={isLoading}
-        onOpenSitRep={handleOpenSitRep}
-        onExportGeoJSON={handleExportGeoJSON}
-        onPrintSitRep={handlePrintSitRep}
-        onOpenWalkthrough={() => setIsWalkthroughOpen(true)}
-        onOpenAOIModal={() => setIsAOIModalOpen(true)}
-        onOpenDataModal={() => setIsDataModalOpen(true)}
-        onOpenScenarioModal={() => setIsScenarioModalOpen(true)}
-      />
+    <AppLayout
+      activePage={activePage}
+      onNavigate={handleNavigate}
+      analysisData={analysisData}
+      health={health}
+      isLoading={isLoading}
+      onOpenAOIModal={() => setIsAOIModalOpen(true)}
+      onOpenSitRep={handleOpenSitRep}
+      onOpenWalkthrough={() => setIsWalkthroughOpen(true)}
+    >
+      {/* Global Error Notice if backend connection fails */}
+      {errorMsg && (
+        <div className="bg-red-50 border-b border-red-200 px-6 py-3 text-xs text-red-800 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-red-600 inline-block" />
+            <span>{errorMsg}</span>
+          </div>
+          <button
+            type="button"
+            onClick={() => setErrorMsg(null)}
+            className="text-red-700 font-semibold hover:underline"
+          >
+            Dismiss
+          </button>
+        </div>
+      )}
 
-      {/* Main Tactical Command Workspace */}
-      <div className="flex-1 flex flex-col lg:flex-row min-h-0 overflow-hidden">
-        {/* Left Tactical Control Sidebar */}
-        <ControlSidebar
+      {/* Page Routing */}
+      {activePage === "dashboard" && (
+        <DashboardPage
+          analysisData={analysisData}
+          isLoading={isLoading}
+          onNavigate={handleNavigate}
+          onOpenAOIModal={() => setIsAOIModalOpen(true)}
+          onOpenSitRep={handleOpenSitRep}
+          onSelectPreset={handleSelectPreset}
+          presets={presets}
+          selectedPresetId={selectedPresetId}
+        />
+      )}
+
+      {activePage === "satellite-analysis" && (
+        <SatelliteAnalysisPage
+          analysisData={analysisData}
           presets={presets}
           selectedPresetId={selectedPresetId}
           onSelectPreset={handleSelectPreset}
           onUploadCustomPair={handleUploadCustomPair}
           onFetchGEE={handleFetchGEE}
-          layerVisibility={layerVisibility}
-          onToggleLayer={handleToggleLayer}
-          isLoading={isLoading}
           onOpenAOIModal={() => setIsAOIModalOpen(true)}
-          onOpenDataModal={() => setIsDataModalOpen(true)}
-          onOpenScenarioModal={() => setIsScenarioModalOpen(true)}
+          isLoading={isLoading}
+          errorMsg={errorMsg}
         />
+      )}
 
-        {/* Center & Bottom Multi-Modal Viewport + Analytics Dock */}
-        <main className="flex-1 flex flex-col min-w-0 min-h-0 overflow-y-auto lg:overflow-hidden">
-          {/* Error Banner if any */}
-          {errorMsg && (
-            <div className="bg-rose-950/90 border-b border-rose-500/50 px-4 py-2 text-xs font-mono text-rose-200 flex items-center gap-2">
-              <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />
-              <span>{errorMsg}</span>
-            </div>
-          )}
+      {activePage === "flood-simulation" && (
+        <FloodSimulationPage
+          analysisData={analysisData}
+          currentAOI={analysisData?.scenario}
+          onNavigate={handleNavigate}
+        />
+      )}
 
-          {/* Viewport Mode Switcher Bar */}
-          <div className="bg-slate-900/90 border-b border-slate-800 px-4 py-2 flex flex-wrap items-center justify-between gap-2 shrink-0">
-            <div className="flex items-center gap-1.5">
-              <button
-                type="button"
-                onClick={() => setViewportTab("map")}
-                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-mono font-semibold transition ${
-                  viewportTab === "map"
-                    ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/40"
-                    : "text-slate-400 hover:text-slate-200 bg-slate-950 border border-slate-800"
-                }`}
-              >
-                <Map className="w-3.5 h-3.5" />
-                View 1: Live Tactical GIS Map (Leaflet + A* Router)
-              </button>
+      {activePage === "rescue" && (
+        <RescueInfrastructurePage
+          analysisData={analysisData}
+          isLoading={isLoading}
+          onOpenSitRep={handleOpenSitRep}
+        />
+      )}
 
-              <button
-                type="button"
-                onClick={() => setViewportTab("split")}
-                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-mono font-semibold transition ${
-                  viewportTab === "split"
-                    ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/40"
-                    : "text-slate-400 hover:text-slate-200 bg-slate-950 border border-slate-800"
-                }`}
-              >
-                <Columns className="w-3.5 h-3.5" />
-                View 2: Split-Screen Before/After SAR-Optical Curtain
-              </button>
-            </div>
+      {activePage === "reports" && (
+        <DisasterReportsPage
+          analysisData={analysisData}
+          isLoading={isLoading}
+          sitrepData={sitrepData}
+        />
+      )}
 
-            {analysisData?.scenario && (
-              <div className="text-[11px] font-mono text-slate-400 flex items-center gap-3">
-                <span>
-                  Sensor:{" "}
-                  <strong className="text-slate-200">
-                    {analysisData.scenario.sensor_pair}
-                  </strong>
-                </span>
-                <span className="hidden md:inline text-slate-700">|</span>
-                <span className="hidden md:inline">
-                  Pre: {analysisData.scenario.pre_date} → Post:{" "}
-                  {analysisData.scenario.post_date}
-                </span>
-              </div>
-            )}
-          </div>
+      {activePage === "data-sources" && (
+        <DataSourcesPage currentAOI={analysisData?.scenario} />
+      )}
 
-          {/* Center Interactive Viewport */}
-          <div className="relative flex-1 min-h-[380px]">
-            {isLoading && (
-              <div className="absolute inset-0 z-30 bg-slate-950/75 backdrop-blur-sm flex flex-col items-center justify-center gap-2">
-                <Loader2 className="w-8 h-8 text-cyan-400 animate-spin" />
-                <div className="text-xs font-mono text-cyan-300 font-semibold">
-                  EXECUTING DUAL-STREAM ATTENTION U-NET & A* EVACUATION ROUTER...
-                </div>
-              </div>
-            )}
+      {activePage === "settings" && (
+        <SettingsPage
+          analysisData={analysisData}
+          health={health}
+          presets={presets}
+          selectedPresetId={selectedPresetId}
+          onSelectPreset={handleSelectPreset}
+          onOpenWalkthrough={() => setIsWalkthroughOpen(true)}
+        />
+      )}
 
-            {viewportTab === "map" ? (
-              <MapViewport
-                analysisData={analysisData}
-                layerVisibility={layerVisibility}
-              />
-            ) : (
-              <SplitCompareSlider analysisData={analysisData} />
-            )}
-          </div>
-
-          {/* Bottom Analytics & Telemetry Dock */}
-          <AnalyticsDock
-            analysisData={analysisData}
-            selectedPresetId={selectedPresetId}
-            onOpenSitRep={handleOpenSitRep}
-          />
-        </main>
-      </div>
-
-      {/* Automated NDRF / District Collector AI SitRep Modal */}
+      {/* Global Preserved Modals */}
       <SitRepModal
         isOpen={isSitRepOpen}
         onClose={() => setIsSitRepOpen(false)}
@@ -345,13 +317,11 @@ export default function App() {
         isGenerating={isGeneratingSitRep}
       />
 
-      {/* Project Review Guided Walkthrough Modal for Viva Defense */}
       <ProjectWalkthroughModal
         isOpen={isWalkthroughOpen}
         onClose={() => setIsWalkthroughOpen(false)}
       />
 
-      {/* Universal Geographical Study Area (AOI) Selector Modal */}
       <UniversalAOIModal
         isOpen={isAOIModalOpen}
         onClose={() => setIsAOIModalOpen(false)}
@@ -359,20 +329,6 @@ export default function App() {
         presets={presets}
         onApplyAOI={handleApplyAOI}
       />
-
-      {/* Live Data Acquisition & Offline Cache Manager */}
-      <DataAcquisitionModal
-        isOpen={isDataModalOpen}
-        onClose={() => setIsDataModalOpen(false)}
-        currentAOI={analysisData?.scenario}
-      />
-
-      {/* Interactive Cyclone & Extreme Rainfall Scenario Simulator */}
-      <ScenarioSimulationModal
-        isOpen={isScenarioModalOpen}
-        onClose={() => setIsScenarioModalOpen(false)}
-        currentAOI={analysisData?.scenario}
-      />
-    </div>
+    </AppLayout>
   );
 }

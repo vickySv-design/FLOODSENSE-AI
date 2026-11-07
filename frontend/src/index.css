@@ -2,41 +2,49 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom Dark GIS Scrollbars */
+/* Modern Professional Light Theme Scrollbars */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #020617;
+  background: #f8fafc;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1e293b;
-  border-radius: 3px;
+  background: #cbd5e1;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #06b6d4;
+  background: #94a3b8;
 }
 
-/* Leaflet Dark Command Center Overrides */
+/* Modern Professional Light Leaflet Overrides */
 .leaflet-container {
-  background-color: #020617 !important;
-  font-family: "Inter", system-ui, sans-serif;
+  background-color: #f1f5f9 !important;
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  z-index: 1;
 }
 
+/* Clean White Popups */
 .leaflet-popup-content-wrapper,
 .leaflet-popup-tip {
-  background: rgba(15, 23, 42, 0.96) !important;
-  color: #f1f5f9 !important;
-  border: 1px solid rgba(56, 189, 248, 0.35);
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.8);
-  border-radius: 0.5rem !important;
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.12), 0 8px 10px -6px rgba(15, 23, 42, 0.08) !important;
+  border-radius: 0.75rem !important;
+  padding: 2px !important;
 }
 
-/* Animated Marching Ants for Active A* Rescue Routes */
+.leaflet-popup-content {
+  margin: 12px 14px !important;
+  line-height: 1.4 !important;
+}
+
+/* Animated Marching Ants for Active A* Rescue Corridors */
 @keyframes dash-flow {
   to {
     stroke-dashoffset: -28;
@@ -45,8 +53,8 @@
 
 .rescue-route-animated {
   stroke-dasharray: 10, 6;
-  animation: dash-flow 1.1s linear infinite;
-  filter: drop-shadow(0 0 6px rgba(16, 185, 129, 0.65));
+  animation: dash-flow 1.2s linear infinite;
+  filter: drop-shadow(0 2px 4px rgba(22, 163, 74, 0.45));
 }
 
 /* Radar Beacon Pulse */
@@ -70,17 +78,19 @@
   position: absolute;
   inset: -4px;
   border-radius: 9999px;
-  border: 2px solid #22d3ee;
+  border: 2px solid #2563eb;
   animation: radar-ring 2s infinite;
 }
 
 /* Print SitRep Report Styling */
 @media print {
   body {
-    background: #020617 !important;
-    color: #f8fafc !important;
+    background: #ffffff !important;
+    color: #0f172a !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
+  .no-print {
+    display: none !important;
+  }
 }
-
