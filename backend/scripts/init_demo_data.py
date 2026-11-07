@@ -238,7 +238,7 @@ def generate_synthetic_multimodal_tile(
     perm_water = np.zeros((h, w), dtype=np.uint8)
     new_flood = np.zeros((h, w), dtype=np.uint8)
 
-    if "chennai" in preset_id:
+    if "chennai" in preset_id or "coastal" in preset_id:
         # Domain-warped Adyar river estuary + meandering oxbow creek + Chembarambakkam basin
         river_field = np.abs((wy - 128.0) + 0.32 * (wx - 128.0) * (watershed_fbm - 0.45))
         channel_width = 7.5 + 9.5 * watershed_fbm
@@ -255,6 +255,11 @@ def generate_synthetic_multimodal_tile(
         )
         perm_water[(estuary_basin < 0.85) | (west_reservoir < 0.82)] = 1
 
+        # Coastline & Bay of Bengal Ocean baseline on eastern border (wx > 224)
+        if bbox is not None and bbox[3] >= 80.275:
+            ocean_coast_line = 224.0 + 8.0 * (watershed_fbm[:, -1:] if watershed_fbm.ndim == 2 else 0.0)
+            perm_water[wx >= 222] = 1
+
         # Tributary Buckingham canal drainage channel
         canal_field = np.abs(wx - 178.0 + 18.0 * (watershed_fbm - 0.5))
         perm_water[canal_field < (3.2 + 2.5 * micro_tex)] = 1
@@ -266,9 +271,10 @@ def generate_synthetic_multimodal_tile(
             + (1.0 - watershed_fbm) * 0.42
             - (dist_to_water / 78.0) * 0.55
         )
-        new_flood[(flood_potential > 0.36) & (perm_water == 0)] = 1
+        # Never classify the open sea / ocean as newly inundated flood land!
+        new_flood[(flood_potential > 0.36) & (perm_water == 0) & (wx < 220)] = 1
 
-    elif "assam" in preset_id:
+    elif "assam" in preset_id or "floodplain" in preset_id:
         # Braided multi-thread Brahmaputra sandbar & anastomosing channels via fBm ridges
         braid_1 = np.abs((wy - 102.0) + 28.0 * (watershed_fbm - 0.5))
         braid_2 = np.abs((wy - 148.0) - 26.0 * (warped_terrain - 0.5))
@@ -288,7 +294,7 @@ def generate_synthetic_multimodal_tile(
         )
         new_flood[(flood_potential > 0.35) & (perm_water == 0)] = 1
 
-    else:
+    elif "wayanad" in preset_id or "mountain" in preset_id:
         # Wayanad / Kabini dendritic mountain valley network & flash-flood debris surge
         main_valley = np.abs((wx - 128.0) + 32.0 * (watershed_fbm - 0.5))
         creek_nw = np.abs((wy - 0.72 * wx - 24.0) + 22.0 * (warped_terrain - 0.5))
@@ -306,10 +312,29 @@ def generate_synthetic_multimodal_tile(
         )
         new_flood[(flood_potential > 0.37) & (perm_water == 0)] = 1
 
+    else:
+        # Universal urban drainage basin & arterial river corridor
+        main_river = np.abs((wy - 0.35 * (wx - 128.0) - 128.0) + 20.0 * (watershed_fbm - 0.5))
+        perm_water[main_river < (6.0 + 5.5 * watershed_fbm)] = 1
+
+        dist_to_water = cv2.distanceTransform((1 - perm_water).astype(np.uint8), cv2.DIST_L2, 5)
+        flood_potential = (
+            (1.0 - warped_terrain) * 0.55
+            + (1.0 - watershed_fbm) * 0.45
+            - (dist_to_water / 70.0) * 0.50
+        )
+        new_flood[(flood_potential > 0.36) & (perm_water == 0)] = 1
+
     # Preserve organic ragged shoreline detail while removing single-pixel isolated specks
     k3 = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (3, 3))
     perm_water = cv2.morphologyEx(perm_water, cv2.MORPH_OPEN, k3)
     new_flood = cv2.morphologyEx(new_flood, cv2.MORPH_OPEN, k3)
+
+    if "chennai" in preset_id or "coastal" in preset_id or (bbox is not None and bbox[3] >= 80.275):
+        # Explicitly enforce Bay of Bengal eastern ocean baseline as Permanent Water (Class 1) and never New Flood
+        perm_water[:, 222:] = 1
+        new_flood[:, 218:] = 0
+
     new_flood[perm_water == 1] = 0
 
     gt_mask = np.zeros((h, w), dtype=np.uint8)
@@ -685,12 +710,12 @@ def ensure_demo_data_initialized(force_regenerate: bool = False) -> Dict[str, An
         gt_path = preset_folder / "ground_truth.npy"
         bld_path = preset_folder / "buildings.json"
         meta_path = preset_folder / "metadata.json"
-        phase3_marker = preset_folder / "phase3_photorealistic.flag"
+        phase5_marker = preset_folder / "phase5_universal.flag"
 
         seed = preset_seeds.get(preset_id, 1001)
         needs_build = (
             force_regenerate
-            or not phase3_marker.exists()
+            or not phase5_marker.exists()
             or not (
                 opt_path.exists()
                 and sar_path.exists()
@@ -718,7 +743,7 @@ def ensure_demo_data_initialized(force_regenerate: bool = False) -> Dict[str, An
                 json.dump(buildings, f, indent=2)
             with open(meta_path, "w", encoding="utf-8") as f:
                 json.dump(meta, f, indent=2)
-            phase3_marker.write_text("phase3_ready", encoding="utf-8")
+            phase5_marker.write_text("phase5_ready", encoding="utf-8")
 
             training_samples.append((opt_4ch, sar_2ch, gt_mask))
             created_presets.append(preset_id)

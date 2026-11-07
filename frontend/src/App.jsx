@@ -7,8 +7,10 @@ import SplitCompareSlider from "./components/SplitCompareSlider.jsx";
 import AnalyticsDock from "./components/AnalyticsDock.jsx";
 import SitRepModal from "./components/SitRepModal.jsx";
 import ProjectWalkthroughModal from "./components/ProjectWalkthroughModal.jsx";
+import UniversalAOIModal from "./components/UniversalAOIModal.jsx";
 import {
   analyzeCustomUpload,
+  analyzeDynamicAOI,
   analyzePresetScenario,
   fetchAndAnalyzeGEETiles,
   fetchDisasterPresets,
@@ -32,6 +34,7 @@ export default function App() {
   const [sitrepData, setSitrepData] = useState(null);
   const [isGeneratingSitRep, setIsGeneratingSitRep] = useState(false);
   const [isWalkthroughOpen, setIsWalkthroughOpen] = useState(false);
+  const [isAOIModalOpen, setIsAOIModalOpen] = useState(false);
 
   const [layerVisibility, setLayerVisibility] = useState({
     allRoads: true,
@@ -138,6 +141,32 @@ export default function App() {
     }
   };
 
+  const handleApplyAOI = async (aoiConfig) => {
+    if (aoiConfig.preset_id) {
+      await handleSelectPreset(aoiConfig.preset_id);
+      return;
+    }
+    setIsLoading(true);
+    setErrorMsg(null);
+    try {
+      const result = await analyzeDynamicAOI({
+        aoiName: aoiConfig.name,
+        bbox: aoiConfig.bbox,
+        terrainType: aoiConfig.terrain_type,
+      });
+      setSelectedPresetId(result.scenario?.id || "dynamic_aoi");
+      setAnalysisData(result);
+    } catch (err) {
+      setErrorMsg(
+        err?.response?.data?.detail ||
+          err?.message ||
+          "Error analyzing custom Area of Interest."
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleOpenSitRep = async () => {
     if (!analysisData) return;
     setIsSitRepOpen(true);
@@ -195,6 +224,7 @@ export default function App() {
         onExportGeoJSON={handleExportGeoJSON}
         onPrintSitRep={handlePrintSitRep}
         onOpenWalkthrough={() => setIsWalkthroughOpen(true)}
+        onOpenAOIModal={() => setIsAOIModalOpen(true)}
       />
 
       {/* Main Tactical Command Workspace */}
@@ -209,6 +239,7 @@ export default function App() {
           layerVisibility={layerVisibility}
           onToggleLayer={handleToggleLayer}
           isLoading={isLoading}
+          onOpenAOIModal={() => setIsAOIModalOpen(true)}
         />
 
         {/* Center & Bottom Multi-Modal Viewport + Analytics Dock */}
@@ -310,6 +341,15 @@ export default function App() {
       <ProjectWalkthroughModal
         isOpen={isWalkthroughOpen}
         onClose={() => setIsWalkthroughOpen(false)}
+      />
+
+      {/* Universal Geographical Study Area (AOI) Selector Modal */}
+      <UniversalAOIModal
+        isOpen={isAOIModalOpen}
+        onClose={() => setIsAOIModalOpen(false)}
+        currentAOI={analysisData?.scenario}
+        presets={presets}
+        onApplyAOI={handleApplyAOI}
       />
     </div>
   );

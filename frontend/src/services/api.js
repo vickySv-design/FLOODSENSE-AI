@@ -102,3 +102,21 @@ export async function exportSitRepGeoJSON(payload) {
   return data;
 }
 
+export async function searchAOILocations(query) {
+  const { data } = await apiClient.get("/api/aoi/search", { params: { q: query } });
+  return data.locations || [];
+}
+
+export async function validateAOI(payload) {
+  const { data } = await apiClient.post("/api/aoi/validate", payload);
+  return data.aoi;
+}
+
+export async function analyzeDynamicAOI({ aoiName, bbox, geojsonGeometry, terrainType }) {
+  const formData = new FormData();
+  if (aoiName) formData.append("custom_name", aoiName);
+  if (bbox) formData.append("bbox_json", JSON.stringify(bbox));
+  const { data } = await apiClient.post("/api/analyze", formData);
+  return data;
+}
+

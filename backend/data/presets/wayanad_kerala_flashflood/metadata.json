@@ -19,6 +19,8 @@
   "sensor_pair": "Sentinel-2B Optical + Sentinel-1A Dual-Pol SAR",
   "description": "Steep Western Ghats terrain dendritic channel flash flooding with acute highway severance under heavy monsoon cloud cover.",
   "population_density_factor": 22,
+  "terrain_type": "mountainous_catchment",
+  "has_ocean_coastline": false,
   "historical_metrics": {
     "miou": 0.897,
     "f1_score": 0.936,

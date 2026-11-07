@@ -90,40 +90,75 @@ PRESET_SCENARIOS = {
 }
 
 
-def get_or_generate_dem(preset_id: str, bbox: List[float], shape: Tuple[int, int]) -> np.ndarray:
+def get_or_generate_dem(
+    preset_id: str,
+    bbox: List[float],
+    shape: Tuple[int, int],
+    terrain_type: str = "auto",
+) -> np.ndarray:
     """
     Retrieves or synthesizes a hydro-conditioned Digital Elevation Model (DEM) in meters.
-    Carves natural river talwegs and regional slope gradients.
+    Carves natural river talwegs and regional slope gradients for ANY geographical AOI.
+    Supports 4 terrain archetypes: coastal_urban, river_floodplain, mountainous_catchment, urban_drainage_basin.
     """
     H, W = shape
+    
+    # Check preset directory first, then generic aoi_cache directory
     preset_folder = os.path.join(str(PRESETS_DIR), preset_id)
-    dem_path = os.path.join(preset_folder, "dem.npy")
+    aoi_cache_folder = os.path.join(os.path.dirname(str(PRESETS_DIR)), "aoi_cache")
+    os.makedirs(aoi_cache_folder, exist_ok=True)
+    
+    dem_path_preset = os.path.join(preset_folder, "dem.npy")
+    dem_path_custom = os.path.join(aoi_cache_folder, f"{preset_id}_dem.npy")
+    
+    for candidate_path in [dem_path_preset, dem_path_custom]:
+        if os.path.exists(candidate_path):
+            try:
+                cached_dem = np.load(candidate_path).astype(np.float32)
+                if cached_dem.shape == (H, W):
+                    return cached_dem
+            except Exception:
+                pass
 
-    if os.path.exists(dem_path):
-        try:
-            return np.load(dem_path).astype(np.float32)
-        except Exception:
-            pass
+    # Resolve terrain type
+    min_lat, min_lon, max_lat, max_lon = bbox
+    center_lat = (min_lat + max_lat) * 0.5
+    center_lon = (min_lon + max_lon) * 0.5
 
-    # Regional topographic baseline
-    rng = np.random.default_rng(abs(hash(preset_id)) % 100000)
+    if terrain_type == "auto":
+        if "wayanad" in preset_id or (center_lat < 15.0 and 75.0 <= center_lon <= 77.0):
+            resolved_terrain = "mountainous_catchment"
+        elif "chennai" in preset_id or (center_lat < 18.0 and abs(center_lon - 80.25) < 0.5):
+            resolved_terrain = "coastal_urban"
+        elif "assam" in preset_id or (center_lat > 24.0 and center_lon > 88.0):
+            resolved_terrain = "river_floodplain"
+        else:
+            resolved_terrain = "urban_drainage_basin"
+    else:
+        resolved_terrain = terrain_type
+
+    rng = np.random.default_rng(abs(hash(f"{preset_id}_{min_lat:.2f}_{min_lon:.2f}")) % 100000)
     grid_y, grid_x = np.mgrid[0:H, 0:W]
 
-    if "chennai" in preset_id:
-        # Coastal plain sloping East toward Bay of Bengal (elevation 15m in west down to 1.5m at coast)
-        slope = 15.0 - (grid_x / float(W)) * 13.5
-        # Undulations
+    if resolved_terrain == "coastal_urban":
+        # Coastal plain sloping East toward coastal outfall (elevation 18m in west down to 1.0m at coast)
+        slope = 18.0 - (grid_x / float(W)) * 16.5
         noise = cv2.GaussianBlur(rng.uniform(-1.0, 1.0, (H, W)).astype(np.float32), (31, 31), 7.0) * 3.5
         dem = slope + noise
-    elif "wayanad" in preset_id:
-        # Steep Western Ghats highland valley (750m down to 420m)
+    elif resolved_terrain == "mountainous_catchment":
+        # Steep highland valley (750m down to 420m)
         slope = 750.0 - ((grid_x + grid_y) / float(H + W)) * 330.0
         noise = cv2.GaussianBlur(rng.uniform(-1.0, 1.0, (H, W)).astype(np.float32), (41, 41), 9.0) * 25.0
         dem = slope + noise
-    else:
-        # Assam Brahmaputra floodplain (55m down to 42m)
+    elif resolved_terrain == "river_floodplain":
+        # Broad alluvial floodplain (55m down to 42m)
         slope = 55.0 - (grid_y / float(H)) * 13.0
         noise = cv2.GaussianBlur(rng.uniform(-1.0, 1.0, (H, W)).astype(np.float32), (35, 35), 8.0) * 4.0
+        dem = slope + noise
+    else: # urban_drainage_basin
+        # Moderate undulating urban depression (35m down to 22m)
+        slope = 35.0 - ((grid_x * 0.6 + grid_y * 0.4) / float(max(H, W))) * 13.0
+        noise = cv2.GaussianBlur(rng.uniform(-1.0, 1.0, (H, W)).astype(np.float32), (27, 27), 6.0) * 4.0
         dem = slope + noise
 
     # Carve river channel if ground truth or preset mask exists
@@ -132,7 +167,6 @@ def get_or_generate_dem(preset_id: str, bbox: List[float], shape: Tuple[int, int
         try:
             gt = np.load(gt_path)
             water_pixels = (gt == CLASS_PERMANENT_WATER)
-            # Channel is 2.5m below adjacent terrain
             dist_to_water = cv2.distanceTransform((~water_pixels).astype(np.uint8), cv2.DIST_L2, 5)
             river_depression = np.clip(3.0 - dist_to_water * 0.25, 0.0, 3.0)
             dem = dem - river_depression
@@ -142,10 +176,10 @@ def get_or_generate_dem(preset_id: str, bbox: List[float], shape: Tuple[int, int
     # Ensure minimum elevation >= 0.5m
     dem = np.maximum(dem, 0.5).astype(np.float32)
 
-    # Cache for reproducibility
+    # Save to appropriate cache path
+    save_path = dem_path_preset if os.path.exists(preset_folder) else dem_path_custom
     try:
-        os.makedirs(preset_folder, exist_ok=True)
-        np.save(dem_path, dem)
+        np.save(save_path, dem)
     except Exception:
         pass
 
@@ -429,6 +463,7 @@ class SimulationJobManager:
         bbox: List[float],
         initial_mask: np.ndarray,
         scenario_id: str = "severe_cyclonic",
+        terrain_type: str = "auto",
     ) -> str:
         job_id = str(uuid.uuid4())[:8]
         with self._lock:
@@ -436,6 +471,7 @@ class SimulationJobManager:
                 "job_id": job_id,
                 "preset_id": preset_id,
                 "scenario_id": scenario_id,
+                "terrain_type": terrain_type,
                 "status": "RUNNING",
                 "progress_pct": 0.0,
                 "current_hour": 0,
@@ -446,7 +482,7 @@ class SimulationJobManager:
 
         thread = threading.Thread(
             target=self._run_job_worker,
-            args=(job_id, preset_id, bbox, initial_mask, scenario_id),
+            args=(job_id, preset_id, bbox, initial_mask, scenario_id, terrain_type),
             daemon=True,
         )
         thread.start()
@@ -459,10 +495,11 @@ class SimulationJobManager:
         bbox: List[float],
         initial_mask: np.ndarray,
         scenario_id: str,
+        terrain_type: str = "auto",
     ):
         try:
             scenario = PRESET_SCENARIOS.get(scenario_id, PRESET_SCENARIOS["severe_cyclonic"])
-            dem = get_or_generate_dem(preset_id, bbox, initial_mask.shape[:2])
+            dem = get_or_generate_dem(preset_id, bbox, initial_mask.shape[:2], terrain_type=terrain_type)
             sim = Physical2DFloodSimulator(initial_mask, dem, bbox, preset_id, scenario)
 
             def on_progress(pct, hr):

@@ -2,6 +2,7 @@ import React from "react";
 import {
   Activity,
   BookOpen,
+  Compass,
   Cpu,
   Download,
   FileWarning,
@@ -19,6 +20,7 @@ export default function HeaderBar({
   onExportGeoJSON,
   onPrintSitRep,
   onOpenWalkthrough,
+  onOpenAOIModal,
 }) {
   const deviceLabel =
     analysisData?.engine?.device || health?.device || "PyTorch Engine";
@@ -28,8 +30,10 @@ export default function HeaderBar({
   );
   const scenarioName =
     analysisData?.scenario?.name || "Initializing Tactical Sensor Feed...";
+  const bbox = analysisData?.scenario?.bbox;
   const isLiveTelemetry = Boolean(
     analysisData?.scenario?.description?.includes("GEE") ||
+    analysisData?.scenario?.description?.includes("Dynamic") ||
     analysisData?.scenario?.gee_telemetry
   );
 
@@ -56,10 +60,25 @@ export default function HeaderBar({
               {isLiveTelemetry ? "LIVE SATELLITE TELEMETRY" : "CALIBRATED BENCHMARK PRESET"}
             </span>
           </div>
-          <p className="text-xs text-slate-400 mt-0.5 truncate max-w-md lg:max-w-xl">
-            Active AOI:{" "}
-            <span className="text-slate-200 font-medium">{scenarioName}</span>
-          </p>
+          <div className="flex items-center gap-2 mt-0.5 flex-wrap">
+            <p className="text-xs text-slate-400 truncate max-w-sm lg:max-w-md">
+              AOI: <span className="text-slate-200 font-semibold">{scenarioName}</span>
+              {bbox && (
+                <span className="text-[10px] font-mono text-cyan-400/80 ml-1.5 hidden sm:inline">
+                  [{bbox[0].toFixed(2)}°, {bbox[1].toFixed(2)}° to {bbox[2].toFixed(2)}°, {bbox[3].toFixed(2)}°]
+                </span>
+              )}
+            </p>
+            <button
+              type="button"
+              onClick={onOpenAOIModal}
+              className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-cyan-500/15 text-cyan-300 border border-cyan-500/35 hover:bg-cyan-500/25 transition inline-flex items-center gap-1 shadow-sm"
+              title="Change Geographical Study Area (Search city, draw polygon, upload GeoJSON)"
+            >
+              <Compass className="w-3 h-3 text-cyan-400" />
+              Configure Study Area
+            </button>
+          </div>
         </div>
       </div>
 

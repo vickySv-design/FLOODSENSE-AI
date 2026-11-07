@@ -121,15 +121,10 @@ def preprocess_multimodal_pair(
     4. NDWI baseline calculation
     5. PyTorch tensor conversion
     """
-    if optical_4ch.shape[1:] != IMAGE_SIZE:
-        optical_4ch = (
-            cv2.resize(optical_4ch.transpose(1, 2, 0), IMAGE_SIZE)
-            .transpose(2, 0, 1)
-            .astype(np.float32)
-        )
-    if sar_2ch.shape[1:] != IMAGE_SIZE:
+    H, W = optical_4ch.shape[1], optical_4ch.shape[2]
+    if sar_2ch.shape[1:] != (H, W):
         sar_2ch = (
-            cv2.resize(sar_2ch.transpose(1, 2, 0), IMAGE_SIZE)
+            cv2.resize(sar_2ch.transpose(1, 2, 0), (W, H))
             .transpose(2, 0, 1)
             .astype(np.float32)
         )

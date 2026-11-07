@@ -21,6 +21,7 @@ export default function ControlSidebar({
   layerVisibility,
   onToggleLayer,
   isLoading,
+  onOpenAOIModal,
 }) {
   const [activeTab, setActiveTab] = useState("presets");
 
@@ -112,6 +113,27 @@ export default function ControlSidebar({
 
   return (
     <aside className="w-full lg:w-80 xl:w-88 shrink-0 bg-slate-900/90 border-r border-slate-800 flex flex-col h-full overflow-y-auto select-none">
+      {/* Universal Study Area (AOI) Selector Card */}
+      <div className="p-3 border-b border-slate-800 bg-slate-950/60">
+        <div className="flex items-center justify-between text-[11px] font-mono mb-2">
+          <span className="text-slate-300 font-bold flex items-center gap-1.5 uppercase tracking-wider">
+            <Compass className="w-3.5 h-3.5 text-cyan-400" />
+            Study Area (AOI)
+          </span>
+          <span className="text-[10px] text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded border border-emerald-500/20 font-mono">
+            Configurable
+          </span>
+        </div>
+        <button
+          type="button"
+          onClick={onOpenAOIModal}
+          className="w-full py-2 px-3 rounded-lg bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/40 text-xs font-mono font-bold transition flex items-center justify-center gap-1.5 shadow-[0_0_8px_rgba(6,182,212,0.2)]"
+        >
+          <Globe className="w-3.5 h-3.5" />
+          Configure Any Study Area
+        </button>
+      </div>
+
       {/* Mode Selector Tabs */}
       <div className="p-3 border-b border-slate-800">
         <div className="text-[11px] font-mono uppercase tracking-wider text-slate-400 mb-2 flex items-center gap-1.5">

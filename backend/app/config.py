@@ -8,10 +8,12 @@ DATA_DIR = BASE_DIR / "data"
 PRESETS_DIR = DATA_DIR / "presets"
 CHECKPOINTS_DIR = DATA_DIR / "checkpoints"
 OSM_CACHE_DIR = DATA_DIR / "osm_cache"
+AOI_CACHE_DIR = DATA_DIR / "aoi_cache"
 
 PRESETS_DIR.mkdir(parents=True, exist_ok=True)
 CHECKPOINTS_DIR.mkdir(parents=True, exist_ok=True)
 OSM_CACHE_DIR.mkdir(parents=True, exist_ok=True)
+AOI_CACHE_DIR.mkdir(parents=True, exist_ok=True)
 
 MODEL_WEIGHTS_PATH = CHECKPOINTS_DIR / "dual_stream_attention_unet.pth"
 
@@ -48,17 +50,19 @@ GEE_ENABLED = os.getenv("GEE_ENABLED", "auto")
 DISASTER_PRESETS_METADATA = {
     "chennai_monsoon_2026": {
         "id": "chennai_monsoon_2026",
-        "name": "Chennai & Adyar River Basin Cyclonic Flood",
+        "name": "Chennai Adyar River Catchment & Coastal Bay of Bengal Estuary",
         "region": "Tamil Nadu, India",
         "event_date": "2025-12-04",
         "pre_date": "2025-11-10",
         "post_date": "2025-12-05",
-        "bbox": [13.010, 80.220, 13.060, 80.270],  # [min_lat, min_lon, max_lat, max_lon]
-        "center": [13.035, 80.245],
-        "zoom": 14,
+        "bbox": [12.980, 80.190, 13.060, 80.290],  # [min_lat, min_lon, max_lat, max_lon] covering full Adyar catchment & coast
+        "center": [13.020, 80.240],
+        "zoom": 13,
         "sensor_pair": "Sentinel-2B MSI + Sentinel-1A C-Band SAR (VV/VH)",
-        "description": "High urban density arterial river bank overflow across Adyar estuary with severe submergence of low-lying residential blocks.",
+        "description": "Comprehensive coastal riverine basin covering upstream Adyar catchment, urban river corridor, estuary, and adjacent Bay of Bengal coastline.",
         "population_density_factor": 42,
+        "terrain_type": "coastal_urban",
+        "has_ocean_coastline": True,
         "historical_metrics": {
             "miou": 0.914,
             "f1_score": 0.948,
@@ -79,6 +83,8 @@ DISASTER_PRESETS_METADATA = {
         "sensor_pair": "Sentinel-2A MSI + Sentinel-1A IW GRD SAR",
         "description": "Massive braided river channel expansion and embankment breach isolating rural settlements and agricultural floodplains.",
         "population_density_factor": 28,
+        "terrain_type": "river_floodplain",
+        "has_ocean_coastline": False,
         "historical_metrics": {
             "miou": 0.928,
             "f1_score": 0.959,
@@ -99,6 +105,8 @@ DISASTER_PRESETS_METADATA = {
         "sensor_pair": "Sentinel-2B Optical + Sentinel-1A Dual-Pol SAR",
         "description": "Steep Western Ghats terrain dendritic channel flash flooding with acute highway severance under heavy monsoon cloud cover.",
         "population_density_factor": 22,
+        "terrain_type": "mountainous_catchment",
+        "has_ocean_coastline": False,
         "historical_metrics": {
             "miou": 0.897,
             "f1_score": 0.936,

@@ -153,6 +153,7 @@ class FloodInferenceEngine:
     ) -> Dict[str, object]:
         """
         Executes PyTorch DualStreamAttentionUNet forward pass + Hybrid Physics-AI Fusion.
+        Supports arbitrary image dimensions via automatic sliding-window tiled inference.
         """
         if not self.weights_loaded and MODEL_WEIGHTS_PATH.exists():
             self.load_checkpoint()
@@ -165,16 +166,23 @@ class FloodInferenceEngine:
         vv_db: np.ndarray = preprocessed["vv_db"]  # type: ignore[assignment]
         vh_db: np.ndarray = preprocessed["vh_db"]  # type: ignore[assignment]
 
+        _, _, H, W = opt_tensor.shape
         t0 = time.perf_counter()
-        with torch.no_grad():
-            logits, net_attention = self.model(opt_tensor, sar_tensor)
-            net_probs = F.softmax(logits, dim=1).squeeze(0).cpu().numpy()
-            net_att_np = net_attention.squeeze().cpu().numpy()
+
+        # If image dimensions exceed standard single-patch size (256x256), execute sliding-window tiled inference
+        if H > 256 or W > 256:
+            net_probs, net_att_np = self._execute_sliding_window_inference(opt_tensor, sar_tensor, H, W)
+        else:
+            with torch.no_grad():
+                logits, net_attention = self.model(opt_tensor, sar_tensor)
+                net_probs = F.softmax(logits, dim=1).squeeze(0).cpu().numpy()
+                net_att_np = net_attention.squeeze().cpu().numpy()
+
         if self.device.type == "cuda":
             torch.cuda.synchronize()
         latency_ms = round((time.perf_counter() - t0) * 1000.0, 2)
 
-        # Compute physical remote-sensing priors
+        # Compute physical remote-sensing priors across the full-resolution spatial domain
         prior_probs, prior_ref_mask = self._compute_physical_priors(
             optical_clean, sar_filtered, ndwi, vv_db, vh_db
         )
@@ -214,7 +222,60 @@ class FloodInferenceEngine:
             "device": self.device_name,
             "metrics": metrics,
             "architecture": "Dual-Stream Siamese Attention U-Net + CMAF + Physics Prior",
+            "spatial_dimensions": [int(H), int(W)],
         }
+
+    def _execute_sliding_window_inference(
+        self,
+        opt_tensor: torch.Tensor,
+        sar_tensor: torch.Tensor,
+        H: int,
+        W: int,
+        patch_size: int = 256,
+        stride: int = 192,
+    ) -> Tuple[np.ndarray, np.ndarray]:
+        """
+        Executes sliding-window tiled inference across arbitrary AOI dimensions
+        using a 2D Hann cosine window to prevent tile-boundary artifacts.
+        """
+        # Generate 2D Cosine Blending Window
+        wy = np.sin(np.pi * (np.arange(patch_size) + 0.5) / patch_size).astype(np.float32)
+        wx = np.sin(np.pi * (np.arange(patch_size) + 0.5) / patch_size).astype(np.float32)
+        window_2d = np.outer(wy, wx)
+
+        # Coordinate grids
+        y_steps = list(range(0, H - patch_size + 1, stride))
+        if len(y_steps) == 0 or y_steps[-1] != H - patch_size:
+            y_steps.append(H - patch_size)
+
+        x_steps = list(range(0, W - patch_size + 1, stride))
+        if len(x_steps) == 0 or x_steps[-1] != W - patch_size:
+            x_steps.append(W - patch_size)
+
+        net_probs_accum = np.zeros((NUM_CLASSES, H, W), dtype=np.float32)
+        net_att_accum = np.zeros((H, W), dtype=np.float32)
+        weight_accum = np.zeros((H, W), dtype=np.float32)
+
+        for y in y_steps:
+            for x in x_steps:
+                opt_patch = opt_tensor[:, :, y:y+patch_size, x:x+patch_size]
+                sar_patch = sar_tensor[:, :, y:y+patch_size, x:x+patch_size]
+
+                with torch.no_grad():
+                    patch_logits, patch_att = self.model(opt_patch, sar_patch)
+                    p_probs = F.softmax(patch_logits, dim=1).squeeze(0).cpu().numpy()
+                    p_att = patch_att.squeeze().cpu().numpy()
+
+                net_probs_accum[:, y:y+patch_size, x:x+patch_size] += p_probs * window_2d
+                net_att_accum[y:y+patch_size, x:x+patch_size] += p_att * window_2d
+                weight_accum[y:y+patch_size, x:x+patch_size] += window_2d
+
+        # Normalize overlapping tiles
+        norm_weights = np.maximum(weight_accum, 1e-5)
+        stitched_probs = net_probs_accum / norm_weights[np.newaxis, ...]
+        stitched_att = net_att_accum / norm_weights
+
+        return stitched_probs, stitched_att
 
 
 # Global singleton engine instance

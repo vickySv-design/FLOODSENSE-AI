@@ -30,7 +30,8 @@ from app.services.rescue_router import compute_osm_rescue_routes
 from app.services.sitrep_generator import generate_disaster_sitrep, export_sitrep_markdown, export_sitrep_geojson
 from app.services.data_providers import CopernicusDataSpaceProvider, GoogleEarthEngineProvider, LocalRasterProvider
 from app.services.simulation_engine import simulation_job_manager, PRESET_SCENARIOS, Physical2DFloodSimulator, get_or_generate_dem
-from scripts.init_demo_data import ensure_demo_data_initialized
+from app.services.aoi_service import aoi_service
+from scripts.init_demo_data import ensure_demo_data_initialized, generate_synthetic_multimodal_tile
 
 
 class GEEFetchRequest(BaseModel):
@@ -53,6 +54,8 @@ class TimelineSimulateRequest(BaseModel):
 class DynamicSimulationRequest(BaseModel):
     preset_id: str = Field(default="chennai_monsoon_2026")
     scenario_id: str = Field(default="severe_cyclonic")
+    bbox: Optional[List[float]] = None
+    terrain_type: str = Field(default="auto")
 
 
 class DynamicRouteRequest(BaseModel):
@@ -61,6 +64,14 @@ class DynamicRouteRequest(BaseModel):
     start_coords: Optional[List[float]] = None
     end_coords: Optional[List[float]] = None
     vehicle_type: str = Field(default="amphibious")
+    bbox: Optional[List[float]] = None
+
+
+class AOIValidateRequest(BaseModel):
+    name: str = Field(default="Custom Study Area")
+    bbox: Optional[List[float]] = None
+    geojson_geometry: Optional[Dict[str, Any]] = None
+    terrain_type: str = Field(default="auto")
 
 
 class DataSearchRequest(BaseModel):
@@ -314,26 +325,75 @@ async def analyze_disaster_scene(
             scenario_meta=scenario_meta,
         )
 
-    # Mode 2: Pre-Loaded Disaster Case Study Preset
-    chosen_id = preset_id or "chennai_monsoon_2026"
-    if chosen_id not in DISASTER_PRESETS_METADATA:
-        raise HTTPException(status_code=404, detail=f"Unknown preset_id: {chosen_id}")
+    # Mode 2: Optional Pre-Loaded Demonstration Preset (if no custom bbox_json provided)
+    if preset_id and preset_id in DISASTER_PRESETS_METADATA and not bbox_json:
+        meta = DISASTER_PRESETS_METADATA[preset_id]
+        preset_folder = PRESETS_DIR / preset_id
 
-    meta = DISASTER_PRESETS_METADATA[chosen_id]
-    preset_folder = PRESETS_DIR / chosen_id
+        opt_4ch = np.load(preset_folder / "optical_pre.npy")
+        sar_2ch = np.load(preset_folder / "sar_post.npy")
+        gt_mask = np.load(preset_folder / "ground_truth.npy")
+        with open(preset_folder / "buildings.json", "r", encoding="utf-8") as f:
+            buildings = json.load(f)
 
-    opt_4ch = np.load(preset_folder / "optical_pre.npy")
-    sar_2ch = np.load(preset_folder / "sar_post.npy")
-    gt_mask = np.load(preset_folder / "ground_truth.npy")
-    with open(preset_folder / "buildings.json", "r", encoding="utf-8") as f:
-        buildings = json.load(f)
+        return _execute_full_geospatial_pipeline(
+            optical_4ch=opt_4ch,
+            sar_2ch=sar_2ch,
+            scenario_meta=meta,
+            gt_mask=gt_mask,
+            preset_buildings=buildings,
+        )
+
+    # Mode 3: Universal Dynamic Study Area Analysis (Any geographical location)
+    bbox = None
+    if bbox_json:
+        try:
+            parsed = json.loads(bbox_json)
+            if isinstance(parsed, list) and len(parsed) == 4:
+                bbox = [float(x) for x in parsed]
+        except Exception:
+            pass
+
+    if not bbox:
+        if preset_id in DISASTER_PRESETS_METADATA:
+            bbox = DISASTER_PRESETS_METADATA[preset_id]["bbox"]
+        else:
+            bbox = [12.980, 80.190, 13.060, 80.290]
+
+    aoi_name = custom_name or (preset_id.replace("_", " ").title() if preset_id else "Configured Study Area")
+    aoi_info = aoi_service.validate_and_normalize_aoi(name=aoi_name, bbox=bbox)
+
+    # Automatically fetch / synthesize Sentinel multi-modal imagery matching this exact AOI
+    seed = int(abs(bbox[0] * 1000 + bbox[1] * 1000)) % 99991 + 101
+    opt_4ch, sar_2ch, gt_mask = generate_synthetic_multimodal_tile(
+        preset_id=aoi_info["terrain_type"],
+        seed=seed,
+        bbox=aoi_info["bbox"],
+        attempt_live_tile=True,
+    )
+
+    scenario_meta = {
+        "id": aoi_info["id"],
+        "name": aoi_info["name"],
+        "region": f"Universal Study Area ({aoi_info['utm_crs']})",
+        "event_date": "Active Disaster Telemetry",
+        "pre_date": "2025-11-10",
+        "post_date": "2025-12-05",
+        "bbox": aoi_info["bbox"],
+        "center": aoi_info["center"],
+        "zoom": 13,
+        "sensor_pair": "Sentinel-2 MSI + Sentinel-1 C-SAR (Universal Ingest)",
+        "description": f"Configurable study area ({aoi_info['area_km2']:.1f} km²) in {aoi_info['terrain_type'].replace('_', ' ')} terrain.",
+        "population_density_factor": 35,
+        "terrain_type": aoi_info["terrain_type"],
+        "utm_crs": aoi_info["utm_crs"],
+    }
 
     return _execute_full_geospatial_pipeline(
         optical_4ch=opt_4ch,
         sar_2ch=sar_2ch,
-        scenario_meta=meta,
+        scenario_meta=scenario_meta,
         gt_mask=gt_mask,
-        preset_buildings=buildings,
     )
 
 
@@ -451,6 +511,32 @@ async def get_model_benchmarks() -> Dict[str, Any]:
     return get_academic_benchmark_suite()
 
 
+@app.get("/api/aoi/search")
+async def search_aoi_locations(q: str) -> Dict[str, Any]:
+    """Universal Location Search via OpenStreetMap Nominatim geocoding."""
+    results = aoi_service.search_location(q)
+    return {
+        "query": q,
+        "results_count": len(results),
+        "locations": results,
+    }
+
+
+@app.post("/api/aoi/validate")
+async def validate_aoi(req: AOIValidateRequest) -> Dict[str, Any]:
+    """Validates user-selected bounding box or polygon geometry and returns area & CRS."""
+    try:
+        norm = aoi_service.validate_and_normalize_aoi(
+            name=req.name,
+            bbox=req.bbox,
+            geojson_geometry=req.geojson_geometry,
+            terrain_type=req.terrain_type,
+        )
+        return {"status": "VALID", "aoi": norm}
+    except ValueError as ve:
+        raise HTTPException(status_code=400, detail=str(ve))
+
+
 @app.get("/api/data-providers/status")
 async def get_data_providers_status() -> Dict[str, Any]:
     """Returns availability, authentication status, and setup instructions for satellite providers."""
@@ -512,24 +598,36 @@ async def start_dynamic_simulation(req: DynamicSimulationRequest) -> Dict[str, A
     """
     Initiates 2D shallow-water / diffusive wave mass-conservative flood simulation
     as an asynchronous background job with numerical mass-balance tracking.
+    Supports both preset locations and any custom user-configured AOI.
     """
-    if req.preset_id not in DISASTER_PRESETS_METADATA:
-        raise HTTPException(status_code=404, detail=f"Preset {req.preset_id} not found.")
-
-    meta = DISASTER_PRESETS_METADATA[req.preset_id]
-    preset_dir = PRESETS_DIR / req.preset_id
-    gt_path = preset_dir / "ground_truth.npy"
+    if req.preset_id in DISASTER_PRESETS_METADATA:
+        meta = DISASTER_PRESETS_METADATA[req.preset_id]
+        bbox = req.bbox or meta["bbox"]
+        terrain = req.terrain_type if req.terrain_type != "auto" else meta.get("terrain_type", "auto")
+        preset_dir = PRESETS_DIR / req.preset_id
+        gt_path = preset_dir / "ground_truth.npy"
+    else:
+        bbox = req.bbox or [12.980, 80.190, 13.060, 80.290]
+        terrain = req.terrain_type or "auto"
+        gt_path = os.path.join(os.path.dirname(str(PRESETS_DIR)), "aoi_cache", f"{req.preset_id}_mask.npy")
 
     if os.path.exists(gt_path):
         initial_mask = np.load(gt_path)
     else:
-        initial_mask = np.zeros((256, 256), dtype=np.uint8)
+        # Synthesize baseline channel mask for custom AOI if not yet cached
+        _, _, initial_mask = generate_synthetic_multimodal_tile(
+            preset_id=terrain,
+            seed=int(abs(bbox[0]*1000 + bbox[1]*1000)) % 99991 + 101,
+            bbox=bbox,
+            attempt_live_tile=False,
+        )
 
     job_id = simulation_job_manager.create_job(
         preset_id=req.preset_id,
-        bbox=meta["bbox"],
+        bbox=bbox,
         initial_mask=initial_mask,
         scenario_id=req.scenario_id,
+        terrain_type=terrain,
     )
 
     return {
@@ -537,6 +635,8 @@ async def start_dynamic_simulation(req: DynamicSimulationRequest) -> Dict[str, A
         "status": "RUNNING",
         "preset_id": req.preset_id,
         "scenario_id": req.scenario_id,
+        "terrain_type": terrain,
+        "bbox": bbox,
         "message": "Physical 2D shallow-water simulation initiated in background.",
     }
 
@@ -563,19 +663,26 @@ async def get_dynamic_simulation_status(job_id: str) -> Dict[str, Any]:
 async def recalculate_dynamic_route(req: DynamicRouteRequest) -> Dict[str, Any]:
     """
     Dynamically recalculates safe A* rescue routes responding to advancing or receding flood waters
-    at a specific simulation time-step hour.
+    at a specific simulation time-step hour for ANY study area.
     """
-    if req.preset_id not in DISASTER_PRESETS_METADATA:
-        raise HTTPException(status_code=404, detail=f"Preset {req.preset_id} not found.")
-
-    meta = DISASTER_PRESETS_METADATA[req.preset_id]
-    preset_dir = PRESETS_DIR / req.preset_id
-    gt_path = preset_dir / "ground_truth.npy"
+    if req.preset_id in DISASTER_PRESETS_METADATA:
+        meta = DISASTER_PRESETS_METADATA[req.preset_id]
+        bbox = req.bbox or meta["bbox"]
+        preset_dir = PRESETS_DIR / req.preset_id
+        gt_path = preset_dir / "ground_truth.npy"
+    else:
+        bbox = req.bbox or [12.980, 80.190, 13.060, 80.290]
+        gt_path = os.path.join(os.path.dirname(str(PRESETS_DIR)), "aoi_cache", f"{req.preset_id}_mask.npy")
 
     if os.path.exists(gt_path):
         seg_mask = np.load(gt_path)
     else:
-        seg_mask = np.zeros((256, 256), dtype=np.uint8)
+        _, _, seg_mask = generate_synthetic_multimodal_tile(
+            preset_id="coastal_urban",
+            seed=int(abs(bbox[0]*1000 + bbox[1]*1000)) % 99991 + 101,
+            bbox=bbox,
+            attempt_live_tile=False,
+        )
 
     # Dynamic route calculation
     custom_start = (req.start_coords[1], req.start_coords[0]) if req.start_coords else None
@@ -583,7 +690,7 @@ async def recalculate_dynamic_route(req: DynamicRouteRequest) -> Dict[str, Any]:
 
     rescue_report = compute_osm_rescue_routes(
         seg_mask=seg_mask,
-        bbox=meta["bbox"],
+        bbox=bbox,
         preset_id=req.preset_id,
         custom_emergency_base=custom_start,
         custom_destinations=custom_dest,

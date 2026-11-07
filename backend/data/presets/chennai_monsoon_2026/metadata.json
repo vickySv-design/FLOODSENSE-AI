@@ -1,24 +1,26 @@
 {
   "id": "chennai_monsoon_2026",
-  "name": "Chennai & Adyar River Basin Cyclonic Flood",
+  "name": "Chennai Adyar River Catchment & Coastal Bay of Bengal Estuary",
   "region": "Tamil Nadu, India",
   "event_date": "2025-12-04",
   "pre_date": "2025-11-10",
   "post_date": "2025-12-05",
   "bbox": [
-    13.01,
-    80.22,
+    12.98,
+    80.19,
     13.06,
-    80.27
+    80.29
   ],
   "center": [
-    13.035,
-    80.245
+    13.02,
+    80.24
   ],
-  "zoom": 14,
+  "zoom": 13,
   "sensor_pair": "Sentinel-2B MSI + Sentinel-1A C-Band SAR (VV/VH)",
-  "description": "High urban density arterial river bank overflow across Adyar estuary with severe submergence of low-lying residential blocks.",
+  "description": "Comprehensive coastal riverine basin covering upstream Adyar catchment, urban river corridor, estuary, and adjacent Bay of Bengal coastline.",
   "population_density_factor": 42,
+  "terrain_type": "coastal_urban",
+  "has_ocean_coastline": true,
   "historical_metrics": {
     "miou": 0.914,
     "f1_score": 0.948,
