@@ -1,0 +1,39 @@
+{
+  "architecture": "DualStreamAttentionUNet (Siamese 4-Stage + CMAF + Attention Gates)",
+  "dataset": "mini_sen1floods11 (24 Multi-Band Tiles)",
+  "device": "cpu",
+  "epochs_completed": 5,
+  "calibration_duration_sec": 5.58,
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 0.3457,
+      "val_miou": 0.473,
+      "val_f1": 0.5429
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.2272,
+      "val_miou": 0.4906,
+      "val_f1": 0.5561
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.1368,
+      "val_miou": 0.5082,
+      "val_f1": 0.5693
+    },
+    {
+      "epoch": 4,
+      "train_loss": 0.0854,
+      "val_miou": 0.603,
+      "val_f1": 0.68
+    },
+    {
+      "epoch": 5,
+      "train_loss": 0.0628,
+      "val_miou": 0.6032,
+      "val_f1": 0.6815
+    }
+  ]
+}

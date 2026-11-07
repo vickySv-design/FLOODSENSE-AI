@@ -1,0 +1,922 @@
+[
+  {
+    "id": "BLD-101",
+    "name": "Bharalumukh Riverbank Compound #1 (A)",
+    "sector_name": "Bharalumukh Sluice Gate Sector",
+    "category": "Residential Apartment Block",
+    "lat": 26.159859,
+    "lon": 91.720652,
+    "elevation_m": 5.1,
+    "estimated_occupants": 68
+  },
+  {
+    "id": "BLD-102",
+    "name": "Brahmaputra South Bank Silo #1 (B)",
+    "sector_name": "Fancy Bazar Riparian Hub",
+    "category": "Primary Health & Trauma Center",
+    "lat": 26.168562,
+    "lon": 91.717243,
+    "elevation_m": 6.0,
+    "estimated_occupants": 43
+  },
+  {
+    "id": "BLD-103",
+    "name": "Pandu Ferry Terminal Block #1 (C)",
+    "sector_name": "Pandu Port Corridor",
+    "category": "Power Grid Substation (110kV)",
+    "lat": 26.161302,
+    "lon": 91.707352,
+    "elevation_m": 7.3,
+    "estimated_occupants": 25
+  },
+  {
+    "id": "BLD-104",
+    "name": "Uzan Bazar Municipal School #1 (D)",
+    "sector_name": "Uzan Bazar Embankment",
+    "category": "Municipal School Relief Shelter",
+    "lat": 26.174102,
+    "lon": 91.741088,
+    "elevation_m": 6.2,
+    "estimated_occupants": 27
+  },
+  {
+    "id": "BLD-105",
+    "name": "Noonmati Logistics Depot #1 (E)",
+    "sector_name": "Noonmati Floodplain Cluster",
+    "category": "Riparian Commercial Complex",
+    "lat": 26.171356,
+    "lon": 91.745504,
+    "elevation_m": 9.1,
+    "estimated_occupants": 92
+  },
+  {
+    "id": "BLD-106",
+    "name": "Saraighat Bridge Substation #1 (F)",
+    "sector_name": "Amingaon North Approach",
+    "category": "Civil Supplies Warehouse",
+    "lat": 26.173741,
+    "lon": 91.722029,
+    "elevation_m": 6.0,
+    "estimated_occupants": 48
+  },
+  {
+    "id": "BLD-107",
+    "name": "Beltola Primary Health Center #1 (A)",
+    "sector_name": "Beltola Southern Basin",
+    "category": "Water Pumping & Sluice Station",
+    "lat": 26.152683,
+    "lon": 91.742165,
+    "elevation_m": 10.8,
+    "estimated_occupants": 43
+  },
+  {
+    "id": "BLD-108",
+    "name": "Bharalumukh Riverbank Compound #2 (B)",
+    "sector_name": "Bharalumukh Sluice Gate Sector",
+    "category": "Telecom Switching Exchange",
+    "lat": 26.15743,
+    "lon": 91.72293,
+    "elevation_m": 8.8,
+    "estimated_occupants": 38
+  },
+  {
+    "id": "BLD-109",
+    "name": "Brahmaputra South Bank Silo #2 (C)",
+    "sector_name": "Fancy Bazar Riparian Hub",
+    "category": "Residential Apartment Block",
+    "lat": 26.175455,
+    "lon": 91.713755,
+    "elevation_m": 7.8,
+    "estimated_occupants": 31
+  },
+  {
+    "id": "BLD-110",
+    "name": "Pandu Ferry Terminal Block #2 (D)",
+    "sector_name": "Pandu Port Corridor",
+    "category": "Primary Health & Trauma Center",
+    "lat": 26.160824,
+    "lon": 91.707142,
+    "elevation_m": 4.9,
+    "estimated_occupants": 71
+  },
+  {
+    "id": "BLD-111",
+    "name": "Uzan Bazar Municipal School #2 (E)",
+    "sector_name": "Uzan Bazar Embankment",
+    "category": "Power Grid Substation (110kV)",
+    "lat": 26.172648,
+    "lon": 91.732873,
+    "elevation_m": 7.8,
+    "estimated_occupants": 48
+  },
+  {
+    "id": "BLD-112",
+    "name": "Noonmati Logistics Depot #2 (F)",
+    "sector_name": "Noonmati Floodplain Cluster",
+    "category": "Municipal School Relief Shelter",
+    "lat": 26.166713,
+    "lon": 91.747564,
+    "elevation_m": 7.8,
+    "estimated_occupants": 22
+  },
+  {
+    "id": "BLD-113",
+    "name": "Saraighat Bridge Substation #2 (A)",
+    "sector_name": "Amingaon North Approach",
+    "category": "Riparian Commercial Complex",
+    "lat": 26.179423,
+    "lon": 91.722007,
+    "elevation_m": 10.1,
+    "estimated_occupants": 48
+  },
+  {
+    "id": "BLD-114",
+    "name": "Beltola Primary Health Center #2 (B)",
+    "sector_name": "Beltola Southern Basin",
+    "category": "Civil Supplies Warehouse",
+    "lat": 26.156154,
+    "lon": 91.74126,
+    "elevation_m": 7.3,
+    "estimated_occupants": 29
+  },
+  {
+    "id": "BLD-115",
+    "name": "Bharalumukh Riverbank Compound #3 (C)",
+    "sector_name": "Bharalumukh Sluice Gate Sector",
+    "category": "Water Pumping & Sluice Station",
+    "lat": 26.163358,
+    "lon": 91.722173,
+    "elevation_m": 7.5,
+    "estimated_occupants": 32
+  },
+  {
+    "id": "BLD-116",
+    "name": "Brahmaputra South Bank Silo #3 (D)",
+    "sector_name": "Fancy Bazar Riparian Hub",
+    "category": "Telecom Switching Exchange",
+    "lat": 26.166789,
+    "lon": 91.712761,
+    "elevation_m": 8.1,
+    "estimated_occupants": 26
+  },
+  {
+    "id": "BLD-117",
+    "name": "Pandu Ferry Terminal Block #3 (E)",
+    "sector_name": "Pandu Port Corridor",
+    "category": "Residential Apartment Block",
+    "lat": 26.162704,
+    "lon": 91.715379,
+    "elevation_m": 6.2,
+    "estimated_occupants": 31
+  },
+  {
+    "id": "BLD-118",
+    "name": "Uzan Bazar Municipal School #3 (F)",
+    "sector_name": "Uzan Bazar Embankment",
+    "category": "Primary Health & Trauma Center",
+    "lat": 26.167201,
+    "lon": 91.73406,
+    "elevation_m": 5.5,
+    "estimated_occupants": 88
+  },
+  {
+    "id": "BLD-119",
+    "name": "Noonmati Logistics Depot #3 (A)",
+    "sector_name": "Noonmati Floodplain Cluster",
+    "category": "Power Grid Substation (110kV)",
+    "lat": 26.165863,
+    "lon": 91.743346,
+    "elevation_m": 6.0,
+    "estimated_occupants": 34
+  },
+  {
+    "id": "BLD-120",
+    "name": "Saraighat Bridge Substation #3 (B)",
+    "sector_name": "Amingaon North Approach",
+    "category": "Municipal School Relief Shelter",
+    "lat": 26.178814,
+    "lon": 91.728794,
+    "elevation_m": 8.8,
+    "estimated_occupants": 94
+  },
+  {
+    "id": "BLD-121",
+    "name": "Beltola Primary Health Center #3 (C)",
+    "sector_name": "Beltola Southern Basin",
+    "category": "Riparian Commercial Complex",
+    "lat": 26.153975,
+    "lon": 91.736081,
+    "elevation_m": 7.1,
+    "estimated_occupants": 64
+  },
+  {
+    "id": "BLD-122",
+    "name": "Bharalumukh Riverbank Compound #4 (D)",
+    "sector_name": "Bharalumukh Sluice Gate Sector",
+    "category": "Civil Supplies Warehouse",
+    "lat": 26.166422,
+    "lon": 91.715435,
+    "elevation_m": 7.2,
+    "estimated_occupants": 73
+  },
+  {
+    "id": "BLD-123",
+    "name": "Brahmaputra South Bank Silo #4 (E)",
+    "sector_name": "Fancy Bazar Riparian Hub",
+    "category": "Water Pumping & Sluice Station",
+    "lat": 26.17251,
+    "lon": 91.713291,
+    "elevation_m": 7.9,
+    "estimated_occupants": 56
+  },
+  {
+    "id": "BLD-124",
+    "name": "Pandu Ferry Terminal Block #4 (F)",
+    "sector_name": "Pandu Port Corridor",
+    "category": "Telecom Switching Exchange",
+    "lat": 26.157011,
+    "lon": 91.710591,
+    "elevation_m": 5.8,
+    "estimated_occupants": 79
+  },
+  {
+    "id": "BLD-125",
+    "name": "Uzan Bazar Municipal School #4 (A)",
+    "sector_name": "Uzan Bazar Embankment",
+    "category": "Residential Apartment Block",
+    "lat": 26.17921,
+    "lon": 91.732343,
+    "elevation_m": 9.7,
+    "estimated_occupants": 92
+  },
+  {
+    "id": "BLD-126",
+    "name": "Noonmati Logistics Depot #4 (B)",
+    "sector_name": "Noonmati Floodplain Cluster",
+    "category": "Primary Health & Trauma Center",
+    "lat": 26.164532,
+    "lon": 91.743821,
+    "elevation_m": 6.5,
+    "estimated_occupants": 21
+  },
+  {
+    "id": "BLD-127",
+    "name": "Saraighat Bridge Substation #4 (C)",
+    "sector_name": "Amingaon North Approach",
+    "category": "Power Grid Substation (110kV)",
+    "lat": 26.175616,
+    "lon": 91.718001,
+    "elevation_m": 6.3,
+    "estimated_occupants": 36
+  },
+  {
+    "id": "BLD-128",
+    "name": "Beltola Primary Health Center #4 (D)",
+    "sector_name": "Beltola Southern Basin",
+    "category": "Municipal School Relief Shelter",
+    "lat": 26.153308,
+    "lon": 91.73085,
+    "elevation_m": 9.6,
+    "estimated_occupants": 19
+  },
+  {
+    "id": "BLD-129",
+    "name": "Bharalumukh Riverbank Compound #5 (E)",
+    "sector_name": "Bharalumukh Sluice Gate Sector",
+    "category": "Riparian Commercial Complex",
+    "lat": 26.157987,
+    "lon": 91.726637,
+    "elevation_m": 5.5,
+    "estimated_occupants": 95
+  },
+  {
+    "id": "BLD-130",
+    "name": "Brahmaputra South Bank Silo #5 (F)",
+    "sector_name": "Fancy Bazar Riparian Hub",
+    "category": "Civil Supplies Warehouse",
+    "lat": 26.169383,
+    "lon": 91.714379,
+    "elevation_m": 6.3,
+    "estimated_occupants": 36
+  },
+  {
+    "id": "BLD-131",
+    "name": "Pandu Ferry Terminal Block #5 (A)",
+    "sector_name": "Pandu Port Corridor",
+    "category": "Water Pumping & Sluice Station",
+    "lat": 26.161168,
+    "lon": 91.71494,
+    "elevation_m": 5.7,
+    "estimated_occupants": 54
+  },
+  {
+    "id": "BLD-132",
+    "name": "Uzan Bazar Municipal School #5 (B)",
+    "sector_name": "Uzan Bazar Embankment",
+    "category": "Telecom Switching Exchange",
+    "lat": 26.176945,
+    "lon": 91.729121,
+    "elevation_m": 11.1,
+    "estimated_occupants": 33
+  },
+  {
+    "id": "BLD-133",
+    "name": "Noonmati Logistics Depot #5 (C)",
+    "sector_name": "Noonmati Floodplain Cluster",
+    "category": "Residential Apartment Block",
+    "lat": 26.163477,
+    "lon": 91.747621,
+    "elevation_m": 5.7,
+    "estimated_occupants": 77
+  },
+  {
+    "id": "BLD-134",
+    "name": "Saraighat Bridge Substation #5 (D)",
+    "sector_name": "Amingaon North Approach",
+    "category": "Primary Health & Trauma Center",
+    "lat": 26.178263,
+    "lon": 91.713724,
+    "elevation_m": 9.1,
+    "estimated_occupants": 86
+  },
+  {
+    "id": "BLD-135",
+    "name": "Beltola Primary Health Center #5 (E)",
+    "sector_name": "Beltola Southern Basin",
+    "category": "Power Grid Substation (110kV)",
+    "lat": 26.1548,
+    "lon": 91.741403,
+    "elevation_m": 6.5,
+    "estimated_occupants": 87
+  },
+  {
+    "id": "BLD-136",
+    "name": "Bharalumukh Riverbank Compound #6 (F)",
+    "sector_name": "Bharalumukh Sluice Gate Sector",
+    "category": "Municipal School Relief Shelter",
+    "lat": 26.154969,
+    "lon": 91.727381,
+    "elevation_m": 7.1,
+    "estimated_occupants": 73
+  },
+  {
+    "id": "BLD-137",
+    "name": "Brahmaputra South Bank Silo #6 (A)",
+    "sector_name": "Fancy Bazar Riparian Hub",
+    "category": "Riparian Commercial Complex",
+    "lat": 26.169427,
+    "lon": 91.72174,
+    "elevation_m": 8.2,
+    "estimated_occupants": 54
+  },
+  {
+    "id": "BLD-138",
+    "name": "Pandu Ferry Terminal Block #6 (B)",
+    "sector_name": "Pandu Port Corridor",
+    "category": "Civil Supplies Warehouse",
+    "lat": 26.16264,
+    "lon": 91.717734,
+    "elevation_m": 8.5,
+    "estimated_occupants": 37
+  },
+  {
+    "id": "BLD-139",
+    "name": "Uzan Bazar Municipal School #6 (C)",
+    "sector_name": "Uzan Bazar Embankment",
+    "category": "Water Pumping & Sluice Station",
+    "lat": 26.170133,
+    "lon": 91.725163,
+    "elevation_m": 6.1,
+    "estimated_occupants": 46
+  },
+  {
+    "id": "BLD-140",
+    "name": "Noonmati Logistics Depot #6 (D)",
+    "sector_name": "Noonmati Floodplain Cluster",
+    "category": "Telecom Switching Exchange",
+    "lat": 26.168192,
+    "lon": 91.74091,
+    "elevation_m": 6.9,
+    "estimated_occupants": 85
+  },
+  {
+    "id": "BLD-141",
+    "name": "Saraighat Bridge Substation #6 (E)",
+    "sector_name": "Amingaon North Approach",
+    "category": "Residential Apartment Block",
+    "lat": 26.176223,
+    "lon": 91.72321,
+    "elevation_m": 6.9,
+    "estimated_occupants": 65
+  },
+  {
+    "id": "BLD-142",
+    "name": "Beltola Primary Health Center #6 (F)",
+    "sector_name": "Beltola Southern Basin",
+    "category": "Primary Health & Trauma Center",
+    "lat": 26.148488,
+    "lon": 91.739827,
+    "elevation_m": 8.5,
+    "estimated_occupants": 21
+  },
+  {
+    "id": "BLD-143",
+    "name": "Bharalumukh Riverbank Compound #7 (A)",
+    "sector_name": "Bharalumukh Sluice Gate Sector",
+    "category": "Power Grid Substation (110kV)",
+    "lat": 26.163732,
+    "lon": 91.72487,
+    "elevation_m": 6.7,
+    "estimated_occupants": 20
+  },
+  {
+    "id": "BLD-144",
+    "name": "Brahmaputra South Bank Silo #7 (B)",
+    "sector_name": "Fancy Bazar Riparian Hub",
+    "category": "Municipal School Relief Shelter",
+    "lat": 26.168644,
+    "lon": 91.713762,
+    "elevation_m": 5.9,
+    "estimated_occupants": 76
+  },
+  {
+    "id": "BLD-145",
+    "name": "Pandu Ferry Terminal Block #7 (C)",
+    "sector_name": "Pandu Port Corridor",
+    "category": "Riparian Commercial Complex",
+    "lat": 26.162452,
+    "lon": 91.704962,
+    "elevation_m": 8.1,
+    "estimated_occupants": 51
+  },
+  {
+    "id": "BLD-146",
+    "name": "Uzan Bazar Municipal School #7 (D)",
+    "sector_name": "Uzan Bazar Embankment",
+    "category": "Civil Supplies Warehouse",
+    "lat": 26.176558,
+    "lon": 91.728609,
+    "elevation_m": 9.1,
+    "estimated_occupants": 64
+  },
+  {
+    "id": "BLD-147",
+    "name": "Noonmati Logistics Depot #7 (E)",
+    "sector_name": "Noonmati Floodplain Cluster",
+    "category": "Water Pumping & Sluice Station",
+    "lat": 26.168028,
+    "lon": 91.738379,
+    "elevation_m": 4.4,
+    "estimated_occupants": 51
+  },
+  {
+    "id": "BLD-148",
+    "name": "Saraighat Bridge Substation #7 (F)",
+    "sector_name": "Amingaon North Approach",
+    "category": "Telecom Switching Exchange",
+    "lat": 26.174264,
+    "lon": 91.7217,
+    "elevation_m": 8.4,
+    "estimated_occupants": 92
+  },
+  {
+    "id": "BLD-149",
+    "name": "Beltola Primary Health Center #7 (A)",
+    "sector_name": "Beltola Southern Basin",
+    "category": "Residential Apartment Block",
+    "lat": 26.153673,
+    "lon": 91.743742,
+    "elevation_m": 10.4,
+    "estimated_occupants": 32
+  },
+  {
+    "id": "BLD-150",
+    "name": "Bharalumukh Riverbank Compound #8 (B)",
+    "sector_name": "Bharalumukh Sluice Gate Sector",
+    "category": "Primary Health & Trauma Center",
+    "lat": 26.165479,
+    "lon": 91.726164,
+    "elevation_m": 7.8,
+    "estimated_occupants": 56
+  },
+  {
+    "id": "BLD-151",
+    "name": "Brahmaputra South Bank Silo #8 (C)",
+    "sector_name": "Fancy Bazar Riparian Hub",
+    "category": "Power Grid Substation (110kV)",
+    "lat": 26.166036,
+    "lon": 91.719267,
+    "elevation_m": 7.0,
+    "estimated_occupants": 27
+  },
+  {
+    "id": "BLD-152",
+    "name": "Pandu Ferry Terminal Block #8 (D)",
+    "sector_name": "Pandu Port Corridor",
+    "category": "Municipal School Relief Shelter",
+    "lat": 26.163099,
+    "lon": 91.7089,
+    "elevation_m": 4.2,
+    "estimated_occupants": 61
+  },
+  {
+    "id": "BLD-153",
+    "name": "Uzan Bazar Municipal School #8 (E)",
+    "sector_name": "Uzan Bazar Embankment",
+    "category": "Riparian Commercial Complex",
+    "lat": 26.170408,
+    "lon": 91.733463,
+    "elevation_m": 6.0,
+    "estimated_occupants": 75
+  },
+  {
+    "id": "BLD-154",
+    "name": "Noonmati Logistics Depot #8 (F)",
+    "sector_name": "Noonmati Floodplain Cluster",
+    "category": "Civil Supplies Warehouse",
+    "lat": 26.165721,
+    "lon": 91.743632,
+    "elevation_m": 6.8,
+    "estimated_occupants": 30
+  },
+  {
+    "id": "BLD-155",
+    "name": "Saraighat Bridge Substation #8 (A)",
+    "sector_name": "Amingaon North Approach",
+    "category": "Water Pumping & Sluice Station",
+    "lat": 26.182283,
+    "lon": 91.725416,
+    "elevation_m": 8.8,
+    "estimated_occupants": 26
+  },
+  {
+    "id": "BLD-156",
+    "name": "Beltola Primary Health Center #8 (B)",
+    "sector_name": "Beltola Southern Basin",
+    "category": "Telecom Switching Exchange",
+    "lat": 26.153583,
+    "lon": 91.730173,
+    "elevation_m": 7.1,
+    "estimated_occupants": 87
+  },
+  {
+    "id": "BLD-157",
+    "name": "Bharalumukh Riverbank Compound #9 (C)",
+    "sector_name": "Bharalumukh Sluice Gate Sector",
+    "category": "Residential Apartment Block",
+    "lat": 26.166037,
+    "lon": 91.720774,
+    "elevation_m": 3.8,
+    "estimated_occupants": 47
+  },
+  {
+    "id": "BLD-158",
+    "name": "Brahmaputra South Bank Silo #9 (D)",
+    "sector_name": "Fancy Bazar Riparian Hub",
+    "category": "Primary Health & Trauma Center",
+    "lat": 26.168235,
+    "lon": 91.723733,
+    "elevation_m": 8.8,
+    "estimated_occupants": 62
+  },
+  {
+    "id": "BLD-159",
+    "name": "Pandu Ferry Terminal Block #9 (E)",
+    "sector_name": "Pandu Port Corridor",
+    "category": "Power Grid Substation (110kV)",
+    "lat": 26.154648,
+    "lon": 91.707525,
+    "elevation_m": 6.7,
+    "estimated_occupants": 73
+  },
+  {
+    "id": "BLD-160",
+    "name": "Uzan Bazar Municipal School #9 (F)",
+    "sector_name": "Uzan Bazar Embankment",
+    "category": "Municipal School Relief Shelter",
+    "lat": 26.168305,
+    "lon": 91.725367,
+    "elevation_m": 6.7,
+    "estimated_occupants": 55
+  },
+  {
+    "id": "BLD-161",
+    "name": "Noonmati Logistics Depot #9 (A)",
+    "sector_name": "Noonmati Floodplain Cluster",
+    "category": "Riparian Commercial Complex",
+    "lat": 26.168726,
+    "lon": 91.743296,
+    "elevation_m": 6.8,
+    "estimated_occupants": 94
+  },
+  {
+    "id": "BLD-162",
+    "name": "Saraighat Bridge Substation #9 (B)",
+    "sector_name": "Amingaon North Approach",
+    "category": "Civil Supplies Warehouse",
+    "lat": 26.174592,
+    "lon": 91.724818,
+    "elevation_m": 7.2,
+    "estimated_occupants": 77
+  },
+  {
+    "id": "BLD-163",
+    "name": "Beltola Primary Health Center #9 (C)",
+    "sector_name": "Beltola Southern Basin",
+    "category": "Water Pumping & Sluice Station",
+    "lat": 26.149859,
+    "lon": 91.735215,
+    "elevation_m": 9.4,
+    "estimated_occupants": 55
+  },
+  {
+    "id": "BLD-164",
+    "name": "Bharalumukh Riverbank Compound #10 (D)",
+    "sector_name": "Bharalumukh Sluice Gate Sector",
+    "category": "Telecom Switching Exchange",
+    "lat": 26.159845,
+    "lon": 91.729976,
+    "elevation_m": 7.7,
+    "estimated_occupants": 69
+  },
+  {
+    "id": "BLD-165",
+    "name": "Brahmaputra South Bank Silo #10 (E)",
+    "sector_name": "Fancy Bazar Riparian Hub",
+    "category": "Residential Apartment Block",
+    "lat": 26.167733,
+    "lon": 91.712823,
+    "elevation_m": 8.1,
+    "estimated_occupants": 32
+  },
+  {
+    "id": "BLD-166",
+    "name": "Pandu Ferry Terminal Block #10 (F)",
+    "sector_name": "Pandu Port Corridor",
+    "category": "Primary Health & Trauma Center",
+    "lat": 26.157123,
+    "lon": 91.711552,
+    "elevation_m": 10.0,
+    "estimated_occupants": 68
+  },
+  {
+    "id": "BLD-167",
+    "name": "Uzan Bazar Municipal School #10 (A)",
+    "sector_name": "Uzan Bazar Embankment",
+    "category": "Power Grid Substation (110kV)",
+    "lat": 26.17331,
+    "lon": 91.735076,
+    "elevation_m": 8.7,
+    "estimated_occupants": 37
+  },
+  {
+    "id": "BLD-168",
+    "name": "Noonmati Logistics Depot #10 (B)",
+    "sector_name": "Noonmati Floodplain Cluster",
+    "category": "Municipal School Relief Shelter",
+    "lat": 26.164458,
+    "lon": 91.743418,
+    "elevation_m": 6.6,
+    "estimated_occupants": 22
+  },
+  {
+    "id": "BLD-169",
+    "name": "Saraighat Bridge Substation #10 (C)",
+    "sector_name": "Amingaon North Approach",
+    "category": "Riparian Commercial Complex",
+    "lat": 26.174064,
+    "lon": 91.724173,
+    "elevation_m": 9.7,
+    "estimated_occupants": 50
+  },
+  {
+    "id": "BLD-170",
+    "name": "Beltola Primary Health Center #10 (D)",
+    "sector_name": "Beltola Southern Basin",
+    "category": "Civil Supplies Warehouse",
+    "lat": 26.147891,
+    "lon": 91.743527,
+    "elevation_m": 9.4,
+    "estimated_occupants": 25
+  },
+  {
+    "id": "BLD-171",
+    "name": "Bharalumukh Riverbank Compound #11 (E)",
+    "sector_name": "Bharalumukh Sluice Gate Sector",
+    "category": "Water Pumping & Sluice Station",
+    "lat": 26.159737,
+    "lon": 91.72632,
+    "elevation_m": 5.2,
+    "estimated_occupants": 26
+  },
+  {
+    "id": "BLD-172",
+    "name": "Brahmaputra South Bank Silo #11 (F)",
+    "sector_name": "Fancy Bazar Riparian Hub",
+    "category": "Telecom Switching Exchange",
+    "lat": 26.167602,
+    "lon": 91.715222,
+    "elevation_m": 6.4,
+    "estimated_occupants": 87
+  },
+  {
+    "id": "BLD-173",
+    "name": "Pandu Ferry Terminal Block #11 (A)",
+    "sector_name": "Pandu Port Corridor",
+    "category": "Residential Apartment Block",
+    "lat": 26.161776,
+    "lon": 91.716113,
+    "elevation_m": 8.8,
+    "estimated_occupants": 36
+  },
+  {
+    "id": "BLD-174",
+    "name": "Uzan Bazar Municipal School #11 (B)",
+    "sector_name": "Uzan Bazar Embankment",
+    "category": "Primary Health & Trauma Center",
+    "lat": 26.168775,
+    "lon": 91.72266,
+    "elevation_m": 4.9,
+    "estimated_occupants": 26
+  },
+  {
+    "id": "BLD-175",
+    "name": "Noonmati Logistics Depot #11 (C)",
+    "sector_name": "Noonmati Floodplain Cluster",
+    "category": "Power Grid Substation (110kV)",
+    "lat": 26.163144,
+    "lon": 91.747092,
+    "elevation_m": 7.5,
+    "estimated_occupants": 53
+  },
+  {
+    "id": "BLD-176",
+    "name": "Saraighat Bridge Substation #11 (D)",
+    "sector_name": "Amingaon North Approach",
+    "category": "Municipal School Relief Shelter",
+    "lat": 26.177477,
+    "lon": 91.711906,
+    "elevation_m": 7.2,
+    "estimated_occupants": 37
+  },
+  {
+    "id": "BLD-177",
+    "name": "Beltola Primary Health Center #11 (E)",
+    "sector_name": "Beltola Southern Basin",
+    "category": "Riparian Commercial Complex",
+    "lat": 26.154083,
+    "lon": 91.740298,
+    "elevation_m": 9.0,
+    "estimated_occupants": 65
+  },
+  {
+    "id": "BLD-178",
+    "name": "Bharalumukh Riverbank Compound #12 (F)",
+    "sector_name": "Bharalumukh Sluice Gate Sector",
+    "category": "Civil Supplies Warehouse",
+    "lat": 26.160807,
+    "lon": 91.728165,
+    "elevation_m": 5.0,
+    "estimated_occupants": 92
+  },
+  {
+    "id": "BLD-179",
+    "name": "Brahmaputra South Bank Silo #12 (A)",
+    "sector_name": "Fancy Bazar Riparian Hub",
+    "category": "Water Pumping & Sluice Station",
+    "lat": 26.167268,
+    "lon": 91.718177,
+    "elevation_m": 4.9,
+    "estimated_occupants": 66
+  },
+  {
+    "id": "BLD-180",
+    "name": "Pandu Ferry Terminal Block #12 (B)",
+    "sector_name": "Pandu Port Corridor",
+    "category": "Telecom Switching Exchange",
+    "lat": 26.161784,
+    "lon": 91.7036,
+    "elevation_m": 6.4,
+    "estimated_occupants": 56
+  },
+  {
+    "id": "BLD-181",
+    "name": "Uzan Bazar Municipal School #12 (C)",
+    "sector_name": "Uzan Bazar Embankment",
+    "category": "Residential Apartment Block",
+    "lat": 26.165747,
+    "lon": 91.733333,
+    "elevation_m": 3.9,
+    "estimated_occupants": 23
+  },
+  {
+    "id": "BLD-182",
+    "name": "Noonmati Logistics Depot #12 (D)",
+    "sector_name": "Noonmati Floodplain Cluster",
+    "category": "Primary Health & Trauma Center",
+    "lat": 26.165687,
+    "lon": 91.745311,
+    "elevation_m": 8.0,
+    "estimated_occupants": 39
+  },
+  {
+    "id": "BLD-183",
+    "name": "Saraighat Bridge Substation #12 (E)",
+    "sector_name": "Amingaon North Approach",
+    "category": "Power Grid Substation (110kV)",
+    "lat": 26.1692,
+    "lon": 91.718948,
+    "elevation_m": 8.9,
+    "estimated_occupants": 48
+  },
+  {
+    "id": "BLD-184",
+    "name": "Beltola Primary Health Center #12 (F)",
+    "sector_name": "Beltola Southern Basin",
+    "category": "Municipal School Relief Shelter",
+    "lat": 26.152353,
+    "lon": 91.730075,
+    "elevation_m": 11.4,
+    "estimated_occupants": 71
+  },
+  {
+    "id": "BLD-185",
+    "name": "Bharalumukh Riverbank Compound #13 (A)",
+    "sector_name": "Bharalumukh Sluice Gate Sector",
+    "category": "Riparian Commercial Complex",
+    "lat": 26.162712,
+    "lon": 91.724895,
+    "elevation_m": 5.9,
+    "estimated_occupants": 30
+  },
+  {
+    "id": "BLD-186",
+    "name": "Brahmaputra South Bank Silo #13 (B)",
+    "sector_name": "Fancy Bazar Riparian Hub",
+    "category": "Civil Supplies Warehouse",
+    "lat": 26.162019,
+    "lon": 91.707204,
+    "elevation_m": 7.4,
+    "estimated_occupants": 24
+  },
+  {
+    "id": "BLD-187",
+    "name": "Pandu Ferry Terminal Block #13 (C)",
+    "sector_name": "Pandu Port Corridor",
+    "category": "Water Pumping & Sluice Station",
+    "lat": 26.157358,
+    "lon": 91.70588,
+    "elevation_m": 9.4,
+    "estimated_occupants": 81
+  },
+  {
+    "id": "BLD-188",
+    "name": "Uzan Bazar Municipal School #13 (D)",
+    "sector_name": "Uzan Bazar Embankment",
+    "category": "Telecom Switching Exchange",
+    "lat": 26.174839,
+    "lon": 91.735912,
+    "elevation_m": 9.6,
+    "estimated_occupants": 22
+  },
+  {
+    "id": "BLD-189",
+    "name": "Noonmati Logistics Depot #13 (E)",
+    "sector_name": "Noonmati Floodplain Cluster",
+    "category": "Residential Apartment Block",
+    "lat": 26.161264,
+    "lon": 91.746105,
+    "elevation_m": 7.0,
+    "estimated_occupants": 71
+  },
+  {
+    "id": "BLD-190",
+    "name": "Saraighat Bridge Substation #13 (F)",
+    "sector_name": "Amingaon North Approach",
+    "category": "Primary Health & Trauma Center",
+    "lat": 26.180105,
+    "lon": 91.717233,
+    "elevation_m": 8.9,
+    "estimated_occupants": 86
+  },
+  {
+    "id": "BLD-191",
+    "name": "Beltola Primary Health Center #13 (A)",
+    "sector_name": "Beltola Southern Basin",
+    "category": "Power Grid Substation (110kV)",
+    "lat": 26.151421,
+    "lon": 91.734357,
+    "elevation_m": 7.4,
+    "estimated_occupants": 71
+  },
+  {
+    "id": "BLD-192",
+    "name": "Bharalumukh Riverbank Compound #14 (B)",
+    "sector_name": "Bharalumukh Sluice Gate Sector",
+    "category": "Municipal School Relief Shelter",
+    "lat": 26.164028,
+    "lon": 91.724115,
+    "elevation_m": 6.9,
+    "estimated_occupants": 42
+  }
+]

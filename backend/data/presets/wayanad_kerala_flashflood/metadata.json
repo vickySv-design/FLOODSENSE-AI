@@ -1,0 +1,28 @@
+{
+  "id": "wayanad_kerala_flashflood",
+  "name": "Kerala Kabini Basin Flash Flood & Landslide Surge",
+  "region": "Wayanad District, Kerala, India",
+  "event_date": "2025-08-02",
+  "pre_date": "2025-06-20",
+  "post_date": "2025-08-03",
+  "bbox": [
+    11.68,
+    76.1,
+    11.73,
+    76.15
+  ],
+  "center": [
+    11.705,
+    76.125
+  ],
+  "zoom": 14,
+  "sensor_pair": "Sentinel-2B Optical + Sentinel-1A Dual-Pol SAR",
+  "description": "Steep Western Ghats terrain dendritic channel flash flooding with acute highway severance under heavy monsoon cloud cover.",
+  "population_density_factor": 22,
+  "historical_metrics": {
+    "miou": 0.897,
+    "f1_score": 0.936,
+    "precision": 0.944,
+    "recall": 0.929
+  }
+}

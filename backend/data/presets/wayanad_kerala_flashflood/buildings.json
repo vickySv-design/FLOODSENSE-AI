@@ -1,0 +1,922 @@
+[
+  {
+    "id": "BLD-101",
+    "name": "Panamaram Bridge Quarters #1 (A)",
+    "sector_name": "Panamaram Kabini Confluence",
+    "category": "Residential Apartment Block",
+    "lat": 11.706908,
+    "lon": 76.121822,
+    "elevation_m": 6.1,
+    "estimated_occupants": 82
+  },
+  {
+    "id": "BLD-102",
+    "name": "Kalpetta Valley Health Center #1 (B)",
+    "sector_name": "Kalpetta Highway Corridor",
+    "category": "Primary Health & Trauma Center",
+    "lat": 11.695872,
+    "lon": 76.118514,
+    "elevation_m": 9.4,
+    "estimated_occupants": 33
+  },
+  {
+    "id": "BLD-103",
+    "name": "Kabini Riparian Estate Block #1 (C)",
+    "sector_name": "Mananthavady Creek Sector",
+    "category": "Power Grid Substation (110kV)",
+    "lat": 11.719712,
+    "lon": 76.126451,
+    "elevation_m": 8.2,
+    "estimated_occupants": 85
+  },
+  {
+    "id": "BLD-104",
+    "name": "Western Ghats Tea Factory Hub #1 (D)",
+    "sector_name": "Chooralmala Foothill Pocket",
+    "category": "Municipal School Relief Shelter",
+    "lat": 11.694961,
+    "lon": 76.134126,
+    "elevation_m": 8.4,
+    "estimated_occupants": 48
+  },
+  {
+    "id": "BLD-105",
+    "name": "Meppadi Elevated School Shelter #1 (E)",
+    "sector_name": "Meppadi Relief Staging Zone",
+    "category": "Riparian Commercial Complex",
+    "lat": 11.721122,
+    "lon": 76.131785,
+    "elevation_m": 12.2,
+    "estimated_occupants": 41
+  },
+  {
+    "id": "BLD-106",
+    "name": "Pulpally Cooperative Warehouse #1 (F)",
+    "sector_name": "Pulpally Agricultural Basin",
+    "category": "Civil Supplies Warehouse",
+    "lat": 11.701594,
+    "lon": 76.135858,
+    "elevation_m": 4.5,
+    "estimated_occupants": 81
+  },
+  {
+    "id": "BLD-107",
+    "name": "Vythiri Substation & Telecom Hub #1 (A)",
+    "sector_name": "Vythiri Mountain Pass",
+    "category": "Water Pumping & Sluice Station",
+    "lat": 11.701591,
+    "lon": 76.108701,
+    "elevation_m": 5.7,
+    "estimated_occupants": 65
+  },
+  {
+    "id": "BLD-108",
+    "name": "Panamaram Bridge Quarters #2 (B)",
+    "sector_name": "Panamaram Kabini Confluence",
+    "category": "Telecom Switching Exchange",
+    "lat": 11.702709,
+    "lon": 76.125875,
+    "elevation_m": 4.7,
+    "estimated_occupants": 71
+  },
+  {
+    "id": "BLD-109",
+    "name": "Kalpetta Valley Health Center #2 (C)",
+    "sector_name": "Kalpetta Highway Corridor",
+    "category": "Residential Apartment Block",
+    "lat": 11.691293,
+    "lon": 76.118569,
+    "elevation_m": 10.2,
+    "estimated_occupants": 41
+  },
+  {
+    "id": "BLD-110",
+    "name": "Kabini Riparian Estate Block #2 (D)",
+    "sector_name": "Mananthavady Creek Sector",
+    "category": "Primary Health & Trauma Center",
+    "lat": 11.714786,
+    "lon": 76.12293,
+    "elevation_m": 7.5,
+    "estimated_occupants": 29
+  },
+  {
+    "id": "BLD-111",
+    "name": "Western Ghats Tea Factory Hub #2 (E)",
+    "sector_name": "Chooralmala Foothill Pocket",
+    "category": "Power Grid Substation (110kV)",
+    "lat": 11.690134,
+    "lon": 76.140035,
+    "elevation_m": 11.7,
+    "estimated_occupants": 48
+  },
+  {
+    "id": "BLD-112",
+    "name": "Meppadi Elevated School Shelter #2 (F)",
+    "sector_name": "Meppadi Relief Staging Zone",
+    "category": "Municipal School Relief Shelter",
+    "lat": 11.718102,
+    "lon": 76.131579,
+    "elevation_m": 10.0,
+    "estimated_occupants": 50
+  },
+  {
+    "id": "BLD-113",
+    "name": "Pulpally Cooperative Warehouse #2 (A)",
+    "sector_name": "Pulpally Agricultural Basin",
+    "category": "Riparian Commercial Complex",
+    "lat": 11.707198,
+    "lon": 76.136316,
+    "elevation_m": 8.3,
+    "estimated_occupants": 59
+  },
+  {
+    "id": "BLD-114",
+    "name": "Vythiri Substation & Telecom Hub #2 (B)",
+    "sector_name": "Vythiri Mountain Pass",
+    "category": "Civil Supplies Warehouse",
+    "lat": 11.700391,
+    "lon": 76.114434,
+    "elevation_m": 6.8,
+    "estimated_occupants": 60
+  },
+  {
+    "id": "BLD-115",
+    "name": "Panamaram Bridge Quarters #3 (C)",
+    "sector_name": "Panamaram Kabini Confluence",
+    "category": "Water Pumping & Sluice Station",
+    "lat": 11.70547,
+    "lon": 76.129803,
+    "elevation_m": 7.3,
+    "estimated_occupants": 23
+  },
+  {
+    "id": "BLD-116",
+    "name": "Kalpetta Valley Health Center #3 (D)",
+    "sector_name": "Kalpetta Highway Corridor",
+    "category": "Telecom Switching Exchange",
+    "lat": 11.695118,
+    "lon": 76.110761,
+    "elevation_m": 9.7,
+    "estimated_occupants": 59
+  },
+  {
+    "id": "BLD-117",
+    "name": "Kabini Riparian Estate Block #3 (E)",
+    "sector_name": "Mananthavady Creek Sector",
+    "category": "Residential Apartment Block",
+    "lat": 11.719351,
+    "lon": 76.115421,
+    "elevation_m": 10.8,
+    "estimated_occupants": 61
+  },
+  {
+    "id": "BLD-118",
+    "name": "Western Ghats Tea Factory Hub #3 (F)",
+    "sector_name": "Chooralmala Foothill Pocket",
+    "category": "Primary Health & Trauma Center",
+    "lat": 11.694692,
+    "lon": 76.137994,
+    "elevation_m": 8.6,
+    "estimated_occupants": 42
+  },
+  {
+    "id": "BLD-119",
+    "name": "Meppadi Elevated School Shelter #3 (A)",
+    "sector_name": "Meppadi Relief Staging Zone",
+    "category": "Power Grid Substation (110kV)",
+    "lat": 11.720859,
+    "lon": 76.135952,
+    "elevation_m": 10.4,
+    "estimated_occupants": 69
+  },
+  {
+    "id": "BLD-120",
+    "name": "Pulpally Cooperative Warehouse #3 (B)",
+    "sector_name": "Pulpally Agricultural Basin",
+    "category": "Municipal School Relief Shelter",
+    "lat": 11.698479,
+    "lon": 76.141276,
+    "elevation_m": 9.3,
+    "estimated_occupants": 42
+  },
+  {
+    "id": "BLD-121",
+    "name": "Vythiri Substation & Telecom Hub #3 (C)",
+    "sector_name": "Vythiri Mountain Pass",
+    "category": "Riparian Commercial Complex",
+    "lat": 11.697139,
+    "lon": 76.116798,
+    "elevation_m": 9.6,
+    "estimated_occupants": 20
+  },
+  {
+    "id": "BLD-122",
+    "name": "Panamaram Bridge Quarters #4 (D)",
+    "sector_name": "Panamaram Kabini Confluence",
+    "category": "Civil Supplies Warehouse",
+    "lat": 11.704717,
+    "lon": 76.124405,
+    "elevation_m": 5.4,
+    "estimated_occupants": 33
+  },
+  {
+    "id": "BLD-123",
+    "name": "Kalpetta Valley Health Center #4 (E)",
+    "sector_name": "Kalpetta Highway Corridor",
+    "category": "Water Pumping & Sluice Station",
+    "lat": 11.696116,
+    "lon": 76.113725,
+    "elevation_m": 10.3,
+    "estimated_occupants": 64
+  },
+  {
+    "id": "BLD-124",
+    "name": "Kabini Riparian Estate Block #4 (F)",
+    "sector_name": "Mananthavady Creek Sector",
+    "category": "Telecom Switching Exchange",
+    "lat": 11.718076,
+    "lon": 76.122429,
+    "elevation_m": 10.6,
+    "estimated_occupants": 51
+  },
+  {
+    "id": "BLD-125",
+    "name": "Western Ghats Tea Factory Hub #4 (A)",
+    "sector_name": "Chooralmala Foothill Pocket",
+    "category": "Residential Apartment Block",
+    "lat": 11.690488,
+    "lon": 76.135126,
+    "elevation_m": 8.0,
+    "estimated_occupants": 84
+  },
+  {
+    "id": "BLD-126",
+    "name": "Meppadi Elevated School Shelter #4 (B)",
+    "sector_name": "Meppadi Relief Staging Zone",
+    "category": "Primary Health & Trauma Center",
+    "lat": 11.716814,
+    "lon": 76.129216,
+    "elevation_m": 8.4,
+    "estimated_occupants": 48
+  },
+  {
+    "id": "BLD-127",
+    "name": "Pulpally Cooperative Warehouse #4 (C)",
+    "sector_name": "Pulpally Agricultural Basin",
+    "category": "Power Grid Substation (110kV)",
+    "lat": 11.712456,
+    "lon": 76.138669,
+    "elevation_m": 9.2,
+    "estimated_occupants": 19
+  },
+  {
+    "id": "BLD-128",
+    "name": "Vythiri Substation & Telecom Hub #4 (D)",
+    "sector_name": "Vythiri Mountain Pass",
+    "category": "Municipal School Relief Shelter",
+    "lat": 11.701067,
+    "lon": 76.117379,
+    "elevation_m": 6.8,
+    "estimated_occupants": 81
+  },
+  {
+    "id": "BLD-129",
+    "name": "Panamaram Bridge Quarters #5 (E)",
+    "sector_name": "Panamaram Kabini Confluence",
+    "category": "Riparian Commercial Complex",
+    "lat": 11.70471,
+    "lon": 76.124385,
+    "elevation_m": 6.9,
+    "estimated_occupants": 95
+  },
+  {
+    "id": "BLD-130",
+    "name": "Kalpetta Valley Health Center #5 (F)",
+    "sector_name": "Kalpetta Highway Corridor",
+    "category": "Civil Supplies Warehouse",
+    "lat": 11.692678,
+    "lon": 76.120481,
+    "elevation_m": 8.3,
+    "estimated_occupants": 90
+  },
+  {
+    "id": "BLD-131",
+    "name": "Kabini Riparian Estate Block #5 (A)",
+    "sector_name": "Mananthavady Creek Sector",
+    "category": "Water Pumping & Sluice Station",
+    "lat": 11.712053,
+    "lon": 76.116141,
+    "elevation_m": 7.1,
+    "estimated_occupants": 58
+  },
+  {
+    "id": "BLD-132",
+    "name": "Western Ghats Tea Factory Hub #5 (B)",
+    "sector_name": "Chooralmala Foothill Pocket",
+    "category": "Telecom Switching Exchange",
+    "lat": 11.6994,
+    "lon": 76.133295,
+    "elevation_m": 7.3,
+    "estimated_occupants": 80
+  },
+  {
+    "id": "BLD-133",
+    "name": "Meppadi Elevated School Shelter #5 (C)",
+    "sector_name": "Meppadi Relief Staging Zone",
+    "category": "Residential Apartment Block",
+    "lat": 11.72067,
+    "lon": 76.133488,
+    "elevation_m": 8.0,
+    "estimated_occupants": 75
+  },
+  {
+    "id": "BLD-134",
+    "name": "Pulpally Cooperative Warehouse #5 (D)",
+    "sector_name": "Pulpally Agricultural Basin",
+    "category": "Primary Health & Trauma Center",
+    "lat": 11.705489,
+    "lon": 76.138494,
+    "elevation_m": 7.2,
+    "estimated_occupants": 27
+  },
+  {
+    "id": "BLD-135",
+    "name": "Vythiri Substation & Telecom Hub #5 (E)",
+    "sector_name": "Vythiri Mountain Pass",
+    "category": "Power Grid Substation (110kV)",
+    "lat": 11.698569,
+    "lon": 76.114978,
+    "elevation_m": 6.5,
+    "estimated_occupants": 39
+  },
+  {
+    "id": "BLD-136",
+    "name": "Panamaram Bridge Quarters #6 (F)",
+    "sector_name": "Panamaram Kabini Confluence",
+    "category": "Municipal School Relief Shelter",
+    "lat": 11.705053,
+    "lon": 76.124498,
+    "elevation_m": 4.9,
+    "estimated_occupants": 23
+  },
+  {
+    "id": "BLD-137",
+    "name": "Kalpetta Valley Health Center #6 (A)",
+    "sector_name": "Kalpetta Highway Corridor",
+    "category": "Riparian Commercial Complex",
+    "lat": 11.695263,
+    "lon": 76.11401,
+    "elevation_m": 7.2,
+    "estimated_occupants": 64
+  },
+  {
+    "id": "BLD-138",
+    "name": "Kabini Riparian Estate Block #6 (B)",
+    "sector_name": "Mananthavady Creek Sector",
+    "category": "Civil Supplies Warehouse",
+    "lat": 11.716085,
+    "lon": 76.11955,
+    "elevation_m": 8.7,
+    "estimated_occupants": 29
+  },
+  {
+    "id": "BLD-139",
+    "name": "Western Ghats Tea Factory Hub #6 (C)",
+    "sector_name": "Chooralmala Foothill Pocket",
+    "category": "Water Pumping & Sluice Station",
+    "lat": 11.691318,
+    "lon": 76.137246,
+    "elevation_m": 8.3,
+    "estimated_occupants": 61
+  },
+  {
+    "id": "BLD-140",
+    "name": "Meppadi Elevated School Shelter #6 (D)",
+    "sector_name": "Meppadi Relief Staging Zone",
+    "category": "Telecom Switching Exchange",
+    "lat": 11.713177,
+    "lon": 76.130448,
+    "elevation_m": 6.4,
+    "estimated_occupants": 43
+  },
+  {
+    "id": "BLD-141",
+    "name": "Pulpally Cooperative Warehouse #6 (E)",
+    "sector_name": "Pulpally Agricultural Basin",
+    "category": "Residential Apartment Block",
+    "lat": 11.707866,
+    "lon": 76.138618,
+    "elevation_m": 5.4,
+    "estimated_occupants": 63
+  },
+  {
+    "id": "BLD-142",
+    "name": "Vythiri Substation & Telecom Hub #6 (F)",
+    "sector_name": "Vythiri Mountain Pass",
+    "category": "Primary Health & Trauma Center",
+    "lat": 11.703901,
+    "lon": 76.105376,
+    "elevation_m": 5.5,
+    "estimated_occupants": 64
+  },
+  {
+    "id": "BLD-143",
+    "name": "Panamaram Bridge Quarters #7 (A)",
+    "sector_name": "Panamaram Kabini Confluence",
+    "category": "Power Grid Substation (110kV)",
+    "lat": 11.70618,
+    "lon": 76.120811,
+    "elevation_m": 4.1,
+    "estimated_occupants": 26
+  },
+  {
+    "id": "BLD-144",
+    "name": "Kalpetta Valley Health Center #7 (B)",
+    "sector_name": "Kalpetta Highway Corridor",
+    "category": "Municipal School Relief Shelter",
+    "lat": 11.694235,
+    "lon": 76.119791,
+    "elevation_m": 6.9,
+    "estimated_occupants": 33
+  },
+  {
+    "id": "BLD-145",
+    "name": "Kabini Riparian Estate Block #7 (C)",
+    "sector_name": "Mananthavady Creek Sector",
+    "category": "Riparian Commercial Complex",
+    "lat": 11.714976,
+    "lon": 76.117706,
+    "elevation_m": 8.0,
+    "estimated_occupants": 80
+  },
+  {
+    "id": "BLD-146",
+    "name": "Western Ghats Tea Factory Hub #7 (D)",
+    "sector_name": "Chooralmala Foothill Pocket",
+    "category": "Civil Supplies Warehouse",
+    "lat": 11.696991,
+    "lon": 76.127984,
+    "elevation_m": 6.3,
+    "estimated_occupants": 59
+  },
+  {
+    "id": "BLD-147",
+    "name": "Meppadi Elevated School Shelter #7 (E)",
+    "sector_name": "Meppadi Relief Staging Zone",
+    "category": "Water Pumping & Sluice Station",
+    "lat": 11.721091,
+    "lon": 76.130113,
+    "elevation_m": 9.8,
+    "estimated_occupants": 39
+  },
+  {
+    "id": "BLD-148",
+    "name": "Pulpally Cooperative Warehouse #7 (F)",
+    "sector_name": "Pulpally Agricultural Basin",
+    "category": "Telecom Switching Exchange",
+    "lat": 11.701884,
+    "lon": 76.141274,
+    "elevation_m": 7.1,
+    "estimated_occupants": 54
+  },
+  {
+    "id": "BLD-149",
+    "name": "Vythiri Substation & Telecom Hub #7 (A)",
+    "sector_name": "Vythiri Mountain Pass",
+    "category": "Residential Apartment Block",
+    "lat": 11.702246,
+    "lon": 76.108522,
+    "elevation_m": 8.6,
+    "estimated_occupants": 59
+  },
+  {
+    "id": "BLD-150",
+    "name": "Panamaram Bridge Quarters #8 (B)",
+    "sector_name": "Panamaram Kabini Confluence",
+    "category": "Primary Health & Trauma Center",
+    "lat": 11.701453,
+    "lon": 76.126377,
+    "elevation_m": 6.0,
+    "estimated_occupants": 63
+  },
+  {
+    "id": "BLD-151",
+    "name": "Kalpetta Valley Health Center #8 (C)",
+    "sector_name": "Kalpetta Highway Corridor",
+    "category": "Power Grid Substation (110kV)",
+    "lat": 11.696191,
+    "lon": 76.119869,
+    "elevation_m": 7.1,
+    "estimated_occupants": 34
+  },
+  {
+    "id": "BLD-152",
+    "name": "Kabini Riparian Estate Block #8 (D)",
+    "sector_name": "Mananthavady Creek Sector",
+    "category": "Municipal School Relief Shelter",
+    "lat": 11.71546,
+    "lon": 76.119002,
+    "elevation_m": 8.1,
+    "estimated_occupants": 54
+  },
+  {
+    "id": "BLD-153",
+    "name": "Western Ghats Tea Factory Hub #8 (E)",
+    "sector_name": "Chooralmala Foothill Pocket",
+    "category": "Riparian Commercial Complex",
+    "lat": 11.695096,
+    "lon": 76.138366,
+    "elevation_m": 7.1,
+    "estimated_occupants": 38
+  },
+  {
+    "id": "BLD-154",
+    "name": "Meppadi Elevated School Shelter #8 (F)",
+    "sector_name": "Meppadi Relief Staging Zone",
+    "category": "Civil Supplies Warehouse",
+    "lat": 11.717059,
+    "lon": 76.139173,
+    "elevation_m": 6.9,
+    "estimated_occupants": 95
+  },
+  {
+    "id": "BLD-155",
+    "name": "Pulpally Cooperative Warehouse #8 (A)",
+    "sector_name": "Pulpally Agricultural Basin",
+    "category": "Water Pumping & Sluice Station",
+    "lat": 11.704276,
+    "lon": 76.141055,
+    "elevation_m": 7.9,
+    "estimated_occupants": 25
+  },
+  {
+    "id": "BLD-156",
+    "name": "Vythiri Substation & Telecom Hub #8 (B)",
+    "sector_name": "Vythiri Mountain Pass",
+    "category": "Telecom Switching Exchange",
+    "lat": 11.699904,
+    "lon": 76.104922,
+    "elevation_m": 8.9,
+    "estimated_occupants": 93
+  },
+  {
+    "id": "BLD-157",
+    "name": "Panamaram Bridge Quarters #9 (C)",
+    "sector_name": "Panamaram Kabini Confluence",
+    "category": "Residential Apartment Block",
+    "lat": 11.708156,
+    "lon": 76.117145,
+    "elevation_m": 4.8,
+    "estimated_occupants": 54
+  },
+  {
+    "id": "BLD-158",
+    "name": "Kalpetta Valley Health Center #9 (D)",
+    "sector_name": "Kalpetta Highway Corridor",
+    "category": "Primary Health & Trauma Center",
+    "lat": 11.693805,
+    "lon": 76.111969,
+    "elevation_m": 6.9,
+    "estimated_occupants": 84
+  },
+  {
+    "id": "BLD-159",
+    "name": "Kabini Riparian Estate Block #9 (E)",
+    "sector_name": "Mananthavady Creek Sector",
+    "category": "Power Grid Substation (110kV)",
+    "lat": 11.711494,
+    "lon": 76.119809,
+    "elevation_m": 6.8,
+    "estimated_occupants": 34
+  },
+  {
+    "id": "BLD-160",
+    "name": "Western Ghats Tea Factory Hub #9 (F)",
+    "sector_name": "Chooralmala Foothill Pocket",
+    "category": "Municipal School Relief Shelter",
+    "lat": 11.697438,
+    "lon": 76.132733,
+    "elevation_m": 7.9,
+    "estimated_occupants": 89
+  },
+  {
+    "id": "BLD-161",
+    "name": "Meppadi Elevated School Shelter #9 (A)",
+    "sector_name": "Meppadi Relief Staging Zone",
+    "category": "Riparian Commercial Complex",
+    "lat": 11.712673,
+    "lon": 76.140009,
+    "elevation_m": 7.7,
+    "estimated_occupants": 66
+  },
+  {
+    "id": "BLD-162",
+    "name": "Pulpally Cooperative Warehouse #9 (B)",
+    "sector_name": "Pulpally Agricultural Basin",
+    "category": "Civil Supplies Warehouse",
+    "lat": 11.705306,
+    "lon": 76.1414,
+    "elevation_m": 5.2,
+    "estimated_occupants": 23
+  },
+  {
+    "id": "BLD-163",
+    "name": "Vythiri Substation & Telecom Hub #9 (C)",
+    "sector_name": "Vythiri Mountain Pass",
+    "category": "Water Pumping & Sluice Station",
+    "lat": 11.709025,
+    "lon": 76.104691,
+    "elevation_m": 8.3,
+    "estimated_occupants": 86
+  },
+  {
+    "id": "BLD-164",
+    "name": "Panamaram Bridge Quarters #10 (D)",
+    "sector_name": "Panamaram Kabini Confluence",
+    "category": "Telecom Switching Exchange",
+    "lat": 11.704503,
+    "lon": 76.123095,
+    "elevation_m": 3.7,
+    "estimated_occupants": 63
+  },
+  {
+    "id": "BLD-165",
+    "name": "Kalpetta Valley Health Center #10 (E)",
+    "sector_name": "Kalpetta Highway Corridor",
+    "category": "Residential Apartment Block",
+    "lat": 11.69624,
+    "lon": 76.114672,
+    "elevation_m": 9.9,
+    "estimated_occupants": 72
+  },
+  {
+    "id": "BLD-166",
+    "name": "Kabini Riparian Estate Block #10 (F)",
+    "sector_name": "Mananthavady Creek Sector",
+    "category": "Primary Health & Trauma Center",
+    "lat": 11.715526,
+    "lon": 76.118534,
+    "elevation_m": 7.1,
+    "estimated_occupants": 46
+  },
+  {
+    "id": "BLD-167",
+    "name": "Western Ghats Tea Factory Hub #10 (A)",
+    "sector_name": "Chooralmala Foothill Pocket",
+    "category": "Power Grid Substation (110kV)",
+    "lat": 11.695824,
+    "lon": 76.135092,
+    "elevation_m": 6.9,
+    "estimated_occupants": 89
+  },
+  {
+    "id": "BLD-168",
+    "name": "Meppadi Elevated School Shelter #10 (B)",
+    "sector_name": "Meppadi Relief Staging Zone",
+    "category": "Municipal School Relief Shelter",
+    "lat": 11.718746,
+    "lon": 76.138392,
+    "elevation_m": 10.8,
+    "estimated_occupants": 39
+  },
+  {
+    "id": "BLD-169",
+    "name": "Pulpally Cooperative Warehouse #10 (C)",
+    "sector_name": "Pulpally Agricultural Basin",
+    "category": "Riparian Commercial Complex",
+    "lat": 11.709889,
+    "lon": 76.139283,
+    "elevation_m": 7.7,
+    "estimated_occupants": 58
+  },
+  {
+    "id": "BLD-170",
+    "name": "Vythiri Substation & Telecom Hub #10 (D)",
+    "sector_name": "Vythiri Mountain Pass",
+    "category": "Civil Supplies Warehouse",
+    "lat": 11.701024,
+    "lon": 76.111554,
+    "elevation_m": 7.2,
+    "estimated_occupants": 51
+  },
+  {
+    "id": "BLD-171",
+    "name": "Panamaram Bridge Quarters #11 (E)",
+    "sector_name": "Panamaram Kabini Confluence",
+    "category": "Water Pumping & Sluice Station",
+    "lat": 11.70467,
+    "lon": 76.122002,
+    "elevation_m": 5.1,
+    "estimated_occupants": 79
+  },
+  {
+    "id": "BLD-172",
+    "name": "Kalpetta Valley Health Center #11 (F)",
+    "sector_name": "Kalpetta Highway Corridor",
+    "category": "Telecom Switching Exchange",
+    "lat": 11.702871,
+    "lon": 76.11725,
+    "elevation_m": 7.8,
+    "estimated_occupants": 49
+  },
+  {
+    "id": "BLD-173",
+    "name": "Kabini Riparian Estate Block #11 (A)",
+    "sector_name": "Mananthavady Creek Sector",
+    "category": "Residential Apartment Block",
+    "lat": 11.714729,
+    "lon": 76.11951,
+    "elevation_m": 8.7,
+    "estimated_occupants": 49
+  },
+  {
+    "id": "BLD-174",
+    "name": "Western Ghats Tea Factory Hub #11 (B)",
+    "sector_name": "Chooralmala Foothill Pocket",
+    "category": "Primary Health & Trauma Center",
+    "lat": 11.692676,
+    "lon": 76.131278,
+    "elevation_m": 8.1,
+    "estimated_occupants": 31
+  },
+  {
+    "id": "BLD-175",
+    "name": "Meppadi Elevated School Shelter #11 (C)",
+    "sector_name": "Meppadi Relief Staging Zone",
+    "category": "Power Grid Substation (110kV)",
+    "lat": 11.7208,
+    "lon": 76.13548,
+    "elevation_m": 10.9,
+    "estimated_occupants": 35
+  },
+  {
+    "id": "BLD-176",
+    "name": "Pulpally Cooperative Warehouse #11 (D)",
+    "sector_name": "Pulpally Agricultural Basin",
+    "category": "Municipal School Relief Shelter",
+    "lat": 11.707768,
+    "lon": 76.139479,
+    "elevation_m": 8.4,
+    "estimated_occupants": 82
+  },
+  {
+    "id": "BLD-177",
+    "name": "Vythiri Substation & Telecom Hub #11 (E)",
+    "sector_name": "Vythiri Mountain Pass",
+    "category": "Riparian Commercial Complex",
+    "lat": 11.700606,
+    "lon": 76.103343,
+    "elevation_m": 4.7,
+    "estimated_occupants": 69
+  },
+  {
+    "id": "BLD-178",
+    "name": "Panamaram Bridge Quarters #12 (F)",
+    "sector_name": "Panamaram Kabini Confluence",
+    "category": "Civil Supplies Warehouse",
+    "lat": 11.707698,
+    "lon": 76.124075,
+    "elevation_m": 6.2,
+    "estimated_occupants": 82
+  },
+  {
+    "id": "BLD-179",
+    "name": "Kalpetta Valley Health Center #12 (A)",
+    "sector_name": "Kalpetta Highway Corridor",
+    "category": "Water Pumping & Sluice Station",
+    "lat": 11.687289,
+    "lon": 76.112986,
+    "elevation_m": 11.2,
+    "estimated_occupants": 55
+  },
+  {
+    "id": "BLD-180",
+    "name": "Kabini Riparian Estate Block #12 (B)",
+    "sector_name": "Mananthavady Creek Sector",
+    "category": "Telecom Switching Exchange",
+    "lat": 11.71475,
+    "lon": 76.117011,
+    "elevation_m": 8.0,
+    "estimated_occupants": 84
+  },
+  {
+    "id": "BLD-181",
+    "name": "Western Ghats Tea Factory Hub #12 (C)",
+    "sector_name": "Chooralmala Foothill Pocket",
+    "category": "Residential Apartment Block",
+    "lat": 11.701339,
+    "lon": 76.1331,
+    "elevation_m": 5.1,
+    "estimated_occupants": 81
+  },
+  {
+    "id": "BLD-182",
+    "name": "Meppadi Elevated School Shelter #12 (D)",
+    "sector_name": "Meppadi Relief Staging Zone",
+    "category": "Primary Health & Trauma Center",
+    "lat": 11.716691,
+    "lon": 76.134688,
+    "elevation_m": 7.2,
+    "estimated_occupants": 31
+  },
+  {
+    "id": "BLD-183",
+    "name": "Pulpally Cooperative Warehouse #12 (E)",
+    "sector_name": "Pulpally Agricultural Basin",
+    "category": "Power Grid Substation (110kV)",
+    "lat": 11.703548,
+    "lon": 76.139459,
+    "elevation_m": 4.3,
+    "estimated_occupants": 23
+  },
+  {
+    "id": "BLD-184",
+    "name": "Vythiri Substation & Telecom Hub #12 (F)",
+    "sector_name": "Vythiri Mountain Pass",
+    "category": "Municipal School Relief Shelter",
+    "lat": 11.704699,
+    "lon": 76.1128,
+    "elevation_m": 5.4,
+    "estimated_occupants": 23
+  },
+  {
+    "id": "BLD-185",
+    "name": "Panamaram Bridge Quarters #13 (A)",
+    "sector_name": "Panamaram Kabini Confluence",
+    "category": "Riparian Commercial Complex",
+    "lat": 11.712981,
+    "lon": 76.122423,
+    "elevation_m": 6.0,
+    "estimated_occupants": 42
+  },
+  {
+    "id": "BLD-186",
+    "name": "Kalpetta Valley Health Center #13 (B)",
+    "sector_name": "Kalpetta Highway Corridor",
+    "category": "Civil Supplies Warehouse",
+    "lat": 11.6927,
+    "lon": 76.118362,
+    "elevation_m": 8.0,
+    "estimated_occupants": 73
+  },
+  {
+    "id": "BLD-187",
+    "name": "Kabini Riparian Estate Block #13 (C)",
+    "sector_name": "Mananthavady Creek Sector",
+    "category": "Water Pumping & Sluice Station",
+    "lat": 11.716836,
+    "lon": 76.117947,
+    "elevation_m": 10.3,
+    "estimated_occupants": 27
+  },
+  {
+    "id": "BLD-188",
+    "name": "Western Ghats Tea Factory Hub #13 (D)",
+    "sector_name": "Chooralmala Foothill Pocket",
+    "category": "Telecom Switching Exchange",
+    "lat": 11.689111,
+    "lon": 76.131756,
+    "elevation_m": 9.0,
+    "estimated_occupants": 38
+  },
+  {
+    "id": "BLD-189",
+    "name": "Meppadi Elevated School Shelter #13 (E)",
+    "sector_name": "Meppadi Relief Staging Zone",
+    "category": "Residential Apartment Block",
+    "lat": 11.719246,
+    "lon": 76.135354,
+    "elevation_m": 11.1,
+    "estimated_occupants": 73
+  },
+  {
+    "id": "BLD-190",
+    "name": "Pulpally Cooperative Warehouse #13 (F)",
+    "sector_name": "Pulpally Agricultural Basin",
+    "category": "Primary Health & Trauma Center",
+    "lat": 11.705186,
+    "lon": 76.13986,
+    "elevation_m": 4.1,
+    "estimated_occupants": 57
+  },
+  {
+    "id": "BLD-191",
+    "name": "Vythiri Substation & Telecom Hub #13 (A)",
+    "sector_name": "Vythiri Mountain Pass",
+    "category": "Power Grid Substation (110kV)",
+    "lat": 11.705603,
+    "lon": 76.107545,
+    "elevation_m": 7.0,
+    "estimated_occupants": 75
+  },
+  {
+    "id": "BLD-192",
+    "name": "Panamaram Bridge Quarters #14 (B)",
+    "sector_name": "Panamaram Kabini Confluence",
+    "category": "Municipal School Relief Shelter",
+    "lat": 11.70191,
+    "lon": 76.126498,
+    "elevation_m": 7.2,
+    "estimated_occupants": 23
+  }
+]

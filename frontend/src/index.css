@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Dark GIS Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #020617;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #06b6d4;
+}
+
+/* Leaflet Dark Command Center Overrides */
+.leaflet-container {
+  background-color: #020617 !important;
+  font-family: "Inter", system-ui, sans-serif;
+}
+
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background: rgba(15, 23, 42, 0.96) !important;
+  color: #f1f5f9 !important;
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.8);
+  border-radius: 0.5rem !important;
+}
+
+/* Animated Marching Ants for Active A* Rescue Routes */
+@keyframes dash-flow {
+  to {
+    stroke-dashoffset: -28;
+  }
+}
+
+.rescue-route-animated {
+  stroke-dasharray: 10, 6;
+  animation: dash-flow 1.1s linear infinite;
+  filter: drop-shadow(0 0 6px rgba(16, 185, 129, 0.65));
+}
+
+/* Radar Beacon Pulse */
+@keyframes radar-ring {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.9;
+  }
+  70% {
+    transform: scale(1.75);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.75);
+    opacity: 0;
+  }
+}
+
+.radar-pulse::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 9999px;
+  border: 2px solid #22d3ee;
+  animation: radar-ring 2s infinite;
+}
+
+/* Print SitRep Report Styling */
+@media print {
+  body {
+    background: #020617 !important;
+    color: #f8fafc !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
+

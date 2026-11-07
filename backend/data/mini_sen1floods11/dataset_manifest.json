@@ -1,0 +1,269 @@
+{
+  "dataset_name": "FloodSense-AI Mini-Sen1Floods11 Calibration Benchmark",
+  "version": "3.0.0",
+  "spatial_resolution_m": 10.0,
+  "tile_dimensions": [
+    256,
+    256
+  ],
+  "optical_bands": [
+    "B4_Red",
+    "B3_Green",
+    "B2_Blue",
+    "B8_NIR"
+  ],
+  "sar_polarizations": [
+    "VV_dB",
+    "VH_dB"
+  ],
+  "classes": {
+    "0": "Dry Land / Background",
+    "1": "Permanent Water Body (Baseline)",
+    "2": "New Flood Inundation (Active Disaster)"
+  },
+  "train_samples": 18,
+  "val_samples": 6,
+  "total_samples": 24,
+  "samples": [
+    {
+      "sample_id": "train_tile_01",
+      "split": "train",
+      "biome_preset": "chennai_monsoon_2026",
+      "pre_optical_path": "train/train_tile_01/pre_optical.npz",
+      "post_sar_path": "train/train_tile_01/post_sar.npz",
+      "ground_truth_png": "train/train_tile_01/ground_truth_mask.png",
+      "flood_pixels": 22002,
+      "permanent_water_pixels": 13970
+    },
+    {
+      "sample_id": "train_tile_02",
+      "split": "train",
+      "biome_preset": "assam_brahmaputra_surge",
+      "pre_optical_path": "train/train_tile_02/pre_optical.npz",
+      "post_sar_path": "train/train_tile_02/post_sar.npz",
+      "ground_truth_png": "train/train_tile_02/ground_truth_mask.png",
+      "flood_pixels": 19691,
+      "permanent_water_pixels": 12014
+    },
+    {
+      "sample_id": "train_tile_03",
+      "split": "train",
+      "biome_preset": "wayanad_kerala_flashflood",
+      "pre_optical_path": "train/train_tile_03/pre_optical.npz",
+      "post_sar_path": "train/train_tile_03/post_sar.npz",
+      "ground_truth_png": "train/train_tile_03/ground_truth_mask.png",
+      "flood_pixels": 16124,
+      "permanent_water_pixels": 7862
+    },
+    {
+      "sample_id": "train_tile_04",
+      "split": "train",
+      "biome_preset": "chennai_monsoon_2026",
+      "pre_optical_path": "train/train_tile_04/pre_optical.npz",
+      "post_sar_path": "train/train_tile_04/post_sar.npz",
+      "ground_truth_png": "train/train_tile_04/ground_truth_mask.png",
+      "flood_pixels": 16143,
+      "permanent_water_pixels": 15686
+    },
+    {
+      "sample_id": "train_tile_05",
+      "split": "train",
+      "biome_preset": "assam_brahmaputra_surge",
+      "pre_optical_path": "train/train_tile_05/pre_optical.npz",
+      "post_sar_path": "train/train_tile_05/post_sar.npz",
+      "ground_truth_png": "train/train_tile_05/ground_truth_mask.png",
+      "flood_pixels": 17594,
+      "permanent_water_pixels": 12037
+    },
+    {
+      "sample_id": "train_tile_06",
+      "split": "train",
+      "biome_preset": "wayanad_kerala_flashflood",
+      "pre_optical_path": "train/train_tile_06/pre_optical.npz",
+      "post_sar_path": "train/train_tile_06/post_sar.npz",
+      "ground_truth_png": "train/train_tile_06/ground_truth_mask.png",
+      "flood_pixels": 15416,
+      "permanent_water_pixels": 7065
+    },
+    {
+      "sample_id": "train_tile_07",
+      "split": "train",
+      "biome_preset": "chennai_monsoon_2026",
+      "pre_optical_path": "train/train_tile_07/pre_optical.npz",
+      "post_sar_path": "train/train_tile_07/post_sar.npz",
+      "ground_truth_png": "train/train_tile_07/ground_truth_mask.png",
+      "flood_pixels": 18469,
+      "permanent_water_pixels": 13695
+    },
+    {
+      "sample_id": "train_tile_08",
+      "split": "train",
+      "biome_preset": "assam_brahmaputra_surge",
+      "pre_optical_path": "train/train_tile_08/pre_optical.npz",
+      "post_sar_path": "train/train_tile_08/post_sar.npz",
+      "ground_truth_png": "train/train_tile_08/ground_truth_mask.png",
+      "flood_pixels": 24803,
+      "permanent_water_pixels": 14893
+    },
+    {
+      "sample_id": "train_tile_09",
+      "split": "train",
+      "biome_preset": "wayanad_kerala_flashflood",
+      "pre_optical_path": "train/train_tile_09/pre_optical.npz",
+      "post_sar_path": "train/train_tile_09/post_sar.npz",
+      "ground_truth_png": "train/train_tile_09/ground_truth_mask.png",
+      "flood_pixels": 17418,
+      "permanent_water_pixels": 9151
+    },
+    {
+      "sample_id": "train_tile_10",
+      "split": "train",
+      "biome_preset": "chennai_monsoon_2026",
+      "pre_optical_path": "train/train_tile_10/pre_optical.npz",
+      "post_sar_path": "train/train_tile_10/post_sar.npz",
+      "ground_truth_png": "train/train_tile_10/ground_truth_mask.png",
+      "flood_pixels": 16418,
+      "permanent_water_pixels": 11973
+    },
+    {
+      "sample_id": "train_tile_11",
+      "split": "train",
+      "biome_preset": "assam_brahmaputra_surge",
+      "pre_optical_path": "train/train_tile_11/pre_optical.npz",
+      "post_sar_path": "train/train_tile_11/post_sar.npz",
+      "ground_truth_png": "train/train_tile_11/ground_truth_mask.png",
+      "flood_pixels": 20016,
+      "permanent_water_pixels": 14041
+    },
+    {
+      "sample_id": "train_tile_12",
+      "split": "train",
+      "biome_preset": "wayanad_kerala_flashflood",
+      "pre_optical_path": "train/train_tile_12/pre_optical.npz",
+      "post_sar_path": "train/train_tile_12/post_sar.npz",
+      "ground_truth_png": "train/train_tile_12/ground_truth_mask.png",
+      "flood_pixels": 9076,
+      "permanent_water_pixels": 5925
+    },
+    {
+      "sample_id": "train_tile_13",
+      "split": "train",
+      "biome_preset": "chennai_monsoon_2026",
+      "pre_optical_path": "train/train_tile_13/pre_optical.npz",
+      "post_sar_path": "train/train_tile_13/post_sar.npz",
+      "ground_truth_png": "train/train_tile_13/ground_truth_mask.png",
+      "flood_pixels": 14891,
+      "permanent_water_pixels": 11631
+    },
+    {
+      "sample_id": "train_tile_14",
+      "split": "train",
+      "biome_preset": "assam_brahmaputra_surge",
+      "pre_optical_path": "train/train_tile_14/pre_optical.npz",
+      "post_sar_path": "train/train_tile_14/post_sar.npz",
+      "ground_truth_png": "train/train_tile_14/ground_truth_mask.png",
+      "flood_pixels": 20506,
+      "permanent_water_pixels": 11708
+    },
+    {
+      "sample_id": "train_tile_15",
+      "split": "train",
+      "biome_preset": "wayanad_kerala_flashflood",
+      "pre_optical_path": "train/train_tile_15/pre_optical.npz",
+      "post_sar_path": "train/train_tile_15/post_sar.npz",
+      "ground_truth_png": "train/train_tile_15/ground_truth_mask.png",
+      "flood_pixels": 12529,
+      "permanent_water_pixels": 7606
+    },
+    {
+      "sample_id": "train_tile_16",
+      "split": "train",
+      "biome_preset": "chennai_monsoon_2026",
+      "pre_optical_path": "train/train_tile_16/pre_optical.npz",
+      "post_sar_path": "train/train_tile_16/post_sar.npz",
+      "ground_truth_png": "train/train_tile_16/ground_truth_mask.png",
+      "flood_pixels": 21405,
+      "permanent_water_pixels": 11417
+    },
+    {
+      "sample_id": "train_tile_17",
+      "split": "train",
+      "biome_preset": "assam_brahmaputra_surge",
+      "pre_optical_path": "train/train_tile_17/pre_optical.npz",
+      "post_sar_path": "train/train_tile_17/post_sar.npz",
+      "ground_truth_png": "train/train_tile_17/ground_truth_mask.png",
+      "flood_pixels": 25913,
+      "permanent_water_pixels": 11591
+    },
+    {
+      "sample_id": "train_tile_18",
+      "split": "train",
+      "biome_preset": "wayanad_kerala_flashflood",
+      "pre_optical_path": "train/train_tile_18/pre_optical.npz",
+      "post_sar_path": "train/train_tile_18/post_sar.npz",
+      "ground_truth_png": "train/train_tile_18/ground_truth_mask.png",
+      "flood_pixels": 19877,
+      "permanent_water_pixels": 6269
+    },
+    {
+      "sample_id": "val_tile_01",
+      "split": "val",
+      "biome_preset": "chennai_monsoon_2026",
+      "pre_optical_path": "val/val_tile_01/pre_optical.npz",
+      "post_sar_path": "val/val_tile_01/post_sar.npz",
+      "ground_truth_png": "val/val_tile_01/ground_truth_mask.png",
+      "flood_pixels": 19345,
+      "permanent_water_pixels": 16795
+    },
+    {
+      "sample_id": "val_tile_02",
+      "split": "val",
+      "biome_preset": "assam_brahmaputra_surge",
+      "pre_optical_path": "val/val_tile_02/pre_optical.npz",
+      "post_sar_path": "val/val_tile_02/post_sar.npz",
+      "ground_truth_png": "val/val_tile_02/ground_truth_mask.png",
+      "flood_pixels": 23570,
+      "permanent_water_pixels": 14838
+    },
+    {
+      "sample_id": "val_tile_03",
+      "split": "val",
+      "biome_preset": "wayanad_kerala_flashflood",
+      "pre_optical_path": "val/val_tile_03/pre_optical.npz",
+      "post_sar_path": "val/val_tile_03/post_sar.npz",
+      "ground_truth_png": "val/val_tile_03/ground_truth_mask.png",
+      "flood_pixels": 24171,
+      "permanent_water_pixels": 6032
+    },
+    {
+      "sample_id": "val_tile_04",
+      "split": "val",
+      "biome_preset": "chennai_monsoon_2026",
+      "pre_optical_path": "val/val_tile_04/pre_optical.npz",
+      "post_sar_path": "val/val_tile_04/post_sar.npz",
+      "ground_truth_png": "val/val_tile_04/ground_truth_mask.png",
+      "flood_pixels": 11995,
+      "permanent_water_pixels": 13839
+    },
+    {
+      "sample_id": "val_tile_05",
+      "split": "val",
+      "biome_preset": "assam_brahmaputra_surge",
+      "pre_optical_path": "val/val_tile_05/pre_optical.npz",
+      "post_sar_path": "val/val_tile_05/post_sar.npz",
+      "ground_truth_png": "val/val_tile_05/ground_truth_mask.png",
+      "flood_pixels": 17375,
+      "permanent_water_pixels": 11843
+    },
+    {
+      "sample_id": "val_tile_06",
+      "split": "val",
+      "biome_preset": "wayanad_kerala_flashflood",
+      "pre_optical_path": "val/val_tile_06/pre_optical.npz",
+      "post_sar_path": "val/val_tile_06/post_sar.npz",
+      "ground_truth_png": "val/val_tile_06/ground_truth_mask.png",
+      "flood_pixels": 17410,
+      "permanent_water_pixels": 7377
+    }
+  ]
+}

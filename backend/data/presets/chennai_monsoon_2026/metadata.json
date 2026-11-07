@@ -1,0 +1,28 @@
+{
+  "id": "chennai_monsoon_2026",
+  "name": "Chennai & Adyar River Basin Cyclonic Flood",
+  "region": "Tamil Nadu, India",
+  "event_date": "2025-12-04",
+  "pre_date": "2025-11-10",
+  "post_date": "2025-12-05",
+  "bbox": [
+    13.01,
+    80.22,
+    13.06,
+    80.27
+  ],
+  "center": [
+    13.035,
+    80.245
+  ],
+  "zoom": 14,
+  "sensor_pair": "Sentinel-2B MSI + Sentinel-1A C-Band SAR (VV/VH)",
+  "description": "High urban density arterial river bank overflow across Adyar estuary with severe submergence of low-lying residential blocks.",
+  "population_density_factor": 42,
+  "historical_metrics": {
+    "miou": 0.914,
+    "f1_score": 0.948,
+    "precision": 0.956,
+    "recall": 0.941
+  }
+}

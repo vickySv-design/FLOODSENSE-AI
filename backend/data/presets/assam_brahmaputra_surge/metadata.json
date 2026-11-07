@@ -1,0 +1,28 @@
+{
+  "id": "assam_brahmaputra_surge",
+  "name": "Assam Brahmaputra Valley Monsoon Inundation",
+  "region": "Guwahati & Kamrup Basin, Assam, India",
+  "event_date": "2025-07-18",
+  "pre_date": "2025-05-12",
+  "post_date": "2025-07-19",
+  "bbox": [
+    26.14,
+    91.7,
+    26.19,
+    91.76
+  ],
+  "center": [
+    26.165,
+    91.73
+  ],
+  "zoom": 14,
+  "sensor_pair": "Sentinel-2A MSI + Sentinel-1A IW GRD SAR",
+  "description": "Massive braided river channel expansion and embankment breach isolating rural settlements and agricultural floodplains.",
+  "population_density_factor": 28,
+  "historical_metrics": {
+    "miou": 0.928,
+    "f1_score": 0.959,
+    "precision": 0.962,
+    "recall": 0.955
+  }
+}

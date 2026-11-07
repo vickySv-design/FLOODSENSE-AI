@@ -1,0 +1,922 @@
+[
+  {
+    "id": "BLD-101",
+    "name": "Adyar Riverbank Block #1 (A)",
+    "sector_name": "Adyar Riverbank North",
+    "category": "Residential Apartment Block",
+    "lat": 13.031303,
+    "lon": 80.246866,
+    "elevation_m": 6.0,
+    "estimated_occupants": 46
+  },
+  {
+    "id": "BLD-102",
+    "name": "Kotturpuram Substation & Quarters #1 (B)",
+    "sector_name": "Kotturpuram Urban Corridor",
+    "category": "Primary Health & Trauma Center",
+    "lat": 13.04017,
+    "lon": 80.236949,
+    "elevation_m": 8.9,
+    "estimated_occupants": 54
+  },
+  {
+    "id": "BLD-103",
+    "name": "Saidapet Commercial Hub #1 (C)",
+    "sector_name": "Saidapet Bridge Cluster",
+    "category": "Power Grid Substation (110kV)",
+    "lat": 13.033033,
+    "lon": 80.230036,
+    "elevation_m": 8.3,
+    "estimated_occupants": 25
+  },
+  {
+    "id": "BLD-104",
+    "name": "Guindy Relief Transit Hub #1 (D)",
+    "sector_name": "Guindy Industrial & Relief Zone",
+    "category": "Municipal School Relief Shelter",
+    "lat": 13.02875,
+    "lon": 80.233769,
+    "elevation_m": 8.5,
+    "estimated_occupants": 41
+  },
+  {
+    "id": "BLD-105",
+    "name": "T-Nagar Residential Complex #1 (E)",
+    "sector_name": "T. Nagar Southern Basin",
+    "category": "Riparian Commercial Complex",
+    "lat": 13.044547,
+    "lon": 80.23979,
+    "elevation_m": 7.5,
+    "estimated_occupants": 69
+  },
+  {
+    "id": "BLD-106",
+    "name": "Santhome Estuary Enclave #1 (F)",
+    "sector_name": "Mylapore Coastal Approach",
+    "category": "Civil Supplies Warehouse",
+    "lat": 13.035556,
+    "lon": 80.254052,
+    "elevation_m": 5.9,
+    "estimated_occupants": 52
+  },
+  {
+    "id": "BLD-107",
+    "name": "Velachery Floodplain Apt #1 (A)",
+    "sector_name": "Velachery Lowland Pocket",
+    "category": "Water Pumping & Sluice Station",
+    "lat": 13.024233,
+    "lon": 80.251164,
+    "elevation_m": 8.4,
+    "estimated_occupants": 82
+  },
+  {
+    "id": "BLD-108",
+    "name": "Adyar Riverbank Block #2 (B)",
+    "sector_name": "Adyar Riverbank North",
+    "category": "Telecom Switching Exchange",
+    "lat": 13.040204,
+    "lon": 80.243433,
+    "elevation_m": 7.5,
+    "estimated_occupants": 19
+  },
+  {
+    "id": "BLD-109",
+    "name": "Kotturpuram Substation & Quarters #2 (C)",
+    "sector_name": "Kotturpuram Urban Corridor",
+    "category": "Residential Apartment Block",
+    "lat": 13.033818,
+    "lon": 80.23863,
+    "elevation_m": 7.7,
+    "estimated_occupants": 93
+  },
+  {
+    "id": "BLD-110",
+    "name": "Saidapet Commercial Hub #2 (D)",
+    "sector_name": "Saidapet Bridge Cluster",
+    "category": "Primary Health & Trauma Center",
+    "lat": 13.03026,
+    "lon": 80.235865,
+    "elevation_m": 6.2,
+    "estimated_occupants": 34
+  },
+  {
+    "id": "BLD-111",
+    "name": "Guindy Relief Transit Hub #2 (E)",
+    "sector_name": "Guindy Industrial & Relief Zone",
+    "category": "Power Grid Substation (110kV)",
+    "lat": 13.030868,
+    "lon": 80.230812,
+    "elevation_m": 8.6,
+    "estimated_occupants": 64
+  },
+  {
+    "id": "BLD-112",
+    "name": "T-Nagar Residential Complex #2 (F)",
+    "sector_name": "T. Nagar Southern Basin",
+    "category": "Municipal School Relief Shelter",
+    "lat": 13.042445,
+    "lon": 80.243824,
+    "elevation_m": 6.8,
+    "estimated_occupants": 51
+  },
+  {
+    "id": "BLD-113",
+    "name": "Santhome Estuary Enclave #2 (A)",
+    "sector_name": "Mylapore Coastal Approach",
+    "category": "Riparian Commercial Complex",
+    "lat": 13.036695,
+    "lon": 80.256739,
+    "elevation_m": 6.0,
+    "estimated_occupants": 51
+  },
+  {
+    "id": "BLD-114",
+    "name": "Velachery Floodplain Apt #2 (B)",
+    "sector_name": "Velachery Lowland Pocket",
+    "category": "Civil Supplies Warehouse",
+    "lat": 13.024019,
+    "lon": 80.254591,
+    "elevation_m": 9.7,
+    "estimated_occupants": 35
+  },
+  {
+    "id": "BLD-115",
+    "name": "Adyar Riverbank Block #3 (C)",
+    "sector_name": "Adyar Riverbank North",
+    "category": "Water Pumping & Sluice Station",
+    "lat": 13.031226,
+    "lon": 80.255214,
+    "elevation_m": 6.3,
+    "estimated_occupants": 20
+  },
+  {
+    "id": "BLD-116",
+    "name": "Kotturpuram Substation & Quarters #3 (D)",
+    "sector_name": "Kotturpuram Urban Corridor",
+    "category": "Telecom Switching Exchange",
+    "lat": 13.043503,
+    "lon": 80.240978,
+    "elevation_m": 8.8,
+    "estimated_occupants": 47
+  },
+  {
+    "id": "BLD-117",
+    "name": "Saidapet Commercial Hub #3 (E)",
+    "sector_name": "Saidapet Bridge Cluster",
+    "category": "Residential Apartment Block",
+    "lat": 13.035381,
+    "lon": 80.229406,
+    "elevation_m": 7.1,
+    "estimated_occupants": 80
+  },
+  {
+    "id": "BLD-118",
+    "name": "Guindy Relief Transit Hub #3 (F)",
+    "sector_name": "Guindy Industrial & Relief Zone",
+    "category": "Primary Health & Trauma Center",
+    "lat": 13.027965,
+    "lon": 80.238637,
+    "elevation_m": 7.6,
+    "estimated_occupants": 18
+  },
+  {
+    "id": "BLD-119",
+    "name": "T-Nagar Residential Complex #3 (A)",
+    "sector_name": "T. Nagar Southern Basin",
+    "category": "Power Grid Substation (110kV)",
+    "lat": 13.04901,
+    "lon": 80.24,
+    "elevation_m": 7.5,
+    "estimated_occupants": 52
+  },
+  {
+    "id": "BLD-120",
+    "name": "Santhome Estuary Enclave #3 (B)",
+    "sector_name": "Mylapore Coastal Approach",
+    "category": "Municipal School Relief Shelter",
+    "lat": 13.032708,
+    "lon": 80.253848,
+    "elevation_m": 5.4,
+    "estimated_occupants": 95
+  },
+  {
+    "id": "BLD-121",
+    "name": "Velachery Floodplain Apt #3 (C)",
+    "sector_name": "Velachery Lowland Pocket",
+    "category": "Riparian Commercial Complex",
+    "lat": 13.026397,
+    "lon": 80.249864,
+    "elevation_m": 10.1,
+    "estimated_occupants": 32
+  },
+  {
+    "id": "BLD-122",
+    "name": "Adyar Riverbank Block #4 (D)",
+    "sector_name": "Adyar Riverbank North",
+    "category": "Civil Supplies Warehouse",
+    "lat": 13.034577,
+    "lon": 80.239733,
+    "elevation_m": 4.2,
+    "estimated_occupants": 78
+  },
+  {
+    "id": "BLD-123",
+    "name": "Kotturpuram Substation & Quarters #4 (E)",
+    "sector_name": "Kotturpuram Urban Corridor",
+    "category": "Water Pumping & Sluice Station",
+    "lat": 13.045665,
+    "lon": 80.235901,
+    "elevation_m": 7.6,
+    "estimated_occupants": 20
+  },
+  {
+    "id": "BLD-124",
+    "name": "Saidapet Commercial Hub #4 (F)",
+    "sector_name": "Saidapet Bridge Cluster",
+    "category": "Telecom Switching Exchange",
+    "lat": 13.03148,
+    "lon": 80.228652,
+    "elevation_m": 4.7,
+    "estimated_occupants": 41
+  },
+  {
+    "id": "BLD-125",
+    "name": "Guindy Relief Transit Hub #4 (A)",
+    "sector_name": "Guindy Industrial & Relief Zone",
+    "category": "Residential Apartment Block",
+    "lat": 13.026397,
+    "lon": 80.239499,
+    "elevation_m": 8.5,
+    "estimated_occupants": 90
+  },
+  {
+    "id": "BLD-126",
+    "name": "T-Nagar Residential Complex #4 (B)",
+    "sector_name": "T. Nagar Southern Basin",
+    "category": "Primary Health & Trauma Center",
+    "lat": 13.041855,
+    "lon": 80.242206,
+    "elevation_m": 9.4,
+    "estimated_occupants": 56
+  },
+  {
+    "id": "BLD-127",
+    "name": "Santhome Estuary Enclave #4 (C)",
+    "sector_name": "Mylapore Coastal Approach",
+    "category": "Power Grid Substation (110kV)",
+    "lat": 13.037269,
+    "lon": 80.254558,
+    "elevation_m": 6.9,
+    "estimated_occupants": 37
+  },
+  {
+    "id": "BLD-128",
+    "name": "Velachery Floodplain Apt #4 (D)",
+    "sector_name": "Velachery Lowland Pocket",
+    "category": "Municipal School Relief Shelter",
+    "lat": 13.019097,
+    "lon": 80.254438,
+    "elevation_m": 12.0,
+    "estimated_occupants": 79
+  },
+  {
+    "id": "BLD-129",
+    "name": "Adyar Riverbank Block #5 (E)",
+    "sector_name": "Adyar Riverbank North",
+    "category": "Riparian Commercial Complex",
+    "lat": 13.027346,
+    "lon": 80.239501,
+    "elevation_m": 6.1,
+    "estimated_occupants": 75
+  },
+  {
+    "id": "BLD-130",
+    "name": "Kotturpuram Substation & Quarters #5 (F)",
+    "sector_name": "Kotturpuram Urban Corridor",
+    "category": "Civil Supplies Warehouse",
+    "lat": 13.044913,
+    "lon": 80.236624,
+    "elevation_m": 9.6,
+    "estimated_occupants": 81
+  },
+  {
+    "id": "BLD-131",
+    "name": "Saidapet Commercial Hub #5 (A)",
+    "sector_name": "Saidapet Bridge Cluster",
+    "category": "Water Pumping & Sluice Station",
+    "lat": 13.028385,
+    "lon": 80.227231,
+    "elevation_m": 8.0,
+    "estimated_occupants": 64
+  },
+  {
+    "id": "BLD-132",
+    "name": "Guindy Relief Transit Hub #5 (B)",
+    "sector_name": "Guindy Industrial & Relief Zone",
+    "category": "Telecom Switching Exchange",
+    "lat": 13.030221,
+    "lon": 80.232716,
+    "elevation_m": 6.2,
+    "estimated_occupants": 84
+  },
+  {
+    "id": "BLD-133",
+    "name": "T-Nagar Residential Complex #5 (C)",
+    "sector_name": "T. Nagar Southern Basin",
+    "category": "Residential Apartment Block",
+    "lat": 13.044673,
+    "lon": 80.241869,
+    "elevation_m": 6.2,
+    "estimated_occupants": 54
+  },
+  {
+    "id": "BLD-134",
+    "name": "Santhome Estuary Enclave #5 (D)",
+    "sector_name": "Mylapore Coastal Approach",
+    "category": "Primary Health & Trauma Center",
+    "lat": 13.039903,
+    "lon": 80.256113,
+    "elevation_m": 5.7,
+    "estimated_occupants": 39
+  },
+  {
+    "id": "BLD-135",
+    "name": "Velachery Floodplain Apt #5 (E)",
+    "sector_name": "Velachery Lowland Pocket",
+    "category": "Power Grid Substation (110kV)",
+    "lat": 13.02239,
+    "lon": 80.249798,
+    "elevation_m": 8.5,
+    "estimated_occupants": 95
+  },
+  {
+    "id": "BLD-136",
+    "name": "Adyar Riverbank Block #6 (F)",
+    "sector_name": "Adyar Riverbank North",
+    "category": "Municipal School Relief Shelter",
+    "lat": 13.03025,
+    "lon": 80.248753,
+    "elevation_m": 5.2,
+    "estimated_occupants": 86
+  },
+  {
+    "id": "BLD-137",
+    "name": "Kotturpuram Substation & Quarters #6 (A)",
+    "sector_name": "Kotturpuram Urban Corridor",
+    "category": "Riparian Commercial Complex",
+    "lat": 13.039567,
+    "lon": 80.242027,
+    "elevation_m": 7.1,
+    "estimated_occupants": 37
+  },
+  {
+    "id": "BLD-138",
+    "name": "Saidapet Commercial Hub #6 (B)",
+    "sector_name": "Saidapet Bridge Cluster",
+    "category": "Civil Supplies Warehouse",
+    "lat": 13.035533,
+    "lon": 80.233593,
+    "elevation_m": 6.9,
+    "estimated_occupants": 54
+  },
+  {
+    "id": "BLD-139",
+    "name": "Guindy Relief Transit Hub #6 (C)",
+    "sector_name": "Guindy Industrial & Relief Zone",
+    "category": "Water Pumping & Sluice Station",
+    "lat": 13.027722,
+    "lon": 80.239845,
+    "elevation_m": 8.6,
+    "estimated_occupants": 53
+  },
+  {
+    "id": "BLD-140",
+    "name": "T-Nagar Residential Complex #6 (D)",
+    "sector_name": "T. Nagar Southern Basin",
+    "category": "Telecom Switching Exchange",
+    "lat": 13.037074,
+    "lon": 80.238035,
+    "elevation_m": 7.0,
+    "estimated_occupants": 68
+  },
+  {
+    "id": "BLD-141",
+    "name": "Santhome Estuary Enclave #6 (E)",
+    "sector_name": "Mylapore Coastal Approach",
+    "category": "Residential Apartment Block",
+    "lat": 13.031019,
+    "lon": 80.257371,
+    "elevation_m": 6.0,
+    "estimated_occupants": 28
+  },
+  {
+    "id": "BLD-142",
+    "name": "Velachery Floodplain Apt #6 (F)",
+    "sector_name": "Velachery Lowland Pocket",
+    "category": "Primary Health & Trauma Center",
+    "lat": 13.028089,
+    "lon": 80.24843,
+    "elevation_m": 5.8,
+    "estimated_occupants": 25
+  },
+  {
+    "id": "BLD-143",
+    "name": "Adyar Riverbank Block #7 (A)",
+    "sector_name": "Adyar Riverbank North",
+    "category": "Power Grid Substation (110kV)",
+    "lat": 13.039156,
+    "lon": 80.240899,
+    "elevation_m": 8.7,
+    "estimated_occupants": 77
+  },
+  {
+    "id": "BLD-144",
+    "name": "Kotturpuram Substation & Quarters #7 (B)",
+    "sector_name": "Kotturpuram Urban Corridor",
+    "category": "Municipal School Relief Shelter",
+    "lat": 13.034774,
+    "lon": 80.243589,
+    "elevation_m": 4.5,
+    "estimated_occupants": 38
+  },
+  {
+    "id": "BLD-145",
+    "name": "Saidapet Commercial Hub #7 (C)",
+    "sector_name": "Saidapet Bridge Cluster",
+    "category": "Riparian Commercial Complex",
+    "lat": 13.033875,
+    "lon": 80.230894,
+    "elevation_m": 5.6,
+    "estimated_occupants": 36
+  },
+  {
+    "id": "BLD-146",
+    "name": "Guindy Relief Transit Hub #7 (D)",
+    "sector_name": "Guindy Industrial & Relief Zone",
+    "category": "Civil Supplies Warehouse",
+    "lat": 13.026187,
+    "lon": 80.233622,
+    "elevation_m": 8.3,
+    "estimated_occupants": 79
+  },
+  {
+    "id": "BLD-147",
+    "name": "T-Nagar Residential Complex #7 (E)",
+    "sector_name": "T. Nagar Southern Basin",
+    "category": "Water Pumping & Sluice Station",
+    "lat": 13.046887,
+    "lon": 80.236865,
+    "elevation_m": 8.3,
+    "estimated_occupants": 55
+  },
+  {
+    "id": "BLD-148",
+    "name": "Santhome Estuary Enclave #7 (F)",
+    "sector_name": "Mylapore Coastal Approach",
+    "category": "Telecom Switching Exchange",
+    "lat": 13.037689,
+    "lon": 80.261673,
+    "elevation_m": 4.2,
+    "estimated_occupants": 78
+  },
+  {
+    "id": "BLD-149",
+    "name": "Velachery Floodplain Apt #7 (A)",
+    "sector_name": "Velachery Lowland Pocket",
+    "category": "Residential Apartment Block",
+    "lat": 13.031921,
+    "lon": 80.255383,
+    "elevation_m": 5.7,
+    "estimated_occupants": 46
+  },
+  {
+    "id": "BLD-150",
+    "name": "Adyar Riverbank Block #8 (B)",
+    "sector_name": "Adyar Riverbank North",
+    "category": "Primary Health & Trauma Center",
+    "lat": 13.030871,
+    "lon": 80.248839,
+    "elevation_m": 8.8,
+    "estimated_occupants": 34
+  },
+  {
+    "id": "BLD-151",
+    "name": "Kotturpuram Substation & Quarters #8 (C)",
+    "sector_name": "Kotturpuram Urban Corridor",
+    "category": "Power Grid Substation (110kV)",
+    "lat": 13.035009,
+    "lon": 80.243023,
+    "elevation_m": 7.0,
+    "estimated_occupants": 40
+  },
+  {
+    "id": "BLD-152",
+    "name": "Saidapet Commercial Hub #8 (D)",
+    "sector_name": "Saidapet Bridge Cluster",
+    "category": "Municipal School Relief Shelter",
+    "lat": 13.029703,
+    "lon": 80.235689,
+    "elevation_m": 8.1,
+    "estimated_occupants": 31
+  },
+  {
+    "id": "BLD-153",
+    "name": "Guindy Relief Transit Hub #8 (E)",
+    "sector_name": "Guindy Industrial & Relief Zone",
+    "category": "Riparian Commercial Complex",
+    "lat": 13.020951,
+    "lon": 80.23913,
+    "elevation_m": 10.1,
+    "estimated_occupants": 74
+  },
+  {
+    "id": "BLD-154",
+    "name": "T-Nagar Residential Complex #8 (F)",
+    "sector_name": "T. Nagar Southern Basin",
+    "category": "Civil Supplies Warehouse",
+    "lat": 13.050537,
+    "lon": 80.246091,
+    "elevation_m": 10.7,
+    "estimated_occupants": 39
+  },
+  {
+    "id": "BLD-155",
+    "name": "Santhome Estuary Enclave #8 (A)",
+    "sector_name": "Mylapore Coastal Approach",
+    "category": "Water Pumping & Sluice Station",
+    "lat": 13.039638,
+    "lon": 80.256381,
+    "elevation_m": 6.7,
+    "estimated_occupants": 94
+  },
+  {
+    "id": "BLD-156",
+    "name": "Velachery Floodplain Apt #8 (B)",
+    "sector_name": "Velachery Lowland Pocket",
+    "category": "Telecom Switching Exchange",
+    "lat": 13.024568,
+    "lon": 80.251265,
+    "elevation_m": 8.5,
+    "estimated_occupants": 60
+  },
+  {
+    "id": "BLD-157",
+    "name": "Adyar Riverbank Block #9 (C)",
+    "sector_name": "Adyar Riverbank North",
+    "category": "Residential Apartment Block",
+    "lat": 13.035438,
+    "lon": 80.246808,
+    "elevation_m": 5.1,
+    "estimated_occupants": 84
+  },
+  {
+    "id": "BLD-158",
+    "name": "Kotturpuram Substation & Quarters #9 (D)",
+    "sector_name": "Kotturpuram Urban Corridor",
+    "category": "Primary Health & Trauma Center",
+    "lat": 13.039895,
+    "lon": 80.238414,
+    "elevation_m": 5.6,
+    "estimated_occupants": 40
+  },
+  {
+    "id": "BLD-159",
+    "name": "Saidapet Commercial Hub #9 (E)",
+    "sector_name": "Saidapet Bridge Cluster",
+    "category": "Power Grid Substation (110kV)",
+    "lat": 13.034646,
+    "lon": 80.231957,
+    "elevation_m": 3.8,
+    "estimated_occupants": 69
+  },
+  {
+    "id": "BLD-160",
+    "name": "Guindy Relief Transit Hub #9 (F)",
+    "sector_name": "Guindy Industrial & Relief Zone",
+    "category": "Municipal School Relief Shelter",
+    "lat": 13.022038,
+    "lon": 80.235334,
+    "elevation_m": 11.0,
+    "estimated_occupants": 78
+  },
+  {
+    "id": "BLD-161",
+    "name": "T-Nagar Residential Complex #9 (A)",
+    "sector_name": "T. Nagar Southern Basin",
+    "category": "Riparian Commercial Complex",
+    "lat": 13.044472,
+    "lon": 80.242599,
+    "elevation_m": 6.0,
+    "estimated_occupants": 72
+  },
+  {
+    "id": "BLD-162",
+    "name": "Santhome Estuary Enclave #9 (B)",
+    "sector_name": "Mylapore Coastal Approach",
+    "category": "Civil Supplies Warehouse",
+    "lat": 13.036809,
+    "lon": 80.259568,
+    "elevation_m": 8.0,
+    "estimated_occupants": 50
+  },
+  {
+    "id": "BLD-163",
+    "name": "Velachery Floodplain Apt #9 (C)",
+    "sector_name": "Velachery Lowland Pocket",
+    "category": "Water Pumping & Sluice Station",
+    "lat": 13.02516,
+    "lon": 80.250147,
+    "elevation_m": 8.3,
+    "estimated_occupants": 29
+  },
+  {
+    "id": "BLD-164",
+    "name": "Adyar Riverbank Block #10 (D)",
+    "sector_name": "Adyar Riverbank North",
+    "category": "Telecom Switching Exchange",
+    "lat": 13.034358,
+    "lon": 80.24429,
+    "elevation_m": 5.4,
+    "estimated_occupants": 51
+  },
+  {
+    "id": "BLD-165",
+    "name": "Kotturpuram Substation & Quarters #10 (E)",
+    "sector_name": "Kotturpuram Urban Corridor",
+    "category": "Residential Apartment Block",
+    "lat": 13.040938,
+    "lon": 80.23413,
+    "elevation_m": 7.5,
+    "estimated_occupants": 26
+  },
+  {
+    "id": "BLD-166",
+    "name": "Saidapet Commercial Hub #10 (F)",
+    "sector_name": "Saidapet Bridge Cluster",
+    "category": "Primary Health & Trauma Center",
+    "lat": 13.032211,
+    "lon": 80.231233,
+    "elevation_m": 5.0,
+    "estimated_occupants": 94
+  },
+  {
+    "id": "BLD-167",
+    "name": "Guindy Relief Transit Hub #10 (A)",
+    "sector_name": "Guindy Industrial & Relief Zone",
+    "category": "Power Grid Substation (110kV)",
+    "lat": 13.024894,
+    "lon": 80.228416,
+    "elevation_m": 7.8,
+    "estimated_occupants": 68
+  },
+  {
+    "id": "BLD-168",
+    "name": "T-Nagar Residential Complex #10 (B)",
+    "sector_name": "T. Nagar Southern Basin",
+    "category": "Municipal School Relief Shelter",
+    "lat": 13.041904,
+    "lon": 80.239984,
+    "elevation_m": 6.9,
+    "estimated_occupants": 56
+  },
+  {
+    "id": "BLD-169",
+    "name": "Santhome Estuary Enclave #10 (C)",
+    "sector_name": "Mylapore Coastal Approach",
+    "category": "Riparian Commercial Complex",
+    "lat": 13.037264,
+    "lon": 80.258325,
+    "elevation_m": 8.5,
+    "estimated_occupants": 18
+  },
+  {
+    "id": "BLD-170",
+    "name": "Velachery Floodplain Apt #10 (D)",
+    "sector_name": "Velachery Lowland Pocket",
+    "category": "Civil Supplies Warehouse",
+    "lat": 13.018153,
+    "lon": 80.251294,
+    "elevation_m": 8.1,
+    "estimated_occupants": 91
+  },
+  {
+    "id": "BLD-171",
+    "name": "Adyar Riverbank Block #11 (E)",
+    "sector_name": "Adyar Riverbank North",
+    "category": "Water Pumping & Sluice Station",
+    "lat": 13.039518,
+    "lon": 80.251523,
+    "elevation_m": 5.6,
+    "estimated_occupants": 83
+  },
+  {
+    "id": "BLD-172",
+    "name": "Kotturpuram Substation & Quarters #11 (F)",
+    "sector_name": "Kotturpuram Urban Corridor",
+    "category": "Telecom Switching Exchange",
+    "lat": 13.033862,
+    "lon": 80.240423,
+    "elevation_m": 4.1,
+    "estimated_occupants": 27
+  },
+  {
+    "id": "BLD-173",
+    "name": "Saidapet Commercial Hub #11 (A)",
+    "sector_name": "Saidapet Bridge Cluster",
+    "category": "Residential Apartment Block",
+    "lat": 13.033619,
+    "lon": 80.238656,
+    "elevation_m": 5.3,
+    "estimated_occupants": 86
+  },
+  {
+    "id": "BLD-174",
+    "name": "Guindy Relief Transit Hub #11 (B)",
+    "sector_name": "Guindy Industrial & Relief Zone",
+    "category": "Primary Health & Trauma Center",
+    "lat": 13.029221,
+    "lon": 80.229959,
+    "elevation_m": 7.5,
+    "estimated_occupants": 75
+  },
+  {
+    "id": "BLD-175",
+    "name": "T-Nagar Residential Complex #11 (C)",
+    "sector_name": "T. Nagar Southern Basin",
+    "category": "Power Grid Substation (110kV)",
+    "lat": 13.046381,
+    "lon": 80.241728,
+    "elevation_m": 10.1,
+    "estimated_occupants": 36
+  },
+  {
+    "id": "BLD-176",
+    "name": "Santhome Estuary Enclave #11 (D)",
+    "sector_name": "Mylapore Coastal Approach",
+    "category": "Municipal School Relief Shelter",
+    "lat": 13.037224,
+    "lon": 80.262369,
+    "elevation_m": 6.3,
+    "estimated_occupants": 52
+  },
+  {
+    "id": "BLD-177",
+    "name": "Velachery Floodplain Apt #11 (E)",
+    "sector_name": "Velachery Lowland Pocket",
+    "category": "Riparian Commercial Complex",
+    "lat": 13.021085,
+    "lon": 80.252022,
+    "elevation_m": 7.4,
+    "estimated_occupants": 22
+  },
+  {
+    "id": "BLD-178",
+    "name": "Adyar Riverbank Block #12 (F)",
+    "sector_name": "Adyar Riverbank North",
+    "category": "Civil Supplies Warehouse",
+    "lat": 13.036833,
+    "lon": 80.253885,
+    "elevation_m": 5.8,
+    "estimated_occupants": 60
+  },
+  {
+    "id": "BLD-179",
+    "name": "Kotturpuram Substation & Quarters #12 (A)",
+    "sector_name": "Kotturpuram Urban Corridor",
+    "category": "Water Pumping & Sluice Station",
+    "lat": 13.033076,
+    "lon": 80.23834,
+    "elevation_m": 5.4,
+    "estimated_occupants": 65
+  },
+  {
+    "id": "BLD-180",
+    "name": "Saidapet Commercial Hub #12 (B)",
+    "sector_name": "Saidapet Bridge Cluster",
+    "category": "Telecom Switching Exchange",
+    "lat": 13.034241,
+    "lon": 80.23128,
+    "elevation_m": 4.3,
+    "estimated_occupants": 26
+  },
+  {
+    "id": "BLD-181",
+    "name": "Guindy Relief Transit Hub #12 (C)",
+    "sector_name": "Guindy Industrial & Relief Zone",
+    "category": "Residential Apartment Block",
+    "lat": 13.019903,
+    "lon": 80.229432,
+    "elevation_m": 11.6,
+    "estimated_occupants": 29
+  },
+  {
+    "id": "BLD-182",
+    "name": "T-Nagar Residential Complex #12 (D)",
+    "sector_name": "T. Nagar Southern Basin",
+    "category": "Primary Health & Trauma Center",
+    "lat": 13.046345,
+    "lon": 80.247484,
+    "elevation_m": 8.9,
+    "estimated_occupants": 87
+  },
+  {
+    "id": "BLD-183",
+    "name": "Santhome Estuary Enclave #12 (E)",
+    "sector_name": "Mylapore Coastal Approach",
+    "category": "Power Grid Substation (110kV)",
+    "lat": 13.037594,
+    "lon": 80.258504,
+    "elevation_m": 8.2,
+    "estimated_occupants": 55
+  },
+  {
+    "id": "BLD-184",
+    "name": "Velachery Floodplain Apt #12 (F)",
+    "sector_name": "Velachery Lowland Pocket",
+    "category": "Municipal School Relief Shelter",
+    "lat": 13.025267,
+    "lon": 80.248298,
+    "elevation_m": 8.3,
+    "estimated_occupants": 45
+  },
+  {
+    "id": "BLD-185",
+    "name": "Adyar Riverbank Block #13 (A)",
+    "sector_name": "Adyar Riverbank North",
+    "category": "Riparian Commercial Complex",
+    "lat": 13.039023,
+    "lon": 80.246129,
+    "elevation_m": 7.7,
+    "estimated_occupants": 35
+  },
+  {
+    "id": "BLD-186",
+    "name": "Kotturpuram Substation & Quarters #13 (B)",
+    "sector_name": "Kotturpuram Urban Corridor",
+    "category": "Civil Supplies Warehouse",
+    "lat": 13.046026,
+    "lon": 80.241524,
+    "elevation_m": 6.4,
+    "estimated_occupants": 57
+  },
+  {
+    "id": "BLD-187",
+    "name": "Saidapet Commercial Hub #13 (C)",
+    "sector_name": "Saidapet Bridge Cluster",
+    "category": "Water Pumping & Sluice Station",
+    "lat": 13.032195,
+    "lon": 80.232623,
+    "elevation_m": 5.9,
+    "estimated_occupants": 21
+  },
+  {
+    "id": "BLD-188",
+    "name": "Guindy Relief Transit Hub #13 (D)",
+    "sector_name": "Guindy Industrial & Relief Zone",
+    "category": "Telecom Switching Exchange",
+    "lat": 13.02386,
+    "lon": 80.23579,
+    "elevation_m": 7.3,
+    "estimated_occupants": 62
+  },
+  {
+    "id": "BLD-189",
+    "name": "T-Nagar Residential Complex #13 (E)",
+    "sector_name": "T. Nagar Southern Basin",
+    "category": "Residential Apartment Block",
+    "lat": 13.047045,
+    "lon": 80.241567,
+    "elevation_m": 10.6,
+    "estimated_occupants": 56
+  },
+  {
+    "id": "BLD-190",
+    "name": "Santhome Estuary Enclave #13 (F)",
+    "sector_name": "Mylapore Coastal Approach",
+    "category": "Primary Health & Trauma Center",
+    "lat": 13.038734,
+    "lon": 80.259964,
+    "elevation_m": 6.8,
+    "estimated_occupants": 87
+  },
+  {
+    "id": "BLD-191",
+    "name": "Velachery Floodplain Apt #13 (A)",
+    "sector_name": "Velachery Lowland Pocket",
+    "category": "Power Grid Substation (110kV)",
+    "lat": 13.01984,
+    "lon": 80.248259,
+    "elevation_m": 11.3,
+    "estimated_occupants": 46
+  },
+  {
+    "id": "BLD-192",
+    "name": "Adyar Riverbank Block #14 (B)",
+    "sector_name": "Adyar Riverbank North",
+    "category": "Municipal School Relief Shelter",
+    "lat": 13.034219,
+    "lon": 80.252036,
+    "elevation_m": 5.9,
+    "estimated_occupants": 83
+  }
+]
