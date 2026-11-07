@@ -1,7 +1,7 @@
 from contextlib import asynccontextmanager
 import json
 from typing import Any, Dict, List, Optional
-from fastapi import FastAPI, File, Form, HTTPException, UploadFile
+from fastapi import FastAPI, File, Form, HTTPException, Query, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 import numpy as np
 from pydantic import BaseModel, Field
@@ -998,6 +998,7 @@ async def get_scenario_simulation_status(scenario_id: str) -> Dict[str, Any]:
         "progress_pct": status["progress_pct"],
         "duration_hours": status["duration_hours"],
         "snapshots_count": len(status.get("snapshots", [])),
+        "snapshots": status.get("snapshots", []),
         "results": status.get("results"),
         "error": status.get("error"),
     }
@@ -1096,9 +1097,9 @@ async def recalculate_scenario_rescue_routes(
 
 
 @app.get("/api/scenarios/{scenario_id}/report")
-async def get_scenario_report(scenario_id: str) -> Dict[str, Any]:
+async def get_scenario_report(scenario_id: str, hour: Optional[int] = Query(None)) -> Dict[str, Any]:
     """Generates a comprehensive downloadable disaster scenario report with mass balance and disclaimer."""
-    report = scenario_manager.generate_scenario_report(scenario_id)
+    report = scenario_manager.generate_scenario_report(scenario_id, hour=hour)
     if "error" in report:
         raise HTTPException(status_code=404, detail=report["error"])
     return report

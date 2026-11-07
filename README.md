@@ -570,7 +570,8 @@ An exhaustive line-by-line code audit was conducted across all backend services 
 
 ### 17.1 Scenario Transparency & Audit Deliverables
 For exhaustive viva and engineering audit documentation, refer to:
-- [`SCENARIO_INPUT_AUDIT.md`](file:///c:/Users/vicky/Desktop/Disaster%20Response/SCENARIO_INPUT_AUDIT.md) — Root-cause analysis, parameter flow tracing, and silent fallback remediation.
+- [`SCENARIO_RESULT_CONSISTENCY.md`](file:///c:/Users/vicky/Desktop/Disaster%20Response/SCENARIO_RESULT_CONSISTENCY.md) — Root-cause analysis, race-condition elimination, physical raster sampling formulas, and verification of zero metric discrepancy between dashboard and exported JSON.
+- [`SCENARIO_INPUT_AUDIT.md`](file:///c:/Users/vicky/Desktop/Disaster%20Response/SCENARIO_INPUT_AUDIT.md) — Parameter flow tracing and transparent source attribution.
 - [`SCENARIO_DEFAULT_VALUES.md`](file:///c:/Users/vicky/Desktop/Disaster%20Response/SCENARIO_DEFAULT_VALUES.md) — Matrix of all 14 parameters, physical units, defaults, and meteorological justifications.
 - [`SCENARIO_SCIENTIFIC_VALIDATION.md`](file:///c:/Users/vicky/Desktop/Disaster%20Response/SCENARIO_SCIENTIFIC_VALIDATION.md) — 2D diffusive wave Saint-Venant equations, CFL stability, dynamic mass error, and physical scope.
 - [`SCENARIO_TEST_RESULTS.md`](file:///c:/Users/vicky/Desktop/Disaster%20Response/SCENARIO_TEST_RESULTS.md) — 11-scenario automated test results and verbatim console logs.

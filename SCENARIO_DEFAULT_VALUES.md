@@ -63,3 +63,4 @@ To ensure cross-jurisdictional compliance during operations, wind speeds are sim
 
 > [!NOTE]
 > The conversion factor $V_{1\text{min}} = 1.14 \times V_{3\text{min}}$ is the official standard adopted by the World Meteorological Organization (WMO) for converting between 3-minute sustained winds (IMD, BoM) and 1-minute sustained winds (NOAA National Hurricane Center).
+

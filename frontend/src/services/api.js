@@ -202,8 +202,11 @@ export async function fetchScenarioTimeline(scenarioId) {
   return data;
 }
 
-export async function fetchScenarioReport(scenarioId) {
-  const { data } = await apiClient.get(`/api/scenarios/${scenarioId}/report`);
+export async function fetchScenarioReport(scenarioId, hour = null) {
+  const url = hour !== null && hour !== undefined
+    ? `/api/scenarios/${scenarioId}/report?hour=${hour}`
+    : `/api/scenarios/${scenarioId}/report`;
+  const { data } = await apiClient.get(url);
   return data;
 }
 

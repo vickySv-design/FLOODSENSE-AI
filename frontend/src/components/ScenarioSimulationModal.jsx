@@ -114,25 +114,14 @@ export default function ScenarioSimulationModal({
     rainfallDistribution,
   ]);
 
-  // Poll active scenario simulation
+  // Active polling reference to avoid race conditions
+  const pollTimerRef = React.useRef(null);
+
   useEffect(() => {
-    if (!activeScenarioId || !isSimulating) return;
-    const interval = setInterval(async () => {
-      try {
-        const res = await fetchScenarioStatus(activeScenarioId);
-        setSimulationStatus(res);
-        if (res.status === "COMPLETED" || res.status === "FAILED") {
-          setIsSimulating(false);
-          if (res.snapshots?.length > 0 && onApplyScenarioLayers) {
-            onApplyScenarioLayers(res.snapshots[0]);
-          }
-        }
-      } catch (err) {
-        setIsSimulating(false);
-      }
-    }, 1500);
-    return () => clearInterval(interval);
-  }, [activeScenarioId, isSimulating]);
+    return () => {
+      if (pollTimerRef.current) clearInterval(pollTimerRef.current);
+    };
+  }, []);
 
   const loadPresets = async () => {
     try {
@@ -191,10 +180,44 @@ export default function ScenarioSimulationModal({
     }
   };
 
+  const pollScenario = (targetId) => {
+    if (pollTimerRef.current) clearInterval(pollTimerRef.current);
+    let attempts = 0;
+    pollTimerRef.current = setInterval(async () => {
+      attempts += 1;
+      try {
+        const res = await fetchScenarioStatus(targetId);
+        // Only accept responses for this specific scenario run
+        if (res && res.scenario_id === targetId) {
+          setSimulationStatus(res);
+          if (res.status === "COMPLETED" || res.status === "FAILED") {
+            if (pollTimerRef.current) clearInterval(pollTimerRef.current);
+            setIsSimulating(false);
+            if (res.snapshots?.length > 0) {
+              const lastSnap = res.snapshots[res.snapshots.length - 1];
+              setSelectedHour(lastSnap.hour);
+              if (onApplyScenarioLayers) {
+                onApplyScenarioLayers(lastSnap);
+              }
+            }
+          }
+        }
+      } catch (err) {
+        if (attempts > 40) {
+          if (pollTimerRef.current) clearInterval(pollTimerRef.current);
+          setIsSimulating(false);
+        }
+      }
+    }, 1200);
+  };
+
   const handleRunSimulation = async () => {
+    if (pollTimerRef.current) clearInterval(pollTimerRef.current);
     setIsSimulating(true);
     setSimulationStatus(null);
     setRouteRecalcResult(null);
+    setSelectedHour(0);
+
     try {
       const createRes = await createScenario({
         name: scenarioName,
@@ -216,8 +239,10 @@ export default function ScenarioSimulationModal({
         duration_hours: Number(durationHours),
       });
 
-      setActiveScenarioId(createRes.scenario_id);
-      await runScenario(createRes.scenario_id);
+      const newId = createRes.scenario_id;
+      setActiveScenarioId(newId);
+      await runScenario(newId);
+      pollScenario(newId);
     } catch (err) {
       console.error("Scenario run failed", err);
       setIsSimulating(false);
@@ -251,7 +276,7 @@ export default function ScenarioSimulationModal({
   const handleDownloadReport = async () => {
     if (!activeScenarioId) return;
     try {
-      const report = await fetchScenarioReport(activeScenarioId);
+      const report = await fetchScenarioReport(activeScenarioId, selectedHour);
       const blob = new Blob([JSON.stringify(report, null, 2)], { type: "application/json" });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
@@ -262,7 +287,7 @@ export default function ScenarioSimulationModal({
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
     } catch (err) {
-      console.error(err);
+      console.error("Failed to download scenario report", err);
     }
   };
 
@@ -626,77 +651,113 @@ export default function ScenarioSimulationModal({
           </div>
 
           {/* Simulation Results & Timeline Player */}
-          {simulationStatus?.results && (
-            <div className="p-4 rounded-xl bg-slate-950/90 border border-emerald-500/40 space-y-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                  <span className="font-bold text-slate-100 text-xs uppercase">
-                    Simulation Solved: {simulationStatus.results.name}
-                  </span>
-                </div>
-                <button
-                  type="button"
-                  onClick={handleDownloadReport}
-                  className="px-3 py-1 rounded bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 text-xs font-bold transition flex items-center gap-1.5"
-                >
-                  <Download className="w-3.5 h-3.5" />
-                  Download Scenario Report (JSON)
-                </button>
-              </div>
+          {simulationStatus?.results && (() => {
+            const currentSnapshot =
+              simulationStatus?.snapshots?.find((s) => s.hour === selectedHour) ||
+              simulationStatus?.snapshots?.[simulationStatus.snapshots.length - 1] ||
+              null;
 
-              {/* Analytical Telemetry Grid */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 font-mono text-xs">
-                <div className="p-2.5 rounded bg-slate-900 border border-slate-800">
-                  <div className="text-[10px] text-slate-500 uppercase">Inundated Area</div>
-                  <div className="text-sm font-bold text-rose-400">
-                    {simulationStatus.results.final_flooded_km2} km²
-                  </div>
-                </div>
-                <div className="p-2.5 rounded bg-slate-900 border border-slate-800">
-                  <div className="text-[10px] text-slate-500 uppercase">Max Water Depth</div>
-                  <div className="text-sm font-bold text-cyan-300">
-                    {simulationStatus.results.max_flood_depth_m} m
-                  </div>
-                </div>
-                <div className="p-2.5 rounded bg-slate-900 border border-slate-800">
-                  <div className="text-[10px] text-slate-500 uppercase">Exposed Buildings</div>
-                  <div className="text-sm font-bold text-amber-400">
-                    {simulationStatus.results.submerged_buildings} structures
-                  </div>
-                </div>
-                <div className="p-2.5 rounded bg-slate-900 border border-slate-800">
-                  <div className="text-[10px] text-slate-500 uppercase">Mass Conservation</div>
-                  <div className="text-sm font-bold text-emerald-400">
-                    {Number(simulationStatus.results.mass_balance_error_pct).toFixed(3)}% Error (
-                    {simulationStatus.results.mass_balance_status || "CONSERVED"})
-                  </div>
-                </div>
-              </div>
+            const displayFloodedKm2 = currentSnapshot
+              ? currentSnapshot.flooded_area_km2
+              : simulationStatus?.results?.final_flooded_km2 ?? 0;
 
-              {/* Timeline Scrubber */}
-              {simulationStatus.snapshots?.length > 0 && (
-                <div className="space-y-3 pt-2 border-t border-slate-800">
-                  <div className="flex justify-between text-xs text-slate-400">
-                    <span>Timeline Progression Scrub:</span>
-                    <strong className="text-cyan-300">T+{selectedHour}:00 Hours</strong>
+            const displayMaxDepthM = currentSnapshot
+              ? currentSnapshot.max_water_depth_m
+              : simulationStatus?.results?.max_flood_depth_m ?? 0;
+
+            const displayBuildings = currentSnapshot
+              ? (currentSnapshot.submerged_buildings ?? currentSnapshot.submerged_buildings_estimate ?? 0)
+              : simulationStatus?.results?.submerged_buildings ?? 0;
+
+            const displayMassError = currentSnapshot
+              ? currentSnapshot.mass_balance_error_pct
+              : simulationStatus?.results?.mass_balance_error_pct ?? 0.0;
+
+            return (
+              <div className="p-4 rounded-xl bg-slate-950/90 border border-emerald-500/40 space-y-4">
+                <div className="flex items-center justify-between flex-wrap gap-2">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                    <span className="font-bold text-slate-100 text-xs uppercase">
+                      Simulation Solved: {simulationStatus.results.name}
+                    </span>
+                    <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 font-bold">
+                      ID: {activeScenarioId || simulationStatus.results.scenario_id}
+                    </span>
+                    <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-slate-900 border border-slate-700 text-amber-300 font-semibold">
+                      Step: T+{selectedHour}:00h
+                    </span>
                   </div>
-                  <div className="flex items-center gap-1.5 overflow-x-auto pb-1">
-                    {simulationStatus.snapshots.map((s) => (
-                      <button
-                        key={s.hour}
-                        type="button"
-                        onClick={() => handleScrubTimeline(s.hour)}
-                        className={`px-3 py-1.5 rounded text-xs font-bold transition shrink-0 ${
-                          selectedHour === s.hour
-                            ? "bg-cyan-500 text-slate-950 shadow-[0_0_8px_rgba(6,182,212,0.4)]"
-                            : "bg-slate-900 text-slate-300 border border-slate-800 hover:text-slate-100"
-                        }`}
-                      >
-                        {s.label} ({s.flooded_area_km2} km²)
-                      </button>
-                    ))}
+                  <button
+                    type="button"
+                    onClick={handleDownloadReport}
+                    className="px-3 py-1 rounded bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 text-xs font-bold transition flex items-center gap-1.5"
+                  >
+                    <Download className="w-3.5 h-3.5" />
+                    Download Scenario Report (JSON)
+                  </button>
+                </div>
+
+                {/* Analytical Telemetry Grid */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 font-mono text-xs">
+                  <div className="p-2.5 rounded bg-slate-900 border border-slate-800">
+                    <div className="text-[10px] text-slate-500 uppercase">
+                      Inundated Area (T+{selectedHour}h)
+                    </div>
+                    <div className="text-sm font-bold text-rose-400">
+                      {displayFloodedKm2} km²
+                    </div>
                   </div>
+                  <div className="p-2.5 rounded bg-slate-900 border border-slate-800">
+                    <div className="text-[10px] text-slate-500 uppercase">
+                      Max Water Depth (T+{selectedHour}h)
+                    </div>
+                    <div className="text-sm font-bold text-cyan-300">
+                      {displayMaxDepthM} m
+                    </div>
+                  </div>
+                  <div className="p-2.5 rounded bg-slate-900 border border-slate-800">
+                    <div className="text-[10px] text-slate-500 uppercase">
+                      Exposed Buildings (T+{selectedHour}h)
+                    </div>
+                    <div className="text-sm font-bold text-amber-400">
+                      {displayBuildings} structures
+                    </div>
+                  </div>
+                  <div className="p-2.5 rounded bg-slate-900 border border-slate-800">
+                    <div className="text-[10px] text-slate-500 uppercase">
+                      Mass Conservation (T+{selectedHour}h)
+                    </div>
+                    <div className="text-sm font-bold text-emerald-400">
+                      {Number(displayMassError).toFixed(4)}% Error (
+                      {simulationStatus.results.mass_balance_status || "CONSERVED"})
+                    </div>
+                  </div>
+                </div>
+
+                {/* Timeline Scrubber */}
+                {simulationStatus.snapshots?.length > 0 && (
+                  <div className="space-y-3 pt-2 border-t border-slate-800">
+                    <div className="flex justify-between text-xs text-slate-400">
+                      <span>Timeline Progression Scrub:</span>
+                      <strong className="text-cyan-300">T+{selectedHour}:00 Hours</strong>
+                    </div>
+                    <div className="flex items-center gap-1.5 overflow-x-auto pb-1">
+                      {simulationStatus.snapshots.map((s) => (
+                        <button
+                          key={s.hour}
+                          type="button"
+                          onClick={() => handleScrubTimeline(s.hour)}
+                          className={`px-3 py-1.5 rounded text-xs font-bold transition shrink-0 ${
+                            selectedHour === s.hour
+                              ? "bg-cyan-500 text-slate-950 shadow-[0_0_8px_rgba(6,182,212,0.4)]"
+                              : "bg-slate-900 text-slate-300 border border-slate-800 hover:text-slate-100"
+                          }`}
+                        >
+                          {s.label} ({s.flooded_area_km2} km², {s.submerged_buildings ?? s.submerged_buildings_estimate ?? 0} blds)
+                        </button>
+                      ))}
+                    </div>
 
                   {/* Dynamic Route Recalculation Button & Results */}
                   <div className="p-3 rounded-lg bg-slate-900 border border-slate-800 flex flex-wrap items-center justify-between gap-3">
@@ -743,7 +804,8 @@ export default function ScenarioSimulationModal({
                 </div>
               )}
             </div>
-          )}
+            );
+          })()}
         </div>
 
         {/* Footer */}

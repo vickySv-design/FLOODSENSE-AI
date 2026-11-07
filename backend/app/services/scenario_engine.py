@@ -29,6 +29,8 @@ from app.config import (
 from app.services.georef import GeoSpatialTransform
 from app.services.simulation_engine import get_or_generate_dem
 from app.services.rescue_router import compute_osm_rescue_routes
+from app.services.osm_service import osm_service
+from app.services.damage_analyzer import generate_deterministic_buildings
 
 logger = logging.getLogger("floodsense.scenario_engine")
 
@@ -395,6 +397,53 @@ class CycloneScenarioSimulator:
         self.cum_infil_m3 = 0.0
         self.cum_drain_m3 = 0.0
 
+        # Physical infrastructure coordinates for genuine raster sampling
+        self.building_coords: List[Tuple[int, int]] = []
+        self.road_sample_points: List[Tuple[int, int]] = []
+        try:
+            roads_path, blds_path = osm_service.get_preset_cache_paths(self.scenario_id, bbox=self.bbox)
+            if roads_path.exists() and blds_path.exists():
+                with open(blds_path, "r", encoding="utf-8") as f:
+                    blds_geo = json.load(f)
+                with open(roads_path, "r", encoding="utf-8") as f:
+                    roads_geo = json.load(f)
+
+                if blds_geo and "features" in blds_geo:
+                    for b_feat in blds_geo["features"]:
+                        props = b_feat.get("properties", {})
+                        c_lon = props.get("center_lon")
+                        c_lat = props.get("center_lat")
+                        if c_lon is None or c_lat is None:
+                            coords = b_feat.get("geometry", {}).get("coordinates", [[]])[0]
+                            if coords:
+                                c_lon = sum(c[0] for c in coords) / len(coords)
+                                c_lat = sum(c[1] for c in coords) / len(coords)
+                        if c_lon is not None and c_lat is not None:
+                            col, row = self.georef.lonlat_to_pixel(c_lon, c_lat)
+                            self.building_coords.append((int(col), int(row)))
+
+                if roads_geo and "features" in roads_geo:
+                    for r_feat in roads_geo["features"]:
+                        coords = r_feat.get("geometry", {}).get("coordinates", [])
+                        if len(coords) >= 2:
+                            mid_idx = len(coords) // 2
+                            col, row = self.georef.lonlat_to_pixel(coords[mid_idx][0], coords[mid_idx][1])
+                            self.road_sample_points.append((int(col), int(row)))
+        except Exception as e:
+            logger.warning(f"Scenario {scenario_id}: Local infrastructure load notice: {e}")
+
+        # Deterministic fallback if OSM network was unavailable/offline
+        if not self.building_coords:
+            fallback_blds = generate_deterministic_buildings(self.bbox, count=120)
+            for b in fallback_blds:
+                col, row = self.georef.lonlat_to_pixel(b["lon"], b["lat"])
+                self.building_coords.append((int(col), int(row)))
+        if not self.road_sample_points:
+            # Deterministic grid of road monitoring checkpoints across AOI
+            grid_y, grid_x = np.mgrid[16:self.H:32, 16:self.W:32]
+            for gy, gx in zip(grid_y.ravel(), grid_x.ravel()):
+                self.road_sample_points.append((int(gx), int(gy)))
+
     def compute_cyclone_eye_position(self, t_hour: float) -> Tuple[float, float]:
         """Calculates cyclone eye (lat, lon) along track path over time."""
         min_lat, min_lon, max_lat, max_lon = self.bbox
@@ -549,7 +598,7 @@ class CycloneScenarioSimulator:
         # Store raw depth raster for dynamic routing and analytical inspections
         self.hourly_depth_grids[hour] = self.h.copy()
 
-        flooded_cells = int(np.sum(self.h > 0.15))
+        flooded_cells = int(np.sum(self.h >= 0.15))
         flooded_km2 = round(float(flooded_cells * PIXEL_AREA_KM2), 3)
         max_depth_m = round(float(np.max(self.h)), 2)
         mean_depth_m = round(float(np.mean(self.h[self.h > 0.05]) if np.any(self.h > 0.05) else 0.0), 2)
@@ -560,8 +609,18 @@ class CycloneScenarioSimulator:
         denom_m3 = max(current_water_m3, self.cum_rain_m3, 100.0)
         actual_mass_error_pct = round(float(abs(current_water_m3 - net_budget_m3) / denom_m3 * 100.0), 4)
 
+        # Genuine spatial intersection of building coordinates against simulated water depth (h >= 0.15m)
+        submerged_blds = sum(
+            1 for c, r in self.building_coords
+            if 0 <= r < self.H and 0 <= c < self.W and self.h[r, c] >= 0.15
+        )
+        severed_roads = sum(
+            1 for c, r in self.road_sample_points
+            if 0 <= r < self.H and 0 <= c < self.W and self.h[r, c] >= 0.15
+        )
+
         # Vector contour generation for interactive map
-        binary_mask = (self.h > 0.15).astype(np.uint8)
+        binary_mask = (self.h >= 0.15).astype(np.uint8)
         contours, _ = cv2.findContours(binary_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
         features = []
@@ -600,8 +659,10 @@ class CycloneScenarioSimulator:
             "mass_balance_error_pct": actual_mass_error_pct,
             "cyclone_eye_coordinates": {"lat": round(eye_lat, 5), "lon": round(eye_lon, 5)},
             "geojson": {"type": "FeatureCollection", "features": features},
-            "submerged_buildings_estimate": int(flooded_cells * 0.06),
-            "severed_roads_estimate": int(flooded_cells * 0.02),
+            "submerged_buildings": submerged_blds,
+            "submerged_buildings_estimate": submerged_blds,
+            "severed_roads": severed_roads,
+            "severed_roads_estimate": severed_roads,
         }
 
 
@@ -791,9 +852,9 @@ class ScenarioManager:
                 "final_flooded_km2": final_snap.get("flooded_area_km2", 0.0),
                 "max_flood_depth_m": final_snap.get("max_water_depth_m", 0.0),
                 "mean_flood_depth_m": final_snap.get("mean_water_depth_m", 0.0),
-                "submerged_buildings": final_snap.get("submerged_buildings_estimate", 0),
-                "severed_roads": final_snap.get("severed_roads_estimate", 0),
-                "mass_balance_error_pct": final_mass_error,
+                "submerged_buildings": final_snap.get("submerged_buildings", 0),
+                "severed_roads": final_snap.get("severed_roads", 0),
+                "mass_balance_error_pct": round(float(final_mass_error), 4),
                 "mass_balance_status": "CONSERVED" if final_mass_error < 1.0 else "DRIFT",
                 "effective_parameters": sc_data.get("effective_parameters"),
                 "physical_assumptions": {
@@ -837,17 +898,39 @@ class ScenarioManager:
             closest_h = min(grids.keys(), key=lambda h: abs(h - hour))
             return grids[closest_h]
 
-    def generate_scenario_report(self, scenario_id: str) -> Dict[str, Any]:
+    def generate_scenario_report(self, scenario_id: str, hour: Optional[int] = None) -> Dict[str, Any]:
         with self._lock:
             sc = self._scenarios.get(scenario_id)
         if not sc:
             return {"error": "Scenario not found"}
+
+        snapshots = sc.get("snapshots", [])
+        final_snap = snapshots[-1] if snapshots else {}
+        selected_snap = final_snap
+        if hour is not None and snapshots:
+            matching = [s for s in snapshots if s["hour"] == hour]
+            if matching:
+                selected_snap = matching[0]
+
+        summary = sc.get("results") or {}
+        final_mass_err = round(float(final_snap.get("mass_balance_error_pct", 0.0)), 4)
+        selected_mass_err = round(float(selected_snap.get("mass_balance_error_pct", 0.0)), 4)
 
         return {
             "title": f"FloodSense-AI Tactical Scenario Report: {sc['name']}",
             "scenario_id": scenario_id,
             "generated_at": datetime.now(timezone.utc).isoformat(),
             "hypothetical_disclaimer": "THIS IS A HYPOTHETICAL DISASTER SCENARIO FOR DEMONSTRATION AND REVIEW, NOT AN ACTUAL OPERATIONAL FORECAST.",
+            "selected_timestep": {
+                "hour": selected_snap.get("hour", 0),
+                "label": selected_snap.get("label", "T+00:00"),
+                "flooded_km2": selected_snap.get("flooded_area_km2", 0.0),
+                "max_depth_m": selected_snap.get("max_water_depth_m", 0.0),
+                "mean_depth_m": selected_snap.get("mean_water_depth_m", 0.0),
+                "submerged_buildings": selected_snap.get("submerged_buildings", selected_snap.get("submerged_buildings_estimate", 0)),
+                "severed_roads": selected_snap.get("severed_roads", selected_snap.get("severed_roads_estimate", 0)),
+                "mass_balance_error_pct": selected_mass_err,
+            },
             "configuration": {
                 "bbox": sc["bbox"],
                 "cyclone": sc["cyclone_params"],
@@ -855,7 +938,16 @@ class ScenarioManager:
                 "duration_hours": sc["duration_hours"],
             },
             "effective_parameters": sc.get("effective_parameters"),
-            "summary_results": sc.get("results"),
+            "summary_results": {
+                **summary,
+                "scenario_id": scenario_id,
+                "final_flooded_km2": final_snap.get("flooded_area_km2", 0.0),
+                "max_flood_depth_m": final_snap.get("max_water_depth_m", 0.0),
+                "mean_flood_depth_m": final_snap.get("mean_water_depth_m", 0.0),
+                "submerged_buildings": final_snap.get("submerged_buildings", final_snap.get("submerged_buildings_estimate", 0)),
+                "severed_roads": final_snap.get("severed_roads", final_snap.get("severed_roads_estimate", 0)),
+                "mass_balance_error_pct": final_mass_err,
+            },
             "progression_timesteps": [
                 {
                     "hour": s["hour"],
@@ -863,10 +955,12 @@ class ScenarioManager:
                     "flooded_km2": s["flooded_area_km2"],
                     "max_depth_m": s["max_water_depth_m"],
                     "mean_depth_m": s["mean_water_depth_m"],
-                    "stored_water_m3": s.get("stored_water_volume_m3"),
-                    "mass_balance_error_pct": s.get("mass_balance_error_pct"),
+                    "submerged_buildings": s.get("submerged_buildings", s.get("submerged_buildings_estimate", 0)),
+                    "severed_roads": s.get("severed_roads", s.get("severed_roads_estimate", 0)),
+                    "stored_water_m3": s.get("stored_water_volume_m3", 0.0),
+                    "mass_balance_error_pct": round(float(s.get("mass_balance_error_pct", 0.0)), 4),
                 }
-                for s in sc.get("snapshots", [])
+                for s in snapshots
             ],
         }
 

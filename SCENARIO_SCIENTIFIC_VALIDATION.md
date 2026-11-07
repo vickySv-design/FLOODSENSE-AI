@@ -115,3 +115,4 @@ flowchart LR
 1. **Depth Thresholding:** Any road segment intersecting a water depth $h \ge 0.15\text{m}$ ($15\text{ cm}$) is deemed impassable for standard emergency transport vehicles (NDRF light response trucks).
 2. **Out-of-Bounds Detection:** Road vectors extending outside the spatial bounding box are automatically classified as `BLOCKED_OUT_OF_BOUNDS`.
 3. **No Synthetic Routes:** When all paths are submerged, the system explicitly reports `NO_SAFE_ROUTE_AVAILABLE` with $0.0\text{ km}$ distance and $0$ active routes, rather than fabricating a dry detour.
+
