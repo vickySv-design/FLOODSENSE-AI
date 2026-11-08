@@ -40,13 +40,14 @@ class FloodInferenceEngine:
     def load_checkpoint(self) -> None:
         if MODEL_WEIGHTS_PATH.exists():
             try:
-                state = torch.load(MODEL_WEIGHTS_PATH, map_location=self.device, weights_only=True)
-                if isinstance(state, dict) and "model_state_dict" in state:
-                    self.model.load_state_dict(state["model_state_dict"])
-                else:
-                    self.model.load_state_dict(state)
+                state = torch.load(MODEL_WEIGHTS_PATH, map_location=self.device)
+                sd = state["model_state_dict"] if (isinstance(state, dict) and "model_state_dict" in state) else state
+                sd_converted = {k: v.float() if v.is_floating_point() else v for k, v in sd.items()}
+                self.model.load_state_dict(sd_converted)
                 self.weights_loaded = True
-            except Exception:
+                logger.info(f"Loaded model weights from {MODEL_WEIGHTS_PATH}")
+            except Exception as e:
+                logger.warning(f"Could not load checkpoint from {MODEL_WEIGHTS_PATH}: {e}")
                 self.weights_loaded = False
         self.model.eval()
 

@@ -1,0 +1,3759 @@
+{
+  "type": "FeatureCollection",
+  "metadata": {
+    "source": "OpenStreetMap Topological Fallback Synthesis",
+    "bbox": [
+      13.0,
+      80.18,
+      13.1,
+      80.28
+    ],
+    "features_count": 96
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "id": "bld/synth_0",
+      "properties": {
+        "osm_id": 800000,
+        "name": "Civil Hospital #1",
+        "building_type": "residential",
+        "center_lon": 80.19165,
+        "center_lat": 13.022956,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.191026,
+              13.02188
+            ],
+            [
+              80.192274,
+              13.02188
+            ],
+            [
+              80.192274,
+              13.024032
+            ],
+            [
+              80.191026,
+              13.024032
+            ],
+            [
+              80.191026,
+              13.02188
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_1",
+      "properties": {
+        "osm_id": 800001,
+        "name": "City School #2",
+        "building_type": "commercial",
+        "center_lon": 80.248499,
+        "center_lat": 13.059626,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.247539,
+              13.058621
+            ],
+            [
+              80.249459,
+              13.058621
+            ],
+            [
+              80.249459,
+              13.060631
+            ],
+            [
+              80.247539,
+              13.060631
+            ],
+            [
+              80.247539,
+              13.058621
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_2",
+      "properties": {
+        "osm_id": 800002,
+        "name": "Market Complex #3",
+        "building_type": "school",
+        "center_lon": 80.253091,
+        "center_lat": 13.036075,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.251974,
+              13.034928
+            ],
+            [
+              80.254208,
+              13.034928
+            ],
+            [
+              80.254208,
+              13.037221
+            ],
+            [
+              80.251974,
+              13.037221
+            ],
+            [
+              80.251974,
+              13.034928
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_3",
+      "properties": {
+        "osm_id": 800003,
+        "name": "Residential Block #4",
+        "building_type": "hospital",
+        "center_lon": 80.258415,
+        "center_lat": 13.068888,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.257427,
+              13.068055
+            ],
+            [
+              80.259404,
+              13.068055
+            ],
+            [
+              80.259404,
+              13.06972
+            ],
+            [
+              80.257427,
+              13.06972
+            ],
+            [
+              80.257427,
+              13.068055
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_4",
+      "properties": {
+        "osm_id": 800004,
+        "name": "Relief Shelter #5",
+        "building_type": "industrial",
+        "center_lon": 80.190603,
+        "center_lat": 13.084169,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.189975,
+              13.083058
+            ],
+            [
+              80.191231,
+              13.083058
+            ],
+            [
+              80.191231,
+              13.08528
+            ],
+            [
+              80.189975,
+              13.08528
+            ],
+            [
+              80.189975,
+              13.083058
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_5",
+      "properties": {
+        "osm_id": 800005,
+        "name": "Community Center #6",
+        "building_type": "apartments",
+        "center_lon": 80.251507,
+        "center_lat": 13.069787,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.250653,
+              13.06893
+            ],
+            [
+              80.25236,
+              13.06893
+            ],
+            [
+              80.25236,
+              13.070645
+            ],
+            [
+              80.250653,
+              13.070645
+            ],
+            [
+              80.250653,
+              13.06893
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_6",
+      "properties": {
+        "osm_id": 800006,
+        "name": "Civil Hospital #7",
+        "building_type": "residential",
+        "center_lon": 80.226802,
+        "center_lat": 13.030271,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.225986,
+              13.029389
+            ],
+            [
+              80.227618,
+              13.029389
+            ],
+            [
+              80.227618,
+              13.031153
+            ],
+            [
+              80.225986,
+              13.031153
+            ],
+            [
+              80.225986,
+              13.029389
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_7",
+      "properties": {
+        "osm_id": 800007,
+        "name": "City School #8",
+        "building_type": "commercial",
+        "center_lon": 80.23216,
+        "center_lat": 13.00753,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.231445,
+              13.006881
+            ],
+            [
+              80.232875,
+              13.006881
+            ],
+            [
+              80.232875,
+              13.00818
+            ],
+            [
+              80.231445,
+              13.00818
+            ],
+            [
+              80.231445,
+              13.006881
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_8",
+      "properties": {
+        "osm_id": 800008,
+        "name": "Market Complex #9",
+        "building_type": "school",
+        "center_lon": 80.236394,
+        "center_lat": 13.047626,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.235241,
+              13.046505
+            ],
+            [
+              80.237548,
+              13.046505
+            ],
+            [
+              80.237548,
+              13.048747
+            ],
+            [
+              80.235241,
+              13.048747
+            ],
+            [
+              80.235241,
+              13.046505
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_9",
+      "properties": {
+        "osm_id": 800009,
+        "name": "Residential Block #10",
+        "building_type": "hospital",
+        "center_lon": 80.212404,
+        "center_lat": 13.093034,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.211347,
+              13.091963
+            ],
+            [
+              80.21346,
+              13.091963
+            ],
+            [
+              80.21346,
+              13.094104
+            ],
+            [
+              80.211347,
+              13.094104
+            ],
+            [
+              80.211347,
+              13.091963
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_10",
+      "properties": {
+        "osm_id": 800010,
+        "name": "Relief Shelter #11",
+        "building_type": "industrial",
+        "center_lon": 80.208777,
+        "center_lat": 13.08386,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.208003,
+              13.083237
+            ],
+            [
+              80.20955,
+              13.083237
+            ],
+            [
+              80.20955,
+              13.084484
+            ],
+            [
+              80.208003,
+              13.084484
+            ],
+            [
+              80.208003,
+              13.083237
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_11",
+      "properties": {
+        "osm_id": 800011,
+        "name": "Community Center #12",
+        "building_type": "apartments",
+        "center_lon": 80.258867,
+        "center_lat": 13.078432,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.257725,
+              13.077511
+            ],
+            [
+              80.260008,
+              13.077511
+            ],
+            [
+              80.260008,
+              13.079353
+            ],
+            [
+              80.257725,
+              13.079353
+            ],
+            [
+              80.257725,
+              13.077511
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_12",
+      "properties": {
+        "osm_id": 800012,
+        "name": "Civil Hospital #13",
+        "building_type": "residential",
+        "center_lon": 80.213082,
+        "center_lat": 13.023166,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.212441,
+              13.022562
+            ],
+            [
+              80.213722,
+              13.022562
+            ],
+            [
+              80.213722,
+              13.02377
+            ],
+            [
+              80.212441,
+              13.02377
+            ],
+            [
+              80.212441,
+              13.022562
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_13",
+      "properties": {
+        "osm_id": 800013,
+        "name": "City School #14",
+        "building_type": "commercial",
+        "center_lon": 80.23898,
+        "center_lat": 13.082201,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.237861,
+              13.081405
+            ],
+            [
+              80.240099,
+              13.081405
+            ],
+            [
+              80.240099,
+              13.082997
+            ],
+            [
+              80.237861,
+              13.082997
+            ],
+            [
+              80.237861,
+              13.081405
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_14",
+      "properties": {
+        "osm_id": 800014,
+        "name": "Market Complex #15",
+        "building_type": "school",
+        "center_lon": 80.270545,
+        "center_lat": 13.045325,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.2698,
+              13.044327
+            ],
+            [
+              80.27129,
+              13.044327
+            ],
+            [
+              80.27129,
+              13.046322
+            ],
+            [
+              80.2698,
+              13.046322
+            ],
+            [
+              80.2698,
+              13.044327
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_15",
+      "properties": {
+        "osm_id": 800015,
+        "name": "Residential Block #16",
+        "building_type": "hospital",
+        "center_lon": 80.214115,
+        "center_lat": 13.054072,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.213371,
+              13.053204
+            ],
+            [
+              80.214859,
+              13.053204
+            ],
+            [
+              80.214859,
+              13.05494
+            ],
+            [
+              80.213371,
+              13.05494
+            ],
+            [
+              80.213371,
+              13.053204
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_16",
+      "properties": {
+        "osm_id": 800016,
+        "name": "Relief Shelter #17",
+        "building_type": "industrial",
+        "center_lon": 80.203094,
+        "center_lat": 13.046616,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.202132,
+              13.045744
+            ],
+            [
+              80.204056,
+              13.045744
+            ],
+            [
+              80.204056,
+              13.047488
+            ],
+            [
+              80.202132,
+              13.047488
+            ],
+            [
+              80.202132,
+              13.045744
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_17",
+      "properties": {
+        "osm_id": 800017,
+        "name": "Community Center #18",
+        "building_type": "apartments",
+        "center_lon": 80.18978,
+        "center_lat": 13.087362,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.189173,
+              13.086316
+            ],
+            [
+              80.190387,
+              13.086316
+            ],
+            [
+              80.190387,
+              13.088409
+            ],
+            [
+              80.189173,
+              13.088409
+            ],
+            [
+              80.189173,
+              13.086316
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_18",
+      "properties": {
+        "osm_id": 800018,
+        "name": "Civil Hospital #19",
+        "building_type": "residential",
+        "center_lon": 80.268256,
+        "center_lat": 13.024738,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.267212,
+              13.023889
+            ],
+            [
+              80.269301,
+              13.023889
+            ],
+            [
+              80.269301,
+              13.025586
+            ],
+            [
+              80.267212,
+              13.025586
+            ],
+            [
+              80.267212,
+              13.023889
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_19",
+      "properties": {
+        "osm_id": 800019,
+        "name": "City School #20",
+        "building_type": "commercial",
+        "center_lon": 80.230172,
+        "center_lat": 13.067177,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.229438,
+              13.066326
+            ],
+            [
+              80.230906,
+              13.066326
+            ],
+            [
+              80.230906,
+              13.068029
+            ],
+            [
+              80.229438,
+              13.068029
+            ],
+            [
+              80.229438,
+              13.066326
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_20",
+      "properties": {
+        "osm_id": 800020,
+        "name": "Market Complex #21",
+        "building_type": "school",
+        "center_lon": 80.25528,
+        "center_lat": 13.060552,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.25411,
+              13.059435
+            ],
+            [
+              80.256451,
+              13.059435
+            ],
+            [
+              80.256451,
+              13.061669
+            ],
+            [
+              80.25411,
+              13.061669
+            ],
+            [
+              80.25411,
+              13.059435
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_21",
+      "properties": {
+        "osm_id": 800021,
+        "name": "Residential Block #22",
+        "building_type": "hospital",
+        "center_lon": 80.213294,
+        "center_lat": 13.093374,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.21234,
+              13.092369
+            ],
+            [
+              80.214248,
+              13.092369
+            ],
+            [
+              80.214248,
+              13.094378
+            ],
+            [
+              80.21234,
+              13.094378
+            ],
+            [
+              80.21234,
+              13.092369
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_22",
+      "properties": {
+        "osm_id": 800022,
+        "name": "Relief Shelter #23",
+        "building_type": "industrial",
+        "center_lon": 80.244355,
+        "center_lat": 13.007265,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.243331,
+              13.006382
+            ],
+            [
+              80.245379,
+              13.006382
+            ],
+            [
+              80.245379,
+              13.008148
+            ],
+            [
+              80.243331,
+              13.008148
+            ],
+            [
+              80.243331,
+              13.006382
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_23",
+      "properties": {
+        "osm_id": 800023,
+        "name": "Community Center #24",
+        "building_type": "apartments",
+        "center_lon": 80.270248,
+        "center_lat": 13.017959,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.269244,
+              13.01705
+            ],
+            [
+              80.271253,
+              13.01705
+            ],
+            [
+              80.271253,
+              13.018868
+            ],
+            [
+              80.269244,
+              13.018868
+            ],
+            [
+              80.269244,
+              13.01705
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_24",
+      "properties": {
+        "osm_id": 800024,
+        "name": "Civil Hospital #25",
+        "building_type": "residential",
+        "center_lon": 80.210589,
+        "center_lat": 13.011158,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.209695,
+              13.010446
+            ],
+            [
+              80.211482,
+              13.010446
+            ],
+            [
+              80.211482,
+              13.011871
+            ],
+            [
+              80.209695,
+              13.011871
+            ],
+            [
+              80.209695,
+              13.010446
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_25",
+      "properties": {
+        "osm_id": 800025,
+        "name": "City School #26",
+        "building_type": "commercial",
+        "center_lon": 80.193379,
+        "center_lat": 13.056139,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.192576,
+              13.055302
+            ],
+            [
+              80.194182,
+              13.055302
+            ],
+            [
+              80.194182,
+              13.056976
+            ],
+            [
+              80.192576,
+              13.056976
+            ],
+            [
+              80.192576,
+              13.055302
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_26",
+      "properties": {
+        "osm_id": 800026,
+        "name": "Market Complex #27",
+        "building_type": "school",
+        "center_lon": 80.226013,
+        "center_lat": 13.026656,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.225389,
+              13.025809
+            ],
+            [
+              80.226637,
+              13.025809
+            ],
+            [
+              80.226637,
+              13.027503
+            ],
+            [
+              80.225389,
+              13.027503
+            ],
+            [
+              80.225389,
+              13.025809
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_27",
+      "properties": {
+        "osm_id": 800027,
+        "name": "Residential Block #28",
+        "building_type": "hospital",
+        "center_lon": 80.259044,
+        "center_lat": 13.036938,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.258184,
+              13.036008
+            ],
+            [
+              80.259904,
+              13.036008
+            ],
+            [
+              80.259904,
+              13.037869
+            ],
+            [
+              80.258184,
+              13.037869
+            ],
+            [
+              80.258184,
+              13.036008
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_28",
+      "properties": {
+        "osm_id": 800028,
+        "name": "Relief Shelter #29",
+        "building_type": "industrial",
+        "center_lon": 80.199969,
+        "center_lat": 13.067895,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.199212,
+              13.066769
+            ],
+            [
+              80.200726,
+              13.066769
+            ],
+            [
+              80.200726,
+              13.069022
+            ],
+            [
+              80.199212,
+              13.069022
+            ],
+            [
+              80.199212,
+              13.066769
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_29",
+      "properties": {
+        "osm_id": 800029,
+        "name": "Community Center #30",
+        "building_type": "apartments",
+        "center_lon": 80.227982,
+        "center_lat": 13.051164,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.226874,
+              13.050259
+            ],
+            [
+              80.22909,
+              13.050259
+            ],
+            [
+              80.22909,
+              13.052068
+            ],
+            [
+              80.226874,
+              13.052068
+            ],
+            [
+              80.226874,
+              13.050259
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_30",
+      "properties": {
+        "osm_id": 800030,
+        "name": "Civil Hospital #31",
+        "building_type": "residential",
+        "center_lon": 80.258009,
+        "center_lat": 13.080814,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.256987,
+              13.080134
+            ],
+            [
+              80.259031,
+              13.080134
+            ],
+            [
+              80.259031,
+              13.081493
+            ],
+            [
+              80.256987,
+              13.081493
+            ],
+            [
+              80.256987,
+              13.080134
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_31",
+      "properties": {
+        "osm_id": 800031,
+        "name": "City School #32",
+        "building_type": "commercial",
+        "center_lon": 80.247471,
+        "center_lat": 13.059904,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.246793,
+              13.058725
+            ],
+            [
+              80.24815,
+              13.058725
+            ],
+            [
+              80.24815,
+              13.061083
+            ],
+            [
+              80.246793,
+              13.061083
+            ],
+            [
+              80.246793,
+              13.058725
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_32",
+      "properties": {
+        "osm_id": 800032,
+        "name": "Market Complex #33",
+        "building_type": "school",
+        "center_lon": 80.214752,
+        "center_lat": 13.067998,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.214079,
+              13.066999
+            ],
+            [
+              80.215425,
+              13.066999
+            ],
+            [
+              80.215425,
+              13.068997
+            ],
+            [
+              80.214079,
+              13.068997
+            ],
+            [
+              80.214079,
+              13.066999
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_33",
+      "properties": {
+        "osm_id": 800033,
+        "name": "Residential Block #34",
+        "building_type": "hospital",
+        "center_lon": 80.216303,
+        "center_lat": 13.024155,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.215363,
+              13.023447
+            ],
+            [
+              80.217242,
+              13.023447
+            ],
+            [
+              80.217242,
+              13.024863
+            ],
+            [
+              80.215363,
+              13.024863
+            ],
+            [
+              80.215363,
+              13.023447
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_34",
+      "properties": {
+        "osm_id": 800034,
+        "name": "Relief Shelter #35",
+        "building_type": "industrial",
+        "center_lon": 80.212325,
+        "center_lat": 13.086637,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.211707,
+              13.085944
+            ],
+            [
+              80.212942,
+              13.085944
+            ],
+            [
+              80.212942,
+              13.087329
+            ],
+            [
+              80.211707,
+              13.087329
+            ],
+            [
+              80.211707,
+              13.085944
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_35",
+      "properties": {
+        "osm_id": 800035,
+        "name": "Community Center #36",
+        "building_type": "apartments",
+        "center_lon": 80.261359,
+        "center_lat": 13.024569,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.260636,
+              13.023941
+            ],
+            [
+              80.262082,
+              13.023941
+            ],
+            [
+              80.262082,
+              13.025196
+            ],
+            [
+              80.260636,
+              13.025196
+            ],
+            [
+              80.260636,
+              13.023941
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_36",
+      "properties": {
+        "osm_id": 800036,
+        "name": "Civil Hospital #37",
+        "building_type": "residential",
+        "center_lon": 80.191658,
+        "center_lat": 13.047267,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.190841,
+              13.046292
+            ],
+            [
+              80.192475,
+              13.046292
+            ],
+            [
+              80.192475,
+              13.048242
+            ],
+            [
+              80.190841,
+              13.048242
+            ],
+            [
+              80.190841,
+              13.046292
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_37",
+      "properties": {
+        "osm_id": 800037,
+        "name": "City School #38",
+        "building_type": "commercial",
+        "center_lon": 80.201305,
+        "center_lat": 13.037358,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.200502,
+              13.03666
+            ],
+            [
+              80.202108,
+              13.03666
+            ],
+            [
+              80.202108,
+              13.038056
+            ],
+            [
+              80.200502,
+              13.038056
+            ],
+            [
+              80.200502,
+              13.03666
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_38",
+      "properties": {
+        "osm_id": 800038,
+        "name": "Market Complex #39",
+        "building_type": "school",
+        "center_lon": 80.240208,
+        "center_lat": 13.03137,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.239505,
+              13.030281
+            ],
+            [
+              80.240911,
+              13.030281
+            ],
+            [
+              80.240911,
+              13.032459
+            ],
+            [
+              80.239505,
+              13.032459
+            ],
+            [
+              80.239505,
+              13.030281
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_39",
+      "properties": {
+        "osm_id": 800039,
+        "name": "Residential Block #40",
+        "building_type": "hospital",
+        "center_lon": 80.233426,
+        "center_lat": 13.081686,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.2326,
+              13.080818
+            ],
+            [
+              80.234253,
+              13.080818
+            ],
+            [
+              80.234253,
+              13.082555
+            ],
+            [
+              80.2326,
+              13.082555
+            ],
+            [
+              80.2326,
+              13.080818
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_40",
+      "properties": {
+        "osm_id": 800040,
+        "name": "Relief Shelter #41",
+        "building_type": "industrial",
+        "center_lon": 80.227226,
+        "center_lat": 13.090652,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.22646,
+              13.089925
+            ],
+            [
+              80.227993,
+              13.089925
+            ],
+            [
+              80.227993,
+              13.091379
+            ],
+            [
+              80.22646,
+              13.091379
+            ],
+            [
+              80.22646,
+              13.089925
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_41",
+      "properties": {
+        "osm_id": 800041,
+        "name": "Community Center #42",
+        "building_type": "apartments",
+        "center_lon": 80.25239,
+        "center_lat": 13.01203,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.251623,
+              13.011075
+            ],
+            [
+              80.253158,
+              13.011075
+            ],
+            [
+              80.253158,
+              13.012985
+            ],
+            [
+              80.251623,
+              13.012985
+            ],
+            [
+              80.251623,
+              13.011075
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_42",
+      "properties": {
+        "osm_id": 800042,
+        "name": "Civil Hospital #43",
+        "building_type": "residential",
+        "center_lon": 80.196327,
+        "center_lat": 13.018407,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.195556,
+              13.017759
+            ],
+            [
+              80.197098,
+              13.017759
+            ],
+            [
+              80.197098,
+              13.019055
+            ],
+            [
+              80.195556,
+              13.019055
+            ],
+            [
+              80.195556,
+              13.017759
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_43",
+      "properties": {
+        "osm_id": 800043,
+        "name": "City School #44",
+        "building_type": "commercial",
+        "center_lon": 80.195967,
+        "center_lat": 13.049772,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.194797,
+              13.048635
+            ],
+            [
+              80.197136,
+              13.048635
+            ],
+            [
+              80.197136,
+              13.050909
+            ],
+            [
+              80.194797,
+              13.050909
+            ],
+            [
+              80.194797,
+              13.048635
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_44",
+      "properties": {
+        "osm_id": 800044,
+        "name": "Market Complex #45",
+        "building_type": "school",
+        "center_lon": 80.229133,
+        "center_lat": 13.034142,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.228097,
+              13.033045
+            ],
+            [
+              80.230168,
+              13.033045
+            ],
+            [
+              80.230168,
+              13.035239
+            ],
+            [
+              80.228097,
+              13.035239
+            ],
+            [
+              80.228097,
+              13.033045
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_45",
+      "properties": {
+        "osm_id": 800045,
+        "name": "Residential Block #46",
+        "building_type": "hospital",
+        "center_lon": 80.241443,
+        "center_lat": 13.084569,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.240741,
+              13.083863
+            ],
+            [
+              80.242145,
+              13.083863
+            ],
+            [
+              80.242145,
+              13.085275
+            ],
+            [
+              80.240741,
+              13.085275
+            ],
+            [
+              80.240741,
+              13.083863
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_46",
+      "properties": {
+        "osm_id": 800046,
+        "name": "Relief Shelter #47",
+        "building_type": "industrial",
+        "center_lon": 80.204888,
+        "center_lat": 13.069499,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.203831,
+              13.068881
+            ],
+            [
+              80.205945,
+              13.068881
+            ],
+            [
+              80.205945,
+              13.070118
+            ],
+            [
+              80.203831,
+              13.070118
+            ],
+            [
+              80.203831,
+              13.068881
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_47",
+      "properties": {
+        "osm_id": 800047,
+        "name": "Community Center #48",
+        "building_type": "apartments",
+        "center_lon": 80.268951,
+        "center_lat": 13.03788,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.268228,
+              13.036708
+            ],
+            [
+              80.269674,
+              13.036708
+            ],
+            [
+              80.269674,
+              13.039051
+            ],
+            [
+              80.268228,
+              13.039051
+            ],
+            [
+              80.268228,
+              13.036708
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_48",
+      "properties": {
+        "osm_id": 800048,
+        "name": "Civil Hospital #49",
+        "building_type": "residential",
+        "center_lon": 80.215366,
+        "center_lat": 13.016163,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.214755,
+              13.015096
+            ],
+            [
+              80.215976,
+              13.015096
+            ],
+            [
+              80.215976,
+              13.017231
+            ],
+            [
+              80.214755,
+              13.017231
+            ],
+            [
+              80.214755,
+              13.015096
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_49",
+      "properties": {
+        "osm_id": 800049,
+        "name": "City School #50",
+        "building_type": "commercial",
+        "center_lon": 80.259491,
+        "center_lat": 13.068173,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.25889,
+              13.067511
+            ],
+            [
+              80.260092,
+              13.067511
+            ],
+            [
+              80.260092,
+              13.068835
+            ],
+            [
+              80.25889,
+              13.068835
+            ],
+            [
+              80.25889,
+              13.067511
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_50",
+      "properties": {
+        "osm_id": 800050,
+        "name": "Market Complex #51",
+        "building_type": "school",
+        "center_lon": 80.216948,
+        "center_lat": 13.088274,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.216239,
+              13.087342
+            ],
+            [
+              80.217656,
+              13.087342
+            ],
+            [
+              80.217656,
+              13.089206
+            ],
+            [
+              80.216239,
+              13.089206
+            ],
+            [
+              80.216239,
+              13.087342
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_51",
+      "properties": {
+        "osm_id": 800051,
+        "name": "Residential Block #52",
+        "building_type": "hospital",
+        "center_lon": 80.188707,
+        "center_lat": 13.020096,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.187801,
+              13.019038
+            ],
+            [
+              80.189613,
+              13.019038
+            ],
+            [
+              80.189613,
+              13.021154
+            ],
+            [
+              80.187801,
+              13.021154
+            ],
+            [
+              80.187801,
+              13.019038
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_52",
+      "properties": {
+        "osm_id": 800052,
+        "name": "Relief Shelter #53",
+        "building_type": "industrial",
+        "center_lon": 80.207596,
+        "center_lat": 13.077222,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.2065,
+              13.076159
+            ],
+            [
+              80.208692,
+              13.076159
+            ],
+            [
+              80.208692,
+              13.078285
+            ],
+            [
+              80.2065,
+              13.078285
+            ],
+            [
+              80.2065,
+              13.076159
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_53",
+      "properties": {
+        "osm_id": 800053,
+        "name": "Community Center #54",
+        "building_type": "apartments",
+        "center_lon": 80.225322,
+        "center_lat": 13.035605,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.224693,
+              13.034872
+            ],
+            [
+              80.22595,
+              13.034872
+            ],
+            [
+              80.22595,
+              13.036338
+            ],
+            [
+              80.224693,
+              13.036338
+            ],
+            [
+              80.224693,
+              13.034872
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_54",
+      "properties": {
+        "osm_id": 800054,
+        "name": "Civil Hospital #55",
+        "building_type": "residential",
+        "center_lon": 80.256889,
+        "center_lat": 13.090213,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.256017,
+              13.089487
+            ],
+            [
+              80.257761,
+              13.089487
+            ],
+            [
+              80.257761,
+              13.090939
+            ],
+            [
+              80.256017,
+              13.090939
+            ],
+            [
+              80.256017,
+              13.089487
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_55",
+      "properties": {
+        "osm_id": 800055,
+        "name": "City School #56",
+        "building_type": "commercial",
+        "center_lon": 80.245708,
+        "center_lat": 13.04306,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.245059,
+              13.042384
+            ],
+            [
+              80.246358,
+              13.042384
+            ],
+            [
+              80.246358,
+              13.043737
+            ],
+            [
+              80.245059,
+              13.043737
+            ],
+            [
+              80.245059,
+              13.042384
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_56",
+      "properties": {
+        "osm_id": 800056,
+        "name": "Market Complex #57",
+        "building_type": "school",
+        "center_lon": 80.252296,
+        "center_lat": 13.05738,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.251221,
+              13.056218
+            ],
+            [
+              80.253371,
+              13.056218
+            ],
+            [
+              80.253371,
+              13.058542
+            ],
+            [
+              80.251221,
+              13.058542
+            ],
+            [
+              80.251221,
+              13.056218
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_57",
+      "properties": {
+        "osm_id": 800057,
+        "name": "Residential Block #58",
+        "building_type": "hospital",
+        "center_lon": 80.216747,
+        "center_lat": 13.093983,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.216034,
+              13.093182
+            ],
+            [
+              80.217459,
+              13.093182
+            ],
+            [
+              80.217459,
+              13.094784
+            ],
+            [
+              80.216034,
+              13.094784
+            ],
+            [
+              80.216034,
+              13.093182
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_58",
+      "properties": {
+        "osm_id": 800058,
+        "name": "Relief Shelter #59",
+        "building_type": "industrial",
+        "center_lon": 80.224413,
+        "center_lat": 13.065579,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.223544,
+              13.064401
+            ],
+            [
+              80.225283,
+              13.064401
+            ],
+            [
+              80.225283,
+              13.066757
+            ],
+            [
+              80.223544,
+              13.066757
+            ],
+            [
+              80.223544,
+              13.064401
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_59",
+      "properties": {
+        "osm_id": 800059,
+        "name": "Community Center #60",
+        "building_type": "apartments",
+        "center_lon": 80.208817,
+        "center_lat": 13.093643,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.208017,
+              13.09302
+            ],
+            [
+              80.209617,
+              13.09302
+            ],
+            [
+              80.209617,
+              13.094266
+            ],
+            [
+              80.208017,
+              13.094266
+            ],
+            [
+              80.208017,
+              13.09302
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_60",
+      "properties": {
+        "osm_id": 800060,
+        "name": "Civil Hospital #61",
+        "building_type": "residential",
+        "center_lon": 80.232782,
+        "center_lat": 13.011116,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.232068,
+              13.010102
+            ],
+            [
+              80.233496,
+              13.010102
+            ],
+            [
+              80.233496,
+              13.012131
+            ],
+            [
+              80.232068,
+              13.012131
+            ],
+            [
+              80.232068,
+              13.010102
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_61",
+      "properties": {
+        "osm_id": 800061,
+        "name": "City School #62",
+        "building_type": "commercial",
+        "center_lon": 80.225779,
+        "center_lat": 13.015335,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.224846,
+              13.01462
+            ],
+            [
+              80.226711,
+              13.01462
+            ],
+            [
+              80.226711,
+              13.01605
+            ],
+            [
+              80.224846,
+              13.01605
+            ],
+            [
+              80.224846,
+              13.01462
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_62",
+      "properties": {
+        "osm_id": 800062,
+        "name": "Market Complex #63",
+        "building_type": "school",
+        "center_lon": 80.22013,
+        "center_lat": 13.015672,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.21906,
+              13.014678
+            ],
+            [
+              80.221199,
+              13.014678
+            ],
+            [
+              80.221199,
+              13.016665
+            ],
+            [
+              80.21906,
+              13.016665
+            ],
+            [
+              80.21906,
+              13.014678
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_63",
+      "properties": {
+        "osm_id": 800063,
+        "name": "Residential Block #64",
+        "building_type": "hospital",
+        "center_lon": 80.222435,
+        "center_lat": 13.082434,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.221803,
+              13.081252
+            ],
+            [
+              80.223068,
+              13.081252
+            ],
+            [
+              80.223068,
+              13.083617
+            ],
+            [
+              80.221803,
+              13.083617
+            ],
+            [
+              80.221803,
+              13.081252
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_64",
+      "properties": {
+        "osm_id": 800064,
+        "name": "Relief Shelter #65",
+        "building_type": "industrial",
+        "center_lon": 80.194102,
+        "center_lat": 13.048932,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.193347,
+              13.04819
+            ],
+            [
+              80.194856,
+              13.04819
+            ],
+            [
+              80.194856,
+              13.049675
+            ],
+            [
+              80.193347,
+              13.049675
+            ],
+            [
+              80.193347,
+              13.04819
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_65",
+      "properties": {
+        "osm_id": 800065,
+        "name": "Community Center #66",
+        "building_type": "apartments",
+        "center_lon": 80.194713,
+        "center_lat": 13.088805,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.193734,
+              13.087724
+            ],
+            [
+              80.195693,
+              13.087724
+            ],
+            [
+              80.195693,
+              13.089886
+            ],
+            [
+              80.193734,
+              13.089886
+            ],
+            [
+              80.193734,
+              13.087724
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_66",
+      "properties": {
+        "osm_id": 800066,
+        "name": "Civil Hospital #67",
+        "building_type": "residential",
+        "center_lon": 80.257272,
+        "center_lat": 13.065351,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.256221,
+              13.064458
+            ],
+            [
+              80.258323,
+              13.064458
+            ],
+            [
+              80.258323,
+              13.066243
+            ],
+            [
+              80.256221,
+              13.066243
+            ],
+            [
+              80.256221,
+              13.064458
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_67",
+      "properties": {
+        "osm_id": 800067,
+        "name": "City School #68",
+        "building_type": "commercial",
+        "center_lon": 80.254131,
+        "center_lat": 13.080988,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.253387,
+              13.079873
+            ],
+            [
+              80.254874,
+              13.079873
+            ],
+            [
+              80.254874,
+              13.082103
+            ],
+            [
+              80.253387,
+              13.082103
+            ],
+            [
+              80.253387,
+              13.079873
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_68",
+      "properties": {
+        "osm_id": 800068,
+        "name": "Market Complex #69",
+        "building_type": "school",
+        "center_lon": 80.268192,
+        "center_lat": 13.09354,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.267083,
+              13.092876
+            ],
+            [
+              80.269301,
+              13.092876
+            ],
+            [
+              80.269301,
+              13.094203
+            ],
+            [
+              80.267083,
+              13.094203
+            ],
+            [
+              80.267083,
+              13.092876
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_69",
+      "properties": {
+        "osm_id": 800069,
+        "name": "Residential Block #70",
+        "building_type": "hospital",
+        "center_lon": 80.239428,
+        "center_lat": 13.058254,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.238595,
+              13.05761
+            ],
+            [
+              80.240261,
+              13.05761
+            ],
+            [
+              80.240261,
+              13.058897
+            ],
+            [
+              80.238595,
+              13.058897
+            ],
+            [
+              80.238595,
+              13.05761
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_70",
+      "properties": {
+        "osm_id": 800070,
+        "name": "Relief Shelter #71",
+        "building_type": "industrial",
+        "center_lon": 80.225547,
+        "center_lat": 13.091285,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.224397,
+              13.090362
+            ],
+            [
+              80.226696,
+              13.090362
+            ],
+            [
+              80.226696,
+              13.092208
+            ],
+            [
+              80.224397,
+              13.092208
+            ],
+            [
+              80.224397,
+              13.090362
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_71",
+      "properties": {
+        "osm_id": 800071,
+        "name": "Community Center #72",
+        "building_type": "apartments",
+        "center_lon": 80.212674,
+        "center_lat": 13.060639,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.211712,
+              13.059457
+            ],
+            [
+              80.213635,
+              13.059457
+            ],
+            [
+              80.213635,
+              13.061822
+            ],
+            [
+              80.211712,
+              13.061822
+            ],
+            [
+              80.211712,
+              13.059457
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_72",
+      "properties": {
+        "osm_id": 800072,
+        "name": "Civil Hospital #73",
+        "building_type": "residential",
+        "center_lon": 80.258477,
+        "center_lat": 13.024773,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.257758,
+              13.023942
+            ],
+            [
+              80.259195,
+              13.023942
+            ],
+            [
+              80.259195,
+              13.025604
+            ],
+            [
+              80.257758,
+              13.025604
+            ],
+            [
+              80.257758,
+              13.023942
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_73",
+      "properties": {
+        "osm_id": 800073,
+        "name": "City School #74",
+        "building_type": "commercial",
+        "center_lon": 80.235038,
+        "center_lat": 13.011585,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.234071,
+              13.010441
+            ],
+            [
+              80.236005,
+              13.010441
+            ],
+            [
+              80.236005,
+              13.012729
+            ],
+            [
+              80.234071,
+              13.012729
+            ],
+            [
+              80.234071,
+              13.010441
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_74",
+      "properties": {
+        "osm_id": 800074,
+        "name": "Market Complex #75",
+        "building_type": "school",
+        "center_lon": 80.218568,
+        "center_lat": 13.029224,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.217406,
+              13.028547
+            ],
+            [
+              80.21973,
+              13.028547
+            ],
+            [
+              80.21973,
+              13.029901
+            ],
+            [
+              80.217406,
+              13.029901
+            ],
+            [
+              80.217406,
+              13.028547
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_75",
+      "properties": {
+        "osm_id": 800075,
+        "name": "Residential Block #76",
+        "building_type": "hospital",
+        "center_lon": 80.196009,
+        "center_lat": 13.03215,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.194861,
+              13.031319
+            ],
+            [
+              80.197157,
+              13.031319
+            ],
+            [
+              80.197157,
+              13.032981
+            ],
+            [
+              80.194861,
+              13.032981
+            ],
+            [
+              80.194861,
+              13.031319
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_76",
+      "properties": {
+        "osm_id": 800076,
+        "name": "Relief Shelter #77",
+        "building_type": "industrial",
+        "center_lon": 80.264338,
+        "center_lat": 13.013208,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.263405,
+              13.012504
+            ],
+            [
+              80.265271,
+              13.012504
+            ],
+            [
+              80.265271,
+              13.013912
+            ],
+            [
+              80.263405,
+              13.013912
+            ],
+            [
+              80.263405,
+              13.012504
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_77",
+      "properties": {
+        "osm_id": 800077,
+        "name": "Community Center #78",
+        "building_type": "apartments",
+        "center_lon": 80.22821,
+        "center_lat": 13.04986,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.227464,
+              13.049002
+            ],
+            [
+              80.228957,
+              13.049002
+            ],
+            [
+              80.228957,
+              13.050718
+            ],
+            [
+              80.227464,
+              13.050718
+            ],
+            [
+              80.227464,
+              13.049002
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_78",
+      "properties": {
+        "osm_id": 800078,
+        "name": "Civil Hospital #79",
+        "building_type": "residential",
+        "center_lon": 80.262047,
+        "center_lat": 13.012662,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.261357,
+              13.011952
+            ],
+            [
+              80.262736,
+              13.011952
+            ],
+            [
+              80.262736,
+              13.013373
+            ],
+            [
+              80.261357,
+              13.013373
+            ],
+            [
+              80.261357,
+              13.011952
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_79",
+      "properties": {
+        "osm_id": 800079,
+        "name": "City School #80",
+        "building_type": "commercial",
+        "center_lon": 80.193922,
+        "center_lat": 13.059281,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.19292,
+              13.058478
+            ],
+            [
+              80.194925,
+              13.058478
+            ],
+            [
+              80.194925,
+              13.060083
+            ],
+            [
+              80.19292,
+              13.060083
+            ],
+            [
+              80.19292,
+              13.058478
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_80",
+      "properties": {
+        "osm_id": 800080,
+        "name": "Market Complex #81",
+        "building_type": "school",
+        "center_lon": 80.244475,
+        "center_lat": 13.062485,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.243683,
+              13.061432
+            ],
+            [
+              80.245266,
+              13.061432
+            ],
+            [
+              80.245266,
+              13.063538
+            ],
+            [
+              80.243683,
+              13.063538
+            ],
+            [
+              80.243683,
+              13.061432
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_81",
+      "properties": {
+        "osm_id": 800081,
+        "name": "Residential Block #82",
+        "building_type": "hospital",
+        "center_lon": 80.23742,
+        "center_lat": 13.006271,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.236467,
+              13.005417
+            ],
+            [
+              80.238373,
+              13.005417
+            ],
+            [
+              80.238373,
+              13.007126
+            ],
+            [
+              80.236467,
+              13.007126
+            ],
+            [
+              80.236467,
+              13.005417
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_82",
+      "properties": {
+        "osm_id": 800082,
+        "name": "Relief Shelter #83",
+        "building_type": "industrial",
+        "center_lon": 80.235926,
+        "center_lat": 13.036217,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.234803,
+              13.035455
+            ],
+            [
+              80.237048,
+              13.035455
+            ],
+            [
+              80.237048,
+              13.036979
+            ],
+            [
+              80.234803,
+              13.036979
+            ],
+            [
+              80.234803,
+              13.035455
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_83",
+      "properties": {
+        "osm_id": 800083,
+        "name": "Community Center #84",
+        "building_type": "apartments",
+        "center_lon": 80.248918,
+        "center_lat": 13.091791,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.248113,
+              13.090652
+            ],
+            [
+              80.249723,
+              13.090652
+            ],
+            [
+              80.249723,
+              13.09293
+            ],
+            [
+              80.248113,
+              13.09293
+            ],
+            [
+              80.248113,
+              13.090652
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_84",
+      "properties": {
+        "osm_id": 800084,
+        "name": "Civil Hospital #85",
+        "building_type": "residential",
+        "center_lon": 80.21369,
+        "center_lat": 13.039081,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.212968,
+              13.038208
+            ],
+            [
+              80.214411,
+              13.038208
+            ],
+            [
+              80.214411,
+              13.039955
+            ],
+            [
+              80.212968,
+              13.039955
+            ],
+            [
+              80.212968,
+              13.038208
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_85",
+      "properties": {
+        "osm_id": 800085,
+        "name": "City School #86",
+        "building_type": "commercial",
+        "center_lon": 80.244338,
+        "center_lat": 13.035286,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.243346,
+              13.034479
+            ],
+            [
+              80.245329,
+              13.034479
+            ],
+            [
+              80.245329,
+              13.036094
+            ],
+            [
+              80.243346,
+              13.036094
+            ],
+            [
+              80.243346,
+              13.034479
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_86",
+      "properties": {
+        "osm_id": 800086,
+        "name": "Market Complex #87",
+        "building_type": "school",
+        "center_lon": 80.213499,
+        "center_lat": 13.086376,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.212725,
+              13.085219
+            ],
+            [
+              80.214272,
+              13.085219
+            ],
+            [
+              80.214272,
+              13.087532
+            ],
+            [
+              80.212725,
+              13.087532
+            ],
+            [
+              80.212725,
+              13.085219
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_87",
+      "properties": {
+        "osm_id": 800087,
+        "name": "Residential Block #88",
+        "building_type": "hospital",
+        "center_lon": 80.24848,
+        "center_lat": 13.079003,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.247385,
+              13.078195
+            ],
+            [
+              80.249575,
+              13.078195
+            ],
+            [
+              80.249575,
+              13.079811
+            ],
+            [
+              80.247385,
+              13.079811
+            ],
+            [
+              80.247385,
+              13.078195
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_88",
+      "properties": {
+        "osm_id": 800088,
+        "name": "Relief Shelter #89",
+        "building_type": "industrial",
+        "center_lon": 80.196026,
+        "center_lat": 13.034625,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.195083,
+              13.033953
+            ],
+            [
+              80.196968,
+              13.033953
+            ],
+            [
+              80.196968,
+              13.035298
+            ],
+            [
+              80.195083,
+              13.035298
+            ],
+            [
+              80.195083,
+              13.033953
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_89",
+      "properties": {
+        "osm_id": 800089,
+        "name": "Community Center #90",
+        "building_type": "apartments",
+        "center_lon": 80.257889,
+        "center_lat": 13.033009,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.256777,
+              13.031865
+            ],
+            [
+              80.259002,
+              13.031865
+            ],
+            [
+              80.259002,
+              13.034152
+            ],
+            [
+              80.256777,
+              13.034152
+            ],
+            [
+              80.256777,
+              13.031865
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_90",
+      "properties": {
+        "osm_id": 800090,
+        "name": "Civil Hospital #91",
+        "building_type": "residential",
+        "center_lon": 80.203481,
+        "center_lat": 13.026863,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.202362,
+              13.026126
+            ],
+            [
+              80.2046,
+              13.026126
+            ],
+            [
+              80.2046,
+              13.027601
+            ],
+            [
+              80.202362,
+              13.027601
+            ],
+            [
+              80.202362,
+              13.026126
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_91",
+      "properties": {
+        "osm_id": 800091,
+        "name": "City School #92",
+        "building_type": "commercial",
+        "center_lon": 80.250837,
+        "center_lat": 13.05448,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.249959,
+              13.053397
+            ],
+            [
+              80.251715,
+              13.053397
+            ],
+            [
+              80.251715,
+              13.055562
+            ],
+            [
+              80.249959,
+              13.055562
+            ],
+            [
+              80.249959,
+              13.053397
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_92",
+      "properties": {
+        "osm_id": 800092,
+        "name": "Market Complex #93",
+        "building_type": "school",
+        "center_lon": 80.223711,
+        "center_lat": 13.045083,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.222689,
+              13.044099
+            ],
+            [
+              80.224732,
+              13.044099
+            ],
+            [
+              80.224732,
+              13.046068
+            ],
+            [
+              80.222689,
+              13.046068
+            ],
+            [
+              80.222689,
+              13.044099
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_93",
+      "properties": {
+        "osm_id": 800093,
+        "name": "Residential Block #94",
+        "building_type": "hospital",
+        "center_lon": 80.255936,
+        "center_lat": 13.065623,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.255128,
+              13.064681
+            ],
+            [
+              80.256743,
+              13.064681
+            ],
+            [
+              80.256743,
+              13.066564
+            ],
+            [
+              80.255128,
+              13.066564
+            ],
+            [
+              80.255128,
+              13.064681
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_94",
+      "properties": {
+        "osm_id": 800094,
+        "name": "Relief Shelter #95",
+        "building_type": "industrial",
+        "center_lon": 80.265879,
+        "center_lat": 13.049565,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.265097,
+              13.048504
+            ],
+            [
+              80.26666,
+              13.048504
+            ],
+            [
+              80.26666,
+              13.050627
+            ],
+            [
+              80.265097,
+              13.050627
+            ],
+            [
+              80.265097,
+              13.048504
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bld/synth_95",
+      "properties": {
+        "osm_id": 800095,
+        "name": "Community Center #96",
+        "building_type": "apartments",
+        "center_lon": 80.253951,
+        "center_lat": 13.077142,
+        "data_source": "OSM_TOPOLOGICAL_OFFLINE_SYNTHESIS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.253339,
+              13.076327
+            ],
+            [
+              80.254562,
+              13.076327
+            ],
+            [
+              80.254562,
+              13.077957
+            ],
+            [
+              80.253339,
+              13.077957
+            ],
+            [
+              80.253339,
+              13.076327
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

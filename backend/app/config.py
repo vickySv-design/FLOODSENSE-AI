@@ -35,7 +35,9 @@ for d in [
 DATA_MODE = os.environ.get("DATA_MODE", "hybrid").lower()
 CACHE_ENABLED = os.environ.get("CACHE_ENABLED", "true").lower() == "true"
 
-MODEL_WEIGHTS_PATH = CHECKPOINTS_DIR / "dual_stream_attention_unet.pth"
+_primary_weights = CHECKPOINTS_DIR / "dual_stream_attention_unet_fp16.pth"
+_legacy_weights = CHECKPOINTS_DIR / "dual_stream_attention_unet.pth"
+MODEL_WEIGHTS_PATH = _primary_weights if _primary_weights.exists() else _legacy_weights
 
 # Hardware Acceleration Configuration
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")

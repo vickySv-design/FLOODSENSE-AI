@@ -62,3 +62,9 @@ backend/data/pipeline_runs/
 backend/data/metadata/*.json
 backend/data/satellite_cache/
 
+# Whitelist essential trained models and offline demonstration data
+!backend/data/checkpoints/dual_stream_attention_unet_fp16.pth
+!backend/data/checkpoints/sen1floods11_best_weights.pth
+!backend/data/presets/**/*.npy
+!backend/data/osm_cache/*.geojson
+
