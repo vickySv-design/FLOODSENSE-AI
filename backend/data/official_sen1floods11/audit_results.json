@@ -1,0 +1,245 @@
+{
+  "phase1_raster_integrity": {
+    "total_files": 1784,
+    "expected_files": 1784,
+    "successfully_read": 1784,
+    "failures_count": 0,
+    "failures": [],
+    "file_size_min_bytes": 835,
+    "file_size_max_bytes": 3392268,
+    "file_size_total_mb": 1670.0484800338745,
+    "status": "PASS"
+  },
+  "phase2_chip_pairing": {
+    "total_chips": 446,
+    "s1_count": 446,
+    "s2_count": 446,
+    "label_count": 446,
+    "jrc_count": 446,
+    "pairing_mismatches_count": 0,
+    "pairing_mismatches": [],
+    "status": "PASS"
+  },
+  "phase3_label_audit": {
+    "total_pixels": 116916224,
+    "label_counts": {
+      "-1": 15932910,
+      "0": 90277709,
+      "1": 10705605,
+      "other": 0
+    },
+    "label_percentages": {
+      "-1": 13.62762964359848,
+      "0": 77.21572414107388,
+      "1": 9.156646215327651,
+      "other": 0.0
+    },
+    "jrc_counts": {
+      "0": 113333271,
+      "1": 3582953,
+      "other": 0
+    },
+    "jrc_percentages": {
+      "0": 96.93545268790069,
+      "1": 3.064547312099303,
+      "other": 0.0
+    },
+    "combinations": {
+      "L0_J0": 90164408,
+      "L1_J1": 3062228,
+      "L1_J0": 7643377,
+      "L0_J1": 113301,
+      "Lneg1_J0": 15525486,
+      "Lneg1_J1": 407424,
+      "other": 0
+    },
+    "combination_percentages": {
+      "L0_J0": 77.1188162902011,
+      "L1_J1": 2.619164300071819,
+      "L1_J0": 6.5374819152558326,
+      "L0_J1": 0.09690785087277537,
+      "Lneg1_J0": 13.279154482443772,
+      "Lneg1_J1": 0.3484751611547085,
+      "other": 0.0
+    },
+    "disagreement_L0_J1_total": 113301,
+    "disagreement_L0_J1_pct": 0.09690785087277537,
+    "disagreement_by_country": {
+      "Bolivia": 8885,
+      "Ghana": 11146,
+      "India": 14436,
+      "Mekong": 2976,
+      "Nigeria": 428,
+      "Pakistan": 27692,
+      "Paraguay": 14425,
+      "Spain": 6100,
+      "Sri-Lanka": 24872,
+      "USA": 2341
+    },
+    "top_disagreement_chips": [
+      [
+        "Pakistan_94095",
+        15804,
+        6.02874755859375
+      ],
+      [
+        "Sri-Lanka_653336",
+        10778,
+        4.111480712890625
+      ],
+      [
+        "Ghana_866994",
+        10471,
+        3.9943695068359375
+      ],
+      [
+        "Bolivia_60373",
+        6687,
+        2.5508880615234375
+      ],
+      [
+        "Pakistan_664885",
+        6467,
+        2.4669647216796875
+      ],
+      [
+        "Sri-Lanka_1049830",
+        5531,
+        2.1099090576171875
+      ],
+      [
+        "India_900498",
+        3957,
+        1.5094757080078125
+      ],
+      [
+        "Spain_5650136",
+        3580,
+        1.36566162109375
+      ],
+      [
+        "Pakistan_474121",
+        3549,
+        1.3538360595703125
+      ],
+      [
+        "Paraguay_1029191",
+        2344,
+        0.8941650390625
+      ]
+    ],
+    "status": "PASS"
+  },
+  "phase4_split_integrity": {
+    "split_counts": {
+      "flood_bolivia_data.csv": 15,
+      "flood_test_data.csv": 90,
+      "flood_train_data.csv": 252,
+      "flood_valid_data.csv": 89
+    },
+    "total_split_chips": 446,
+    "overlap_detected": false,
+    "pairwise_overlaps": {
+      "flood_bolivia_data.csv vs flood_test_data.csv": 0,
+      "flood_bolivia_data.csv vs flood_train_data.csv": 0,
+      "flood_bolivia_data.csv vs flood_valid_data.csv": 0,
+      "flood_test_data.csv vs flood_train_data.csv": 0,
+      "flood_test_data.csv vs flood_valid_data.csv": 0,
+      "flood_train_data.csv vs flood_valid_data.csv": 0
+    },
+    "missing_from_splits": [],
+    "extra_in_splits": [],
+    "bolivia_chips_count": 15,
+    "all_bolivia_named": true,
+    "total_bolivia_in_dataset": 15,
+    "status": "PASS"
+  },
+  "phase5_sensor_compatibility": {
+    "s1_vv_min_db": -89.78575897216797,
+    "s1_vv_max_db": 36.83202362060547,
+    "s1_vh_min_db": -103.87602996826172,
+    "s1_vh_max_db": 17.376384735107422,
+    "s1_nan_count": 5023410,
+    "s1_inf_count": 0,
+    "s2_band_ranges": [
+      {
+        "band": 1,
+        "min": 0.0,
+        "max": 9994.0
+      },
+      {
+        "band": 2,
+        "min": 0.0,
+        "max": 19182.0
+      },
+      {
+        "band": 3,
+        "min": 0.0,
+        "max": 15100.0
+      },
+      {
+        "band": 4,
+        "min": 0.0,
+        "max": 17418.0
+      },
+      {
+        "band": 5,
+        "min": 0.0,
+        "max": 10975.0
+      },
+      {
+        "band": 6,
+        "min": 0.0,
+        "max": 11847.0
+      },
+      {
+        "band": 7,
+        "min": 0.0,
+        "max": 12611.0
+      },
+      {
+        "band": 8,
+        "min": 0.0,
+        "max": 19199.0
+      },
+      {
+        "band": 9,
+        "min": 0.0,
+        "max": 13253.0
+      },
+      {
+        "band": 10,
+        "min": 0.0,
+        "max": 3947.0
+      },
+      {
+        "band": 11,
+        "min": 0.0,
+        "max": 1735.0
+      },
+      {
+        "band": 12,
+        "min": 0.0,
+        "max": 15031.0
+      },
+      {
+        "band": 13,
+        "min": 0.0,
+        "max": 13472.0
+      }
+    ],
+    "s2_optical_4ch_indices": [
+      3,
+      2,
+      1,
+      7
+    ],
+    "s2_optical_4ch_names": [
+      "B4 (Red)",
+      "B3 (Green)",
+      "B2 (Blue)",
+      "B8 (NIR)"
+    ],
+    "status": "PASS"
+  }
+}

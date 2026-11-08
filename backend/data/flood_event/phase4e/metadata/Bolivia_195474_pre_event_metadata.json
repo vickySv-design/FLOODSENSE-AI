@@ -1,0 +1,13 @@
+{
+  "scene_id": "COPERNICUS/S1_GRD/S1B_IW_GRDH_1SDV_20180203T095810_20180203T095835_009457_01101A_2288",
+  "platform": "B",
+  "acquisition_datetime": "2018-02-03 09:58:10 UTC",
+  "orbit_pass": "DESCENDING",
+  "relative_orbit": 156,
+  "instrument_mode": "IW",
+  "polarizations": [
+    "VV",
+    "VH"
+  ],
+  "time_start_ms": 1517651890000
+}

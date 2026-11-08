@@ -235,4 +235,79 @@ export async function recalculateScenarioRoute(scenarioId, payload) {
   return data;
 }
 
+// Local Satellite GeoTIFF (Coimbatore 2025 Composite) API Client
+export async function fetchLocalSatelliteStatus() {
+  const { data } = await apiClient.get("/api/satellite/local/status");
+  return data;
+}
+
+export async function validateLocalSatellite(s1Path = null, s2Path = null) {
+  const payload = {};
+  if (s1Path) payload.s1_path = s1Path;
+  if (s2Path) payload.s2_path = s2Path;
+  const { data } = await apiClient.post("/api/satellite/local/validate", payload);
+  return data;
+}
+
+export async function preprocessLocalSatellite(s1Path = null, s2Path = null) {
+  const payload = {};
+  if (s1Path) payload.s1_path = s1Path;
+  if (s2Path) payload.s2_path = s2Path;
+  const { data } = await apiClient.post("/api/satellite/local/preprocess", payload);
+  return data;
+}
+
+export async function inferLocalSatellite(s1Path = null, s2Path = null) {
+  const payload = {};
+  if (s1Path) payload.s1_path = s1Path;
+  if (s2Path) payload.s2_path = s2Path;
+  const { data } = await apiClient.post("/api/satellite/local/infer", payload);
+  return data;
+}
+
+export async function fetchLocalSatelliteReport() {
+  const { data } = await apiClient.get("/api/satellite/local/report");
+  return data;
+}
+
+// Phase 5 Dedicated GIS Infrastructure Exposure & A* Routing Endpoints
+export async function fetchGISExposureAnalysis(payload = {}) {
+  const { data } = await apiClient.post("/api/gis/exposure-analysis", payload);
+  return data;
+}
+
+export async function calculateGISEvacuationRoute(payload) {
+  const { data } = await apiClient.post("/api/gis/evacuation-route", payload);
+  return data;
+}
+
+// Phase 6 Unified End-to-End Orchestration Pipeline Endpoints
+export async function startPipelineRun(payload = {}) {
+  const { data } = await apiClient.post("/api/pipeline/run", payload);
+  return data;
+}
+
+export async function fetchPipelineStatus(executionId) {
+  const { data } = await apiClient.get(`/api/pipeline/status/${executionId}`);
+  return data;
+}
+
+export async function fetchPipelineResult(executionId) {
+  const { data } = await apiClient.get(`/api/pipeline/result/${executionId}`);
+  return data;
+}
+
+export async function fetchPipelineHistory(limit = 20) {
+  const { data } = await apiClient.get(`/api/pipeline/history?limit=${limit}`);
+  return data;
+}
+
+export async function fetchPipelineHealth() {
+  const { data } = await apiClient.get("/api/pipeline/health");
+  return data;
+}
+
+
+
+
 

@@ -1,0 +1,136 @@
+{
+  "disaster_event": "Bolivia February 2018 (Department of Beni Floodplain)",
+  "reference_chip_id": "Bolivia_103757",
+  "evaluation_protocol_notice": "NOTICE: Metrics reported on Bolivia_103757 reflect exploratory, chip-specific threshold calibration. They do NOT represent independent, out-of-sample generalization. Thresholds must be evaluated on separate holdout chips (e.g. Bolivia_314919, Bolivia_195474) without prior re-tuning.",
+  "geodesic_parameters": {
+    "ellipsoid": "WGS 84",
+    "mean_dx_meters": 9.69491261588543,
+    "mean_dy_meters": 9.939090457974778,
+    "mean_pixel_area_m2": 96.35861346519954,
+    "north_pixel_area_m2": 96.3681544109764,
+    "south_pixel_area_m2": 96.34906244071962,
+    "total_chip_area_km2": 25.259832368221268
+  },
+  "domain_decomposition": {
+    "domain_A_full_sar_swath": {
+      "description": "All mutual valid Sentinel-1 radar pixels (non-NaN in both passes)",
+      "pixel_count": 101623,
+      "area_km2": 9.792152421944264,
+      "changed_pixels": 45788,
+      "changed_area_ha": 441.2008229787132,
+      "changed_area_km2": 4.412008229787132
+    },
+    "domain_C_evaluation_domain": {
+      "description": "Intersection of mutual SAR swath and Sen1Floods11 ground truth valid pixels (LabelHand != -1)",
+      "pixel_count": 88077,
+      "area_km2": 8.486843713190025,
+      "evaluated_changed_pixels_pred_positive": 37525,
+      "evaluated_changed_area_ha": 361.5776482231654,
+      "evaluated_changed_area_km2": 3.615776482231654,
+      "ground_truth_water_pixels": 35362,
+      "ground_truth_dry_pixels": 52715
+    },
+    "region_D_annotator_excluded": {
+      "description": "Valid SAR observations excluded by Sen1Floods11 human annotators (LabelHand == -1)",
+      "pixel_count": 13546,
+      "changed_pixels": 8263,
+      "changed_area_ha": 79.62317475554781
+    },
+    "reconciliation_proof": {
+      "sar_swath_pixels": "88077 (Domain C) + 13546 (Region D) == 101623",
+      "changed_pixels": "37525 (Domain C) + 8263 (Region D) == 45788",
+      "changed_area_ha": "361.58 + 79.62 == 441.20"
+    }
+  },
+  "co_registration_audit": {
+    "zero_shift_correlation": 0.25771983074113164,
+    "optimal_shift_pixels": {
+      "row_dy": 0,
+      "col_dx": -1
+    },
+    "optimal_correlation": 0.2583165929676476,
+    "co_registration_verdict": "Grid-aligned with potential residual sub-pixel/1-pixel registration uncertainty. Linear correlation is modest (r ~ 0.26) due to temporal speckle noise and monsoonal soil moisture decorrelation. This does NOT constitute mathematical proof of sub-pixel feature co-registration.",
+    "sample_shifts": {
+      "(-1,+0)": 0.2526184246351855,
+      "(+0,-1)": 0.2583165929676476,
+      "(+0,+0)": 0.25771983074113164,
+      "(+0,+1)": 0.2123756310362047,
+      "(+1,+0)": 0.2293786229694344
+    }
+  },
+  "radiometric_distributions": {
+    "delta_vv_overall": {
+      "pixel_count": 101623,
+      "min": -35.05928421020508,
+      "max": 10.579446792602539,
+      "mean": -4.940398693084717,
+      "std": 4.889055252075195,
+      "median": -4.261507511138916,
+      "percentile_5": -13.586248397827148,
+      "percentile_10": -11.708319664001465,
+      "percentile_25": -8.436653137207031,
+      "percentile_75": -1.1926052570343018,
+      "percentile_90": 0.9005872011184692,
+      "percentile_95": 2.018890380859375
+    },
+    "delta_vh_overall": {
+      "pixel_count": 101623,
+      "min": -36.5855712890625,
+      "max": 15.56153678894043,
+      "mean": -5.129552841186523,
+      "std": 5.646168231964111,
+      "median": -4.131573677062988,
+      "percentile_5": -15.056291580200195,
+      "percentile_10": -12.797249794006348,
+      "percentile_25": -8.940923690795898,
+      "percentile_75": -0.8855538368225098,
+      "percentile_90": 1.3119875192642212,
+      "percentile_95": 2.4837589263916016
+    },
+    "dry_land_delta_vv": {
+      "pixel_count": 52715,
+      "min": -19.302860260009766,
+      "max": 10.579446792602539,
+      "mean": -1.9823726415634155,
+      "std": 3.0973875522613525,
+      "median": -1.7826166152954102,
+      "percentile_5": -7.290139675140381,
+      "percentile_10": -5.928926467895508,
+      "percentile_25": -3.8791136741638184,
+      "percentile_75": 0.1285724639892578,
+      "percentile_90": 1.7685894966125488,
+      "percentile_95": 2.755406379699707
+    },
+    "water_outside_jrc_delta_vv": {
+      "pixel_count": 35362,
+      "min": -35.05928421020508,
+      "max": 5.706183910369873,
+      "mean": -8.642704010009766,
+      "std": 3.9727187156677246,
+      "median": -8.610597610473633,
+      "percentile_5": -15.266474723815918,
+      "percentile_10": -13.682995796203613,
+      "percentile_25": -11.1923828125,
+      "percentile_75": -6.064192295074463,
+      "percentile_90": -3.6282436847686768,
+      "percentile_95": -2.147947072982788
+    }
+  },
+  "exploratory_evaluation_metrics": {
+    "primary_baseline_threshold_minus_5db": {
+      "true_positives": 29249,
+      "false_positives": 8276,
+      "false_negatives": 6113,
+      "true_negatives": 44439,
+      "pred_positives": 37525,
+      "pred_negatives": 50552,
+      "precision": 0.7794536975349767,
+      "recall": 0.8271308183926248,
+      "iou": 0.6702644484165177,
+      "f1_score": 0.8025848230823056,
+      "overall_accuracy": 0.8366315837278745,
+      "total_eval_pixels": 88077,
+      "averaging_convention": "Binary (Positive = Potential Inundated Water Proxy / Class 2, Negative = Dry Land / Class 0)"
+    }
+  }
+}

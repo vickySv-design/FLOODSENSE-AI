@@ -634,22 +634,39 @@ export default function FloodSimulationPage({
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100 text-slate-700">
-                    {(effectiveParamsData?.effective_parameters || []).map((p) => {
-                      const badge = sourceBadges[p.source] || sourceBadges.BACKEND_DEFAULT;
-                      return (
-                        <tr key={p.name} className="hover:bg-slate-50/50">
-                          <td className="py-2 px-2.5 font-medium text-slate-900">{p.label || p.name}</td>
-                          <td className="py-2 px-2.5 font-mono font-bold text-blue-700">{String(p.effective_value)}</td>
-                          <td className="py-2 px-2.5 text-slate-500">{p.unit || "--"}</td>
-                          <td className="py-2 px-2.5">
-                            <span className={`px-2 py-0.5 rounded text-[10px] font-semibold ${badge.bg}`}>
-                              {badge.label}
-                            </span>
-                          </td>
-                          <td className="py-2 px-2.5 text-slate-500 text-[11px] max-w-xs truncate">{p.category || "Simulation input"}</td>
-                        </tr>
-                      );
-                    })}
+                    {Array.isArray(effectiveParamsData?.effective_parameters)
+                      ? effectiveParamsData.effective_parameters.map((p) => {
+                          const badge = sourceBadges[p.source] || sourceBadges.BACKEND_DEFAULT;
+                          return (
+                            <tr key={p.name} className="hover:bg-slate-50/50">
+                              <td className="py-2 px-2.5 font-medium text-slate-900">{p.label || p.name}</td>
+                              <td className="py-2 px-2.5 font-mono font-bold text-blue-700">{String(p.effective_value ?? p.value)}</td>
+                              <td className="py-2 px-2.5 text-slate-500">{p.unit || p.units || "--"}</td>
+                              <td className="py-2 px-2.5">
+                                <span className={`px-2 py-0.5 rounded text-[10px] font-semibold ${badge.bg}`}>
+                                  {badge.label}
+                                </span>
+                              </td>
+                              <td className="py-2 px-2.5 text-slate-500 text-[11px] max-w-xs truncate">{p.category || p.justification || "Simulation input"}</td>
+                            </tr>
+                          );
+                        })
+                      : Object.entries(effectiveParamsData?.effective_parameters || {}).map(([key, p]) => {
+                          const badge = sourceBadges[p.source] || sourceBadges.BACKEND_DEFAULT;
+                          return (
+                            <tr key={key} className="hover:bg-slate-50/50">
+                              <td className="py-2 px-2.5 font-medium text-slate-900">{p.name || key}</td>
+                              <td className="py-2 px-2.5 font-mono font-bold text-blue-700">{String(p.value ?? p.effective_value)}</td>
+                              <td className="py-2 px-2.5 text-slate-500">{p.units || p.unit || "--"}</td>
+                              <td className="py-2 px-2.5">
+                                <span className={`px-2 py-0.5 rounded text-[10px] font-semibold ${badge.bg}`}>
+                                  {badge.label}
+                                </span>
+                              </td>
+                              <td className="py-2 px-2.5 text-slate-500 text-[11px] max-w-xs truncate">{p.justification || p.category || "Simulation input"}</td>
+                            </tr>
+                          );
+                        })}
                   </tbody>
                 </table>
               </div>

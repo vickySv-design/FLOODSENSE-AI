@@ -189,3 +189,170 @@ class GeoSpatialTransform:
             "spatial_resolution_m": [round(self.pixel_width_m, 2), round(self.pixel_height_m, 2)],
             "cell_area_m2": round(self.cell_area_m2, 2),
         }
+
+    @classmethod
+    def from_raster_file(cls, raster_path: Union[str, Any]) -> "GeoSpatialTransform":
+        """
+        Factory method to instantiate GeoSpatialTransform directly from a GeoTIFF raster.
+        Reads bounds, dimensions, and CRS. Reprojects bounding box to EPSG:4326 if needed.
+        """
+        import rasterio
+        from rasterio.warp import transform_bounds
+
+        with rasterio.open(raster_path) as src:
+            w, h = src.width, src.height
+            crs = src.crs
+            b = src.bounds
+            if crs and str(crs) != "EPSG:4326":
+                min_lon, min_lat, max_lon, max_lat = transform_bounds(crs, "EPSG:4326", b.left, b.bottom, b.right, b.top)
+            else:
+                min_lon, min_lat, max_lon, max_lat = b.left, b.bottom, b.right, b.top
+
+            bbox = [min_lat, min_lon, max_lat, max_lon]
+            return cls(bbox=bbox, width=w, height=h)
+
+    def validate_and_fix_polygon(self, geom_or_poly: Any) -> Optional[Polygon]:
+        """Validates and repairs self-intersecting or invalid polygons using Shapely."""
+        try:
+            if isinstance(geom_or_poly, dict):
+                p = shape(geom_or_poly)
+            else:
+                p = geom_or_poly
+
+            if p is None or p.is_empty:
+                return None
+
+            if not p.is_valid:
+                p = p.buffer(0)
+
+            if p.is_empty:
+                return None
+
+            if isinstance(p, MultiPolygon):
+                # Return the largest polygon if decomposed into multipolygon
+                p = max(p.geoms, key=lambda g: g.area)
+
+            return p if isinstance(p, Polygon) and not p.is_empty else None
+        except Exception:
+            return None
+
+    def calculate_polygon_overlap_stats(
+        self,
+        poly: Polygon,
+        raster: np.ndarray,
+        nodata_val: float = 255.0,
+        flood_val: int = 2,
+    ) -> Dict[str, Any]:
+        """
+        Calculates exact building polygon overlap against a classified flood raster.
+        Uses windowed rasterization for high computational performance.
+        Returns valid pixel count, flood pixel count, and exposed footprint percentage.
+        """
+        fixed_poly = self.validate_and_fix_polygon(poly)
+        if fixed_poly is None:
+            return {
+                "exposure_category": "UNKNOWN",
+                "exposed_area_pct": 0.0,
+                "valid_pixels": 0,
+                "flood_pixels": 0,
+                "reason": "INVALID_GEOMETRY",
+            }
+
+        # Check intersection with raster extent
+        if not fixed_poly.intersects(self.bbox_polygon):
+            return {
+                "exposure_category": "UNKNOWN",
+                "exposed_area_pct": 0.0,
+                "valid_pixels": 0,
+                "flood_pixels": 0,
+                "reason": "OUT_OF_BOUNDS",
+            }
+
+        import rasterio.features
+
+        minx, miny, maxx, maxy = fixed_poly.bounds
+        c_min, r_max = self.lonlat_to_pixel(minx, miny)
+        c_max, r_min = self.lonlat_to_pixel(maxx, maxy)
+
+        c_min = max(0, int(math.floor(c_min)))
+        c_max = min(self.width - 1, int(math.ceil(c_max)))
+        r_min = max(0, int(math.floor(r_min)))
+        r_max = min(self.height - 1, int(math.ceil(r_max)))
+
+        if c_min > c_max or r_min > r_max:
+            return {
+                "exposure_category": "UNKNOWN",
+                "exposed_area_pct": 0.0,
+                "valid_pixels": 0,
+                "flood_pixels": 0,
+                "reason": "OUT_OF_GRID",
+            }
+
+        w_rows = r_max - r_min + 1
+        w_cols = c_max - c_min + 1
+        sub_w_minx, sub_w_maxy = self.pixel_to_lonlat(c_min, r_min)
+        sub_w_maxx, sub_w_miny = self.pixel_to_lonlat(c_max + 1, r_max + 1)
+        sub_transform = rasterio.transform.from_bounds(
+            sub_w_minx, sub_w_miny, sub_w_maxx, sub_w_maxy, w_cols, w_rows
+        )
+
+        try:
+            bld_mask = rasterio.features.rasterize(
+                [(fixed_poly, 1)],
+                out_shape=(w_rows, w_cols),
+                transform=sub_transform,
+                all_touched=True,
+                fill=0,
+                dtype=np.uint8,
+            )
+        except Exception:
+            bld_mask = np.zeros((w_rows, w_cols), dtype=np.uint8)
+
+        sub_raster = raster[r_min : r_max + 1, c_min : c_max + 1]
+
+        valid_mask = (sub_raster != nodata_val) & (bld_mask == 1)
+        valid_px = int(np.sum(valid_mask))
+
+        # Fallback to centroid sampling if sub-pixel feature
+        if valid_px == 0:
+            c_cen, r_cen = self.lonlat_to_pixel(fixed_poly.centroid.x, fixed_poly.centroid.y)
+            c_int, r_int = int(round(c_cen)), int(round(r_cen))
+            if 0 <= c_int < self.width and 0 <= r_int < self.height:
+                val = raster[r_int, c_int]
+                if val != nodata_val:
+                    valid_px = 1
+                    flood_px = 1 if val == flood_val else 0
+                else:
+                    flood_px = 0
+            else:
+                flood_px = 0
+        else:
+            flood_mask = valid_mask & (sub_raster == flood_val)
+            flood_px = int(np.sum(flood_mask))
+
+        if valid_px == 0:
+            return {
+                "exposure_category": "UNKNOWN",
+                "exposed_area_pct": 0.0,
+                "valid_pixels": 0,
+                "flood_pixels": 0,
+                "reason": "NODATA_OR_OUTSIDE",
+            }
+
+        exposed_pct = round((flood_px / float(valid_px)) * 100.0, 2)
+
+        # Standard Exposure Categories as per Phase 5 Specification
+        if exposed_pct >= 50.0:
+            cat = "HIGH_EXPOSURE"
+        elif exposed_pct >= 10.0:
+            cat = "MODERATE_EXPOSURE"
+        else:
+            cat = "LOW_OR_NO_DETECTED_EXPOSURE"
+
+        return {
+            "exposure_category": cat,
+            "exposed_area_pct": exposed_pct,
+            "valid_pixels": valid_px,
+            "flood_pixels": flood_px,
+            "reason": "SUCCESS",
+        }

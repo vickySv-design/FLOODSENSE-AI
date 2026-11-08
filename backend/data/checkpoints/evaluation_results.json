@@ -1,5 +1,5 @@
 {
-  "evaluation_timestamp": "2026-11-07T13:54:42Z",
+  "evaluation_timestamp": "2026-11-08T05:54:23Z",
   "validation_samples_count": 6,
   "device": "cpu",
   "models": {
@@ -24,7 +24,7 @@
       "macro_recall": 1.0,
       "micro_iou": 1.0,
       "micro_f1": 1.0,
-      "avg_inference_latency_ms": 970.59,
+      "avg_inference_latency_ms": 312.65,
       "confusion_matrix": {
         "tp": 393216,
         "fp": 0,

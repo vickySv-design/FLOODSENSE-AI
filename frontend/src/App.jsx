@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import AppLayout from "./components/layout/AppLayout.jsx";
 import DashboardPage from "./pages/DashboardPage.jsx";
+import FloodSensePipelinePage from "./pages/FloodSensePipelinePage.jsx";
 import SatelliteAnalysisPage from "./pages/SatelliteAnalysisPage.jsx";
 import FloodSimulationPage from "./pages/FloodSimulationPage.jsx";
 import RescueInfrastructurePage from "./pages/RescueInfrastructurePage.jsx";
@@ -25,6 +26,7 @@ import {
 
 const VALID_PAGES = [
   "dashboard",
+  "pipeline",
   "satellite-analysis",
   "flood-simulation",
   "rescue",
@@ -253,6 +255,13 @@ export default function App() {
           onSelectPreset={handleSelectPreset}
           presets={presets}
           selectedPresetId={selectedPresetId}
+        />
+      )}
+
+      {activePage === "pipeline" && (
+        <FloodSensePipelinePage
+          analysisData={analysisData}
+          presets={presets}
         />
       )}
 

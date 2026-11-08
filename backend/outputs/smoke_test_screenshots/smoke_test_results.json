@@ -1,0 +1,87 @@
+{
+  "smoke_test_timestamp": "2026-11-08T11:02:56Z",
+  "execution_id": "exec_8f7ef10bcb32",
+  "study_area": "chennai_monsoon_2026",
+  "pipeline_status": "COMPLETED",
+  "total_duration_seconds": 1.563,
+  "hardware_telemetry": {
+    "gpu_model": "NVIDIA GeForce RTX 4070 Laptop GPU",
+    "baseline_vram_mb": 2253.0,
+    "peak_vram_mb": 2257.0,
+    "vram_delta_mb": 4.0,
+    "peak_gpu_utilization_pct": 1.0,
+    "ram_used_gb": 8.86,
+    "ram_total_gb": 15.71
+  },
+  "stage_durations": {
+    "INITIALIZATION": 0.0,
+    "DATA_ACQUISITION": 0.004,
+    "PREPROCESSING": 0.005,
+    "FLOOD_INFERENCE": 0.04,
+    "TEMPORAL_ANALYSIS": 0.0,
+    "BUILDING_EXPOSURE": 0.848,
+    "ROAD_HAZARD_ANALYSIS": 0.571,
+    "RESCUE_ROUTING": 0.093,
+    "FINALIZATION": 0.0
+  },
+  "metrics": {
+    "flooded_pixels": 14369,
+    "flooded_area_hectares": 2158.4,
+    "flooded_area_sqkm": 21.584,
+    "total_buildings_analyzed": 1000,
+    "high_exposure_buildings": 290,
+    "moderate_exposure_buildings": 4,
+    "low_exposure_buildings": 706,
+    "total_roads_analyzed": 1000,
+    "road_potential_hazards": 504,
+    "road_caution_segments": 27,
+    "route_status": "NO_SAFE_ROUTE_AVAILABLE",
+    "route_distance_m": 0.0,
+    "route_distance_km": 0.0,
+    "route_eta_minutes": 0.0
+  },
+  "screenshots": [
+    {
+      "description": "1. Main FloodSense-AI Dashboard",
+      "file": "backend/outputs/smoke_test_screenshots/dashboard_main.png",
+      "size_bytes": 97093,
+      "route": "/#dashboard"
+    },
+    {
+      "description": "2. Pipeline Execution Progress & Tracker",
+      "file": "backend/outputs/smoke_test_screenshots/pipeline_execution_progress.png",
+      "size_bytes": 141408,
+      "route": "/#pipeline"
+    },
+    {
+      "description": "3. Flood Classification Map",
+      "file": "backend/outputs/smoke_test_screenshots/flood_classification_map.png",
+      "size_bytes": 167863,
+      "route": "/#satellite-analysis"
+    },
+    {
+      "description": "4. Building Exposure Map",
+      "file": "backend/outputs/smoke_test_screenshots/building_exposure_map.png",
+      "size_bytes": 193183,
+      "route": "/#rescue"
+    },
+    {
+      "description": "5. Road Hazard Network & Hydrodynamic Simulation",
+      "file": "backend/outputs/smoke_test_screenshots/road_hazard_map.png",
+      "size_bytes": 116928,
+      "route": "/#flood-simulation"
+    },
+    {
+      "description": "6. Candidate Evacuation Corridor & Infrastructure Map",
+      "file": "backend/outputs/smoke_test_screenshots/candidate_rescue_route.png",
+      "size_bytes": 207961,
+      "route": "/#data-sources"
+    },
+    {
+      "description": "7. Final Situation Report Analytics & Provenance Panel",
+      "file": "backend/outputs/smoke_test_screenshots/final_analytics_provenance.png",
+      "size_bytes": 178760,
+      "route": "/#reports"
+    }
+  ]
+}

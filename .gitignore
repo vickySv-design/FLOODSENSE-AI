@@ -1,4 +1,8 @@
-# Python
+# Virtual Environments
+.venv_cuda/
+backend/.venv_cuda/
+venv/
+.venv/
 __pycache__/
 *.py[cod]
 *$py.class
@@ -37,6 +41,14 @@ Thumbs.db
 .idea/
 *.swp
 *.swo
+
+# Temporary and Backup files
+*.bak
+*.tmp
+*.log
+
+# Pipeline runtime cache
+backend/data/pipeline_runs/
 
 # Project large data files or checkpoints that can be regenerated
 *.pth

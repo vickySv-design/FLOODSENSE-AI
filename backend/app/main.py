@@ -1,6 +1,7 @@
 from contextlib import asynccontextmanager
 import json
-from typing import Any, Dict, List, Optional
+import os
+from typing import Any, Dict, List, Optional, Tuple
 from fastapi import FastAPI, File, Form, HTTPException, Query, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 import numpy as np
@@ -8,17 +9,26 @@ from pydantic import BaseModel, Field
 import torch
 
 from app.config import (
+    CLASS_NEW_FLOOD,
     DEVICE,
     DEVICE_NAME,
     DISASTER_PRESETS_METADATA,
     PRESETS_DIR,
+    SATELLITE_CACHE_DIR,
 )
+from app.services.georef import GeoSpatialTransform
 from app.services.benchmark_suite import get_academic_benchmark_suite
-from app.services.damage_analyzer import analyze_flood_damage
 from app.services.gee_connector import gee_connector
 from app.services.hydro_forecaster import simulate_hydrological_timeline
 from app.services.inference_engine import inference_engine
 from app.services.osm_service import osm_service
+from app.services.damage_analyzer import analyze_flood_damage, analyze_building_exposure
+from app.services.rescue_router import (
+    compute_osm_rescue_routes,
+    classify_road_hazards,
+    build_road_graph,
+    calculate_astar_evacuation_route,
+)
 from app.services.preprocessor import (
     compute_sar_backscatter_histogram,
     decode_uploaded_optical,
@@ -26,7 +36,6 @@ from app.services.preprocessor import (
     preprocess_multimodal_pair,
     render_visual_layers,
 )
-from app.services.rescue_router import compute_osm_rescue_routes
 from app.services.sitrep_generator import generate_disaster_sitrep, export_sitrep_markdown, export_sitrep_geojson
 from app.services.data_providers import CopernicusDataSpaceProvider, GoogleEarthEngineProvider, LocalRasterProvider
 from app.services.data_acquisition_manager import data_acquisition_manager
@@ -35,8 +44,10 @@ from app.services.data_providers.open_meteo_provider import open_meteo_provider
 from app.services.data_providers.nasa_gpm_provider import nasa_gpm_provider
 from app.services.raster_validator import raster_validator
 from app.services.data_provenance import data_provenance_manager
+from app.services.local_satellite_service import local_satellite_service
 from app.services.simulation_engine import simulation_job_manager, PRESET_SCENARIOS, Physical2DFloodSimulator, get_or_generate_dem
 from app.services.aoi_service import aoi_service
+from app.services.floodsense_pipeline import pipeline_orchestrator
 from scripts.init_demo_data import ensure_demo_data_initialized, generate_synthetic_multimodal_tile
 
 
@@ -140,6 +151,12 @@ class RasterValidateRequest(BaseModel):
     file_path: str
 
 
+class LocalSatelliteRequest(BaseModel):
+    s1_path: Optional[str] = Field(default=None, description="Custom path to Sentinel-1 GeoTIFF")
+    s2_path: Optional[str] = Field(default=None, description="Custom path to Sentinel-2 GeoTIFF")
+    model_variant: Optional[str] = Field(default="baseline", description="'baseline' (40.6M) or 'lightweight' (8.24M)")
+
+
 class ScenarioCreateRequest(BaseModel):
     name: str = Field(default="Custom Cyclone Scenario")
     bbox: List[float] = Field(default=[12.980, 80.190, 13.060, 80.290])
@@ -162,6 +179,38 @@ class ScenarioRouteRecalculateRequest(BaseModel):
     depth_threshold_m: float = Field(default=0.15)
     start_coords: Optional[List[float]] = None
     end_coords: Optional[List[float]] = None
+
+
+class GISExposureRequest(BaseModel):
+    preset_id: Optional[str] = Field(default="chennai_monsoon_2026")
+    bbox: Optional[List[float]] = None
+    max_buildings: int = Field(default=350)
+    raster_path: Optional[str] = None
+
+
+class GISEvacuationRouteRequest(BaseModel):
+    preset_id: Optional[str] = Field(default="chennai_monsoon_2026")
+    bbox: Optional[List[float]] = None
+    start_coords: List[float] = Field(..., description="[longitude, latitude] in EPSG:4326")
+    dest_coords: List[float] = Field(..., description="[longitude, latitude] in EPSG:4326")
+    avoid_potential_hazards: bool = Field(default=True)
+    caution_penalty: float = Field(default=3.0)
+    hazard_penalty: float = Field(default=10.0)
+    raster_path: Optional[str] = None
+
+
+class PipelineRunRequest(BaseModel):
+    study_area: str = Field(default="chennai_monsoon_2026", description="Preset study area ID or custom name")
+    bbox: Optional[List[float]] = Field(default=None, description="Optional bounding box [min_lon, min_lat, max_lon, max_lat]")
+    run_temporal_analysis: bool = Field(default=True, description="Enable temporal SAR change detection if pre-event SAR is available")
+    run_infrastructure_exposure: bool = Field(default=True, description="Enable OSM building footprint exposure analysis")
+    run_candidate_routing: bool = Field(default=True, description="Enable A* candidate evacuation rescue routing")
+    avoid_potential_hazards: bool = Field(default=True, description="Avoid roads marked as POTENTIAL_HAZARD in A* graph")
+    start_coords: Optional[List[float]] = Field(default=None, description="Start coordinates [lon, lat]")
+    dest_coords: Optional[List[float]] = Field(default=None, description="Destination coordinates [lon, lat]")
+    max_buildings: int = Field(default=1000, description="Maximum number of buildings to analyze")
+    caution_penalty: float = Field(default=2.5, description="Cost multiplier for caution road segments")
+    hazard_penalty: float = Field(default=10.0, description="Cost multiplier for hazard road segments if not avoided")
 
 
 @asynccontextmanager
@@ -954,6 +1003,47 @@ async def preprocess_acquired_data(payload: Dict[str, Any]) -> Dict[str, Any]:
 
 
 # =============================================================================
+# LOCAL GEOTIFF (COIMBATORE 2025 COMPOSITE) SATELLITE PIPELINE ENDPOINTS
+# =============================================================================
+
+@app.get("/api/satellite/local/status")
+async def get_local_satellite_status() -> Dict[str, Any]:
+    """Returns availability and metadata status of genuine local Sentinel-1 and Sentinel-2 GeoTIFF files."""
+    return local_satellite_service.get_status()
+
+
+@app.post("/api/satellite/local/validate")
+async def validate_local_satellite_rasters(req: Optional[LocalSatelliteRequest] = None) -> Dict[str, Any]:
+    """Validates dimensions, CRS, affine transform, band statistics, NaNs, and SAR outliers."""
+    s1 = req.s1_path if req else None
+    s2 = req.s2_path if req else None
+    return local_satellite_service.validate(s1_path=s1, s2_path=s2)
+
+
+@app.post("/api/satellite/local/preprocess")
+async def preprocess_local_satellite_rasters(req: Optional[LocalSatelliteRequest] = None) -> Dict[str, Any]:
+    """Preprocesses Sentinel-1 dB and Sentinel-2 reflectance, generating Float32 rasters and valid-data mask."""
+    s1 = req.s1_path if req else None
+    s2 = req.s2_path if req else None
+    return local_satellite_service.preprocess(s1_path=s1, s2_path=s2)
+
+
+@app.post("/api/satellite/local/infer")
+async def infer_local_satellite_rasters(req: Optional[LocalSatelliteRequest] = None) -> Dict[str, Any]:
+    """Executes multi-tile sliding-window neural inference using trained Dual-Stream Attention U-Net."""
+    s1 = req.s1_path if req else None
+    s2 = req.s2_path if req else None
+    variant = req.model_variant if req and req.model_variant else "baseline"
+    return local_satellite_service.infer(s1_path=s1, s2_path=s2, model_variant=variant)
+
+
+@app.get("/api/satellite/local/report")
+async def get_local_satellite_report() -> Dict[str, Any]:
+    """Retrieves full validation, preprocessing, and inference audit report for local satellite data."""
+    return local_satellite_service.get_report()
+
+
+# =============================================================================
 # INTERACTIVE CYCLONE & EXTREME RAINFALL SCENARIO SIMULATOR ENDPOINTS
 # =============================================================================
 
@@ -1125,6 +1215,248 @@ async def get_scenario_report(scenario_id: str, hour: Optional[int] = Query(None
     if "error" in report:
         raise HTTPException(status_code=404, detail=report["error"])
     return report
+
+
+def _load_study_area_raster_and_georef(
+    preset_id: Optional[str] = "chennai_monsoon_2026",
+    bbox: Optional[List[float]] = None,
+    raster_path: Optional[str] = None,
+) -> Tuple[np.ndarray, GeoSpatialTransform, List[float], str]:
+    """Loads flood classification raster and initializes GeoSpatialTransform."""
+    import rasterio
+
+    # 1. Custom raster path
+    if raster_path and os.path.exists(raster_path):
+        with rasterio.open(raster_path) as src:
+            raster = src.read(1)
+            georef = GeoSpatialTransform.from_raster_file(raster_path)
+            bounds = [georef.min_lat, georef.min_lon, georef.max_lat, georef.max_lon]
+            return raster, georef, bounds, str(raster_path)
+
+    # 2. Check satellite cache for Chennai flood mask
+    default_cached = SATELLITE_CACHE_DIR / "flood_mask_024d3597.tif"
+    if default_cached.exists() and (not preset_id or "chennai" in str(preset_id)):
+        with rasterio.open(default_cached) as src:
+            raster = src.read(1)
+            georef = GeoSpatialTransform.from_raster_file(default_cached)
+            bounds = [georef.min_lat, georef.min_lon, georef.max_lat, georef.max_lon]
+            return raster, georef, bounds, str(default_cached)
+
+    # 3. Check preset directory
+    clean_id = (preset_id or "chennai_monsoon_2026").lower()
+    if clean_id in DISASTER_PRESETS_METADATA:
+        meta = DISASTER_PRESETS_METADATA[clean_id]
+        preset_bbox = bbox or meta["bbox"]
+        p_folder = PRESETS_DIR / clean_id
+        if (p_folder / "ground_truth.npy").exists():
+            raster = np.load(p_folder / "ground_truth.npy")
+            georef = GeoSpatialTransform(preset_bbox, width=raster.shape[1], height=raster.shape[0])
+            return raster, georef, preset_bbox, f"Preset: {clean_id} (ground_truth.npy)"
+
+    # 4. Fallback: Chennai default bbox
+    target_bbox = bbox or [13.010, 80.220, 13.060, 80.270]
+    georef = GeoSpatialTransform(target_bbox, width=256, height=256)
+    raster = np.zeros((256, 256), dtype=np.uint8)
+    return raster, georef, target_bbox, "Default Baseline Grid"
+
+
+@app.post("/api/gis/exposure-analysis")
+async def analyze_gis_exposure_endpoint(req: GISExposureRequest) -> Dict[str, Any]:
+    """
+    Phase 5 Dedicated Endpoint: Evaluates real OpenStreetMap buildings and roads
+    against georeferenced flood classification raster.
+    """
+    raster, georef, bbox, raster_src = _load_study_area_raster_and_georef(
+        preset_id=req.preset_id, bbox=req.bbox, raster_path=req.raster_path
+    )
+
+    # Fetch OSM data for this AOI
+    roads_geo, blds_geo, from_cache, warning = osm_service.fetch_and_cache_osm_data(
+        req.preset_id or "chennai_monsoon_2026", bbox
+    )
+
+    raw_blds = blds_geo.get("features", [])
+    raw_roads = roads_geo.get("features", [])
+
+    exposure_res = analyze_building_exposure(
+        buildings=raw_blds,
+        seg_mask=raster,
+        georef=georef,
+        max_buildings=req.max_buildings,
+        nodata_val=255.0,
+        flood_val=CLASS_NEW_FLOOD,
+    )
+
+    hazard_res = classify_road_hazards(
+        road_features=raw_roads,
+        seg_mask=raster,
+        georef=georef,
+        nodata_val=255.0,
+        flood_val=CLASS_NEW_FLOOD,
+    )
+
+    return {
+        "success": True,
+        "study_area": req.preset_id or "chennai_monsoon_2026",
+        "bbox": bbox,
+        "raster_metadata": georef.get_metadata(),
+        "raster_source": raster_src,
+        "buildings_summary": exposure_res["summary"],
+        "roads_summary": hazard_res["summary"],
+        "buildings_geojson": exposure_res["buildings_geojson"],
+        "roads_geojson": hazard_res["geojson"],
+        "buildings": exposure_res["buildings_list"],
+        "data_provenance": {
+            "study_area": "Chennai Coastal Basin & Adyar Estuary",
+            "flood_raster_source": raster_src,
+            "osm_buildings_source": "OpenStreetMap contributors (ODbL / EPSG:4326)",
+            "osm_roads_source": "OpenStreetMap contributors (ODbL / EPSG:4326)",
+            "osm_cache_used": from_cache,
+            "data_warnings": warning,
+        },
+        "scientific_disclaimer": "FloodSense-AI identifies potential infrastructure exposure through spatial intersection with a mapped flood-risk layer. It does not independently confirm structural damage, actual road closures, or operationally safe evacuation routes. All candidate routes require local verification.",
+    }
+
+
+@app.post("/api/gis/evacuation-route")
+async def calculate_gis_evacuation_route_endpoint(req: GISEvacuationRouteRequest) -> Dict[str, Any]:
+    """
+    Phase 5 Dedicated Endpoint: Constructs NetworkX graph from real OSM roads,
+    penalizes or avoids mapped flood hazards, and executes A* heuristic evacuation routing.
+    """
+    if len(req.start_coords) != 2 or len(req.dest_coords) != 2:
+        raise HTTPException(
+            status_code=400,
+            detail="start_coords and dest_coords must each contain exactly 2 numbers: [longitude, latitude].",
+        )
+
+    s_lon, s_lat = float(req.start_coords[0]), float(req.start_coords[1])
+    d_lon, d_lat = float(req.dest_coords[0]), float(req.dest_coords[1])
+
+    if not (-180.0 <= s_lon <= 180.0 and -90.0 <= s_lat <= 90.0):
+        raise HTTPException(status_code=400, detail=f"Invalid start coordinates: [{s_lon}, {s_lat}]")
+    if not (-180.0 <= d_lon <= 180.0 and -90.0 <= d_lat <= 90.0):
+        raise HTTPException(status_code=400, detail=f"Invalid destination coordinates: [{d_lon}, {d_lat}]")
+
+    raster, georef, bbox, raster_src = _load_study_area_raster_and_georef(
+        preset_id=req.preset_id, bbox=req.bbox, raster_path=req.raster_path
+    )
+
+    roads_geo, _, from_cache, warning = osm_service.fetch_and_cache_osm_data(
+        req.preset_id or "chennai_monsoon_2026", bbox
+    )
+    raw_roads = roads_geo.get("features", [])
+
+    if not raw_roads:
+        return {
+            "success": False,
+            "status": "NO_ROADS_AVAILABLE",
+            "message": "No OpenStreetMap roads available in this study area.",
+            "route": None,
+            "geojson": None,
+        }
+
+    G = build_road_graph(
+        road_features=raw_roads,
+        seg_mask=raster,
+        georef=georef,
+        avoid_hazards=req.avoid_potential_hazards,
+        caution_penalty=req.caution_penalty,
+        hazard_penalty=req.hazard_penalty,
+        nodata_val=255.0,
+        flood_val=CLASS_NEW_FLOOD,
+    )
+
+    route_res = calculate_astar_evacuation_route(
+        G=G,
+        start_coords=(s_lon, s_lat),
+        dest_coords=(d_lon, d_lat),
+        georef=georef,
+        max_snap_dist_m=3500.0,
+    )
+
+    return {
+        "success": route_res["status"] == "CANDIDATE_ROUTE_AVOIDING_MAPPED_HAZARDS",
+        "study_area": req.preset_id or "chennai_monsoon_2026",
+        "routing_engine": "NetworkX A* with Euclidean Metric Heuristic",
+        "avoid_hazards_enforced": req.avoid_potential_hazards,
+        "caution_cost_multiplier": req.caution_penalty,
+        "hazard_cost_multiplier": req.hazard_penalty,
+        "route": route_res,
+        "geojson": route_res.get("route_geojson"),
+        "data_provenance": {
+            "road_source": "OpenStreetMap contributors (ODbL / EPSG:4326)",
+            "flood_raster": raster_src,
+            "cache_used": from_cache,
+        },
+        "scientific_disclaimer": "FloodSense-AI identifies potential infrastructure exposure through spatial intersection with a mapped flood-risk layer. It does not independently confirm structural damage, actual road closures, or operationally safe evacuation routes. All candidate routes require local verification.",
+    }
+
+
+# =====================================================================
+# Phase 6: Unified End-to-End Orchestration Pipeline Endpoints
+# =====================================================================
+
+@app.post("/api/pipeline/run")
+async def run_pipeline_endpoint(req: PipelineRunRequest) -> Dict[str, Any]:
+    """
+    Phase 6 Unified Pipeline: Triggers asynchronous background execution of the
+    complete end-to-end disaster response workflow.
+    """
+    s_coords = (float(req.start_coords[0]), float(req.start_coords[1])) if req.start_coords and len(req.start_coords) == 2 else None
+    d_coords = (float(req.dest_coords[0]), float(req.dest_coords[1])) if req.dest_coords and len(req.dest_coords) == 2 else None
+
+    try:
+        res = pipeline_orchestrator.start_pipeline(
+            study_area=req.study_area,
+            bbox=req.bbox,
+            run_temporal_analysis=req.run_temporal_analysis,
+            run_infrastructure_exposure=req.run_infrastructure_exposure,
+            run_candidate_routing=req.run_candidate_routing,
+            avoid_potential_hazards=req.avoid_potential_hazards,
+            start_coords=s_coords,
+            dest_coords=d_coords,
+            max_buildings=req.max_buildings,
+        )
+        return res
+    except ValueError as e:
+        raise HTTPException(status_code=409, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Pipeline launch failed: {str(e)}")
+
+
+@app.get("/api/pipeline/status/{execution_id}")
+async def get_pipeline_status_endpoint(execution_id: str) -> Dict[str, Any]:
+    """Returns live stage-by-stage status of an active or completed pipeline execution."""
+    status = pipeline_orchestrator.get_status(execution_id)
+    if not status:
+        raise HTTPException(status_code=404, detail=f"Pipeline execution '{execution_id}' not found.")
+    return status
+
+
+@app.get("/api/pipeline/result/{execution_id}")
+async def get_pipeline_result_endpoint(execution_id: str) -> Dict[str, Any]:
+    """Returns complete structured result of a completed or failed pipeline execution."""
+    result = pipeline_orchestrator.get_result(execution_id)
+    if not result:
+        raise HTTPException(
+            status_code=404,
+            detail=f"Result for pipeline execution '{execution_id}' not available or run still pending/running.",
+        )
+    return result
+
+
+@app.get("/api/pipeline/history")
+async def list_pipeline_history_endpoint(limit: int = 20) -> List[Dict[str, Any]]:
+    """Returns a list of recent pipeline execution manifests."""
+    return pipeline_orchestrator.list_history(limit=limit)
+
+
+@app.get("/api/pipeline/health")
+async def get_pipeline_health_endpoint() -> Dict[str, Any]:
+    """Returns current health and concurrency status of the pipeline orchestrator."""
+    return pipeline_orchestrator.get_health()
+
 
 
 

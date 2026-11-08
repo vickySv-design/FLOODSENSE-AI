@@ -1,0 +1,479 @@
+{
+  "training_config": {
+    "epochs": 30,
+    "batch_size": 4,
+    "lr": 0.0005,
+    "weight_decay": 0.0001,
+    "patience": 10,
+    "seed": 42
+  },
+  "best_epoch": 28,
+  "best_val_miou": 0.7217,
+  "total_training_time_seconds": 2079.2,
+  "test_metrics": {
+    "overall_accuracy": 0.955,
+    "mean_iou": 0.7198,
+    "mean_f1": 0.8255,
+    "mean_precision": 0.8558,
+    "mean_recall": 0.8066,
+    "class_iou": {
+      "class_0": 0.9695,
+      "class_1": 0.6101,
+      "class_2": 0.58
+    },
+    "class_f1": {
+      "class_0": 0.9845,
+      "class_1": 0.7578,
+      "class_2": 0.7342
+    },
+    "class_precision": {
+      "class_0": 0.9827,
+      "class_1": 0.883,
+      "class_2": 0.7016
+    },
+    "class_recall": {
+      "class_0": 0.9863,
+      "class_1": 0.6637,
+      "class_2": 0.7698
+    },
+    "confusion_matrix": [
+      [
+        17683536,
+        11237,
+        234178
+      ],
+      [
+        7716,
+        596889,
+        294727
+      ],
+      [
+        304039,
+        67816,
+        1243821
+      ]
+    ]
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 0.2983454125876329,
+      "val_loss": 0.35736082293344346,
+      "val_miou": 0.452,
+      "val_f1": 0.5217,
+      "class_iou": {
+        "class_0": 0.9391,
+        "class_1": 0.0082,
+        "class_2": 0.4088
+      },
+      "epoch_duration": 70.5419282913208,
+      "vram_mb": 1098.82421875
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.26093209750798285,
+      "val_loss": 0.2461666057953674,
+      "val_miou": 0.5736,
+      "val_f1": 0.6935,
+      "class_iou": {
+        "class_0": 0.9579,
+        "class_1": 0.421,
+        "class_2": 0.3419
+      },
+      "epoch_duration": 69.59148097038269,
+      "vram_mb": 1098.82421875
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.24787382504769734,
+      "val_loss": 0.2539984236439962,
+      "val_miou": 0.5675,
+      "val_f1": 0.6861,
+      "class_iou": {
+        "class_0": 0.9591,
+        "class_1": 0.4269,
+        "class_2": 0.3164
+      },
+      "epoch_duration": 68.45618796348572,
+      "vram_mb": 1098.82421875
+    },
+    {
+      "epoch": 4,
+      "train_loss": 0.24506802592350513,
+      "val_loss": 0.2541486876231901,
+      "val_miou": 0.5906,
+      "val_f1": 0.711,
+      "class_iou": {
+        "class_0": 0.963,
+        "class_1": 0.4074,
+        "class_2": 0.4015
+      },
+      "epoch_duration": 70.01344060897827,
+      "vram_mb": 1098.82421875
+    },
+    {
+      "epoch": 5,
+      "train_loss": 0.22774285640643568,
+      "val_loss": 0.23709436037232368,
+      "val_miou": 0.6033,
+      "val_f1": 0.7222,
+      "class_iou": {
+        "class_0": 0.9629,
+        "class_1": 0.4816,
+        "class_2": 0.3655
+      },
+      "epoch_duration": 70.49371099472046,
+      "vram_mb": 1098.82421875
+    },
+    {
+      "epoch": 6,
+      "train_loss": 0.22192318153624632,
+      "val_loss": 0.23997658273477232,
+      "val_miou": 0.5994,
+      "val_f1": 0.7226,
+      "class_iou": {
+        "class_0": 0.9453,
+        "class_1": 0.4353,
+        "class_2": 0.4177
+      },
+      "epoch_duration": 68.88162112236023,
+      "vram_mb": 1098.82421875
+    },
+    {
+      "epoch": 7,
+      "train_loss": 0.22861071724672707,
+      "val_loss": 0.2273836981379584,
+      "val_miou": 0.6267,
+      "val_f1": 0.7455,
+      "class_iou": {
+        "class_0": 0.9654,
+        "class_1": 0.485,
+        "class_2": 0.4296
+      },
+      "epoch_duration": 68.72534012794495,
+      "vram_mb": 1098.82421875
+    },
+    {
+      "epoch": 8,
+      "train_loss": 0.22397004472357887,
+      "val_loss": 0.2424989999010322,
+      "val_miou": 0.5982,
+      "val_f1": 0.7196,
+      "class_iou": {
+        "class_0": 0.9561,
+        "class_1": 0.404,
+        "class_2": 0.4344
+      },
+      "epoch_duration": 68.92560958862305,
+      "vram_mb": 1098.82421875
+    },
+    {
+      "epoch": 9,
+      "train_loss": 0.2161551963005747,
+      "val_loss": 0.22039462106951166,
+      "val_miou": 0.6404,
+      "val_f1": 0.758,
+      "class_iou": {
+        "class_0": 0.9658,
+        "class_1": 0.5142,
+        "class_2": 0.4413
+      },
+      "epoch_duration": 70.22714042663574,
+      "vram_mb": 1098.82421875
+    },
+    {
+      "epoch": 10,
+      "train_loss": 0.2102956292580585,
+      "val_loss": 0.22123433314682392,
+      "val_miou": 0.6288,
+      "val_f1": 0.7478,
+      "class_iou": {
+        "class_0": 0.9655,
+        "class_1": 0.4734,
+        "class_2": 0.4476
+      },
+      "epoch_duration": 69.1256582736969,
+      "vram_mb": 1098.82421875
+    },
+    {
+      "epoch": 11,
+      "train_loss": 0.21093589639177127,
+      "val_loss": 0.23652228034949035,
+      "val_miou": 0.6242,
+      "val_f1": 0.7441,
+      "class_iou": {
+        "class_0": 0.9611,
+        "class_1": 0.4588,
+        "class_2": 0.4527
+      },
+      "epoch_duration": 68.8509452342987,
+      "vram_mb": 1098.82421875
+    },
+    {
+      "epoch": 12,
+      "train_loss": 0.20805158152872202,
+      "val_loss": 0.22692697687765187,
+      "val_miou": 0.6432,
+      "val_f1": 0.7613,
+      "class_iou": {
+        "class_0": 0.9632,
+        "class_1": 0.5058,
+        "class_2": 0.4607
+      },
+      "epoch_duration": 69.53227949142456,
+      "vram_mb": 1098.82421875
+    },
+    {
+      "epoch": 13,
+      "train_loss": 0.21091577979374904,
+      "val_loss": 0.2182464422134871,
+      "val_miou": 0.653,
+      "val_f1": 0.7701,
+      "class_iou": {
+        "class_0": 0.9636,
+        "class_1": 0.4837,
+        "class_2": 0.5116
+      },
+      "epoch_duration": 68.50856733322144,
+      "vram_mb": 1098.82421875
+    },
+    {
+      "epoch": 14,
+      "train_loss": 0.20457329625377849,
+      "val_loss": 0.21821780209795813,
+      "val_miou": 0.6804,
+      "val_f1": 0.7935,
+      "class_iou": {
+        "class_0": 0.968,
+        "class_1": 0.5408,
+        "class_2": 0.5323
+      },
+      "epoch_duration": 68.3358428478241,
+      "vram_mb": 1098.82421875
+    },
+    {
+      "epoch": 15,
+      "train_loss": 0.20117174335280244,
+      "val_loss": 0.24067666908998167,
+      "val_miou": 0.6422,
+      "val_f1": 0.7617,
+      "class_iou": {
+        "class_0": 0.9542,
+        "class_1": 0.4961,
+        "class_2": 0.4763
+      },
+      "epoch_duration": 67.72374773025513,
+      "vram_mb": 1098.82421875
+    },
+    {
+      "epoch": 16,
+      "train_loss": 0.20026493458723535,
+      "val_loss": 0.23587364862474164,
+      "val_miou": 0.636,
+      "val_f1": 0.7513,
+      "class_iou": {
+        "class_0": 0.969,
+        "class_1": 0.3884,
+        "class_2": 0.5505
+      },
+      "epoch_duration": 69.74474024772644,
+      "vram_mb": 1098.82421875
+    },
+    {
+      "epoch": 17,
+      "train_loss": 0.1964994693593103,
+      "val_loss": 0.21680822650368295,
+      "val_miou": 0.658,
+      "val_f1": 0.7741,
+      "class_iou": {
+        "class_0": 0.9687,
+        "class_1": 0.5083,
+        "class_2": 0.4971
+      },
+      "epoch_duration": 69.33230447769165,
+      "vram_mb": 1098.82421875
+    },
+    {
+      "epoch": 18,
+      "train_loss": 0.1915838515119893,
+      "val_loss": 0.21812140749076778,
+      "val_miou": 0.7072,
+      "val_f1": 0.8156,
+      "class_iou": {
+        "class_0": 0.9691,
+        "class_1": 0.5733,
+        "class_2": 0.5792
+      },
+      "epoch_duration": 70.0324182510376,
+      "vram_mb": 1098.82421875
+    },
+    {
+      "epoch": 19,
+      "train_loss": 0.19334370493888856,
+      "val_loss": 0.21577285916617747,
+      "val_miou": 0.6934,
+      "val_f1": 0.8042,
+      "class_iou": {
+        "class_0": 0.9686,
+        "class_1": 0.5405,
+        "class_2": 0.571
+      },
+      "epoch_duration": 70.0417914390564,
+      "vram_mb": 1098.82421875
+    },
+    {
+      "epoch": 20,
+      "train_loss": 0.18747519020523343,
+      "val_loss": 0.22277946510676588,
+      "val_miou": 0.6825,
+      "val_f1": 0.7953,
+      "class_iou": {
+        "class_0": 0.9681,
+        "class_1": 0.5308,
+        "class_2": 0.5487
+      },
+      "epoch_duration": 68.87400317192078,
+      "vram_mb": 1098.82421875
+    },
+    {
+      "epoch": 21,
+      "train_loss": 0.18855523275477545,
+      "val_loss": 0.21300064069166613,
+      "val_miou": 0.6967,
+      "val_f1": 0.8068,
+      "class_iou": {
+        "class_0": 0.9707,
+        "class_1": 0.5525,
+        "class_2": 0.5669
+      },
+      "epoch_duration": 69.20751667022705,
+      "vram_mb": 1098.82421875
+    },
+    {
+      "epoch": 22,
+      "train_loss": 0.18267609157732556,
+      "val_loss": 0.2271208879485559,
+      "val_miou": 0.6663,
+      "val_f1": 0.779,
+      "class_iou": {
+        "class_0": 0.9708,
+        "class_1": 0.4396,
+        "class_2": 0.5886
+      },
+      "epoch_duration": 69.03113102912903,
+      "vram_mb": 1098.82421875
+    },
+    {
+      "epoch": 23,
+      "train_loss": 0.18362704945766195,
+      "val_loss": 0.20898274131370395,
+      "val_miou": 0.6845,
+      "val_f1": 0.7967,
+      "class_iou": {
+        "class_0": 0.9711,
+        "class_1": 0.5432,
+        "class_2": 0.5393
+      },
+      "epoch_duration": 69.51245641708374,
+      "vram_mb": 1098.82421875
+    },
+    {
+      "epoch": 24,
+      "train_loss": 0.1832857695617238,
+      "val_loss": 0.2161334129364303,
+      "val_miou": 0.7174,
+      "val_f1": 0.8234,
+      "class_iou": {
+        "class_0": 0.9715,
+        "class_1": 0.5753,
+        "class_2": 0.6055
+      },
+      "epoch_duration": 69.52970027923584,
+      "vram_mb": 1098.82421875
+    },
+    {
+      "epoch": 25,
+      "train_loss": 0.18255028049556576,
+      "val_loss": 0.21513209358025132,
+      "val_miou": 0.7045,
+      "val_f1": 0.813,
+      "class_iou": {
+        "class_0": 0.9712,
+        "class_1": 0.5485,
+        "class_2": 0.5938
+      },
+      "epoch_duration": 69.40989828109741,
+      "vram_mb": 1098.82421875
+    },
+    {
+      "epoch": 26,
+      "train_loss": 0.1828556015631374,
+      "val_loss": 0.2168800197123142,
+      "val_miou": 0.7031,
+      "val_f1": 0.8113,
+      "class_iou": {
+        "class_0": 0.9716,
+        "class_1": 0.5256,
+        "class_2": 0.6121
+      },
+      "epoch_duration": 69.0807569026947,
+      "vram_mb": 1098.82421875
+    },
+    {
+      "epoch": 27,
+      "train_loss": 0.17934645312477132,
+      "val_loss": 0.21774980040748468,
+      "val_miou": 0.7164,
+      "val_f1": 0.8227,
+      "class_iou": {
+        "class_0": 0.9711,
+        "class_1": 0.5782,
+        "class_2": 0.5999
+      },
+      "epoch_duration": 68.77099704742432,
+      "vram_mb": 1098.82421875
+    },
+    {
+      "epoch": 28,
+      "train_loss": 0.1795363806492212,
+      "val_loss": 0.21810841786392618,
+      "val_miou": 0.7217,
+      "val_f1": 0.8269,
+      "class_iou": {
+        "class_0": 0.9708,
+        "class_1": 0.585,
+        "class_2": 0.6093
+      },
+      "epoch_duration": 68.51763343811035,
+      "vram_mb": 1098.82421875
+    },
+    {
+      "epoch": 29,
+      "train_loss": 0.18271415709536903,
+      "val_loss": 0.21663050680013185,
+      "val_miou": 0.7145,
+      "val_f1": 0.8213,
+      "class_iou": {
+        "class_0": 0.9697,
+        "class_1": 0.5823,
+        "class_2": 0.5914
+      },
+      "epoch_duration": 69.45512962341309,
+      "vram_mb": 1098.82421875
+    },
+    {
+      "epoch": 30,
+      "train_loss": 0.18443421986030073,
+      "val_loss": 0.22125377213017325,
+      "val_miou": 0.7008,
+      "val_f1": 0.8104,
+      "class_iou": {
+        "class_0": 0.9685,
+        "class_1": 0.5563,
+        "class_2": 0.5776
+      },
+      "epoch_duration": 69.363440990448,
+      "vram_mb": 1098.82421875
+    }
+  ]
+}

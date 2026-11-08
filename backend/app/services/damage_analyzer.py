@@ -122,6 +122,161 @@ def extract_mask_geojson_features(
     return features
 
 
+def analyze_building_exposure(
+    buildings: List[Dict[str, Any]],
+    seg_mask: np.ndarray,
+    georef: GeoSpatialTransform,
+    max_buildings: int = 500,
+    nodata_val: float = 255.0,
+    flood_val: int = CLASS_NEW_FLOOD,
+) -> Dict[str, Any]:
+    """
+    Evaluates real OSM building polygons against the georeferenced flood classification raster.
+    Computes exact footprint intersection, valid sampled pixels, and exposed area percentage.
+
+    Classifications (Phase 5 Standard):
+    - HIGH_EXPOSURE: >= 50% footprint overlap with mapped flood mask.
+    - MODERATE_EXPOSURE: 10% to 50% overlap.
+    - LOW_OR_NO_DETECTED_EXPOSURE: < 10% overlap.
+    - UNKNOWN: Outside raster bounds, invalid geometry, or insufficient valid pixels.
+    """
+    total_raw = len(buildings)
+    is_osm = total_raw > 0
+    bld_source = "OPENSTREETMAP_REAL" if is_osm else "SYNTHETIC_TEST_FIXTURE"
+
+    # Sample representative subset if count is large to maintain sub-second response
+    if total_raw > max_buildings:
+        step = max(1, total_raw // max_buildings)
+        selected_blds = buildings[::step][:max_buildings]
+    else:
+        selected_blds = buildings
+
+    graded_features: List[Dict[str, Any]] = []
+    counts = {
+        "HIGH_EXPOSURE": 0,
+        "MODERATE_EXPOSURE": 0,
+        "LOW_OR_NO_DETECTED_EXPOSURE": 0,
+        "UNKNOWN": 0,
+    }
+
+    color_map = {
+        "HIGH_EXPOSURE": "#ef4444",
+        "MODERATE_EXPOSURE": "#f59e0b",
+        "LOW_OR_NO_DETECTED_EXPOSURE": "#10b981",
+        "UNKNOWN": "#94a3b8",
+    }
+
+    for idx, bld in enumerate(selected_blds):
+        props = bld.get("properties", {})
+        geom = bld.get("geometry", {})
+        bld_id = props.get("osm_id", props.get("id", f"bld_{idx}"))
+        bld_name = props.get("name", f"OSM Structure #{bld_id}")
+        bld_type = props.get("building_type", props.get("building", "building"))
+
+        # Compute centroid coordinates
+        c_lon = props.get("center_lon")
+        c_lat = props.get("center_lat")
+        poly = georef.validate_and_fix_polygon(geom)
+
+        if poly is not None:
+            if c_lon is None or c_lat is None:
+                c_lon = float(poly.centroid.x)
+                c_lat = float(poly.centroid.y)
+            stats = georef.calculate_polygon_overlap_stats(
+                poly=poly,
+                raster=seg_mask,
+                nodata_val=nodata_val,
+                flood_val=flood_val,
+            )
+        else:
+            stats = {
+                "exposure_category": "UNKNOWN",
+                "exposed_area_pct": 0.0,
+                "valid_pixels": 0,
+                "flood_pixels": 0,
+                "reason": "INVALID_GEOMETRY",
+            }
+            if c_lon is None:
+                c_lon = georef.min_lon
+            if c_lat is None:
+                c_lat = georef.min_lat
+
+        cat = stats["exposure_category"]
+        counts[cat] += 1
+        color = color_map.get(cat, "#94a3b8")
+
+        feature = {
+            "type": "Feature",
+            "id": f"bld/{bld_id}",
+            "properties": {
+                "building_id": str(bld_id),
+                "osm_id": str(bld_id),
+                "building_name": bld_name,
+                "name": bld_name,
+                "building_type": bld_type,
+                "exposure_category": cat,
+                "damage_status": cat,  # Backwards compatibility
+                "exposed_area_pct": stats["exposed_area_pct"],
+                "valid_sampled_pixels": stats["valid_pixels"],
+                "flood_overlap_pixels": stats["flood_pixels"],
+                "color": color,
+                "center_lon": round(float(c_lon), 6),
+                "center_lat": round(float(c_lat), 6),
+                "estimated_water_depth_ft": None,  # Academic integrity: depth is not measured on binary masks
+                "elevation_m": None,
+                "data_source": bld_source,
+                "scientific_disclaimer": "Spatial exposure estimate via flood-risk raster intersection; does not confirm physical structural damage.",
+            },
+            "geometry": geom if geom else (mapping(poly) if poly else None),
+        }
+        graded_features.append(feature)
+
+    buildings_list = [
+        {
+            "id": f["properties"]["building_id"],
+            "name": f["properties"]["building_name"],
+            "category": f["properties"]["building_type"],
+            "exposure_category": f["properties"]["exposure_category"],
+            "status": f["properties"]["damage_status"],
+            "color": f["properties"]["color"],
+            "exposed_area_pct": f["properties"]["exposed_area_pct"],
+            "valid_sampled_pixels": f["properties"]["valid_sampled_pixels"],
+            "flood_overlap_pixels": f["properties"]["flood_overlap_pixels"],
+            "lat": f["properties"]["center_lat"],
+            "lon": f["properties"]["center_lon"],
+            "estimated_occupants": 35,
+            "estimated_water_depth_ft": None,
+            "data_source": bld_source,
+        }
+        for f in graded_features
+    ]
+
+    summary = {
+        "total_buildings_analyzed": len(graded_features),
+        "total_osm_buildings_available": total_raw,
+        "high_exposure_count": counts["HIGH_EXPOSURE"],
+        "moderate_exposure_count": counts["MODERATE_EXPOSURE"],
+        "low_exposure_count": counts["LOW_OR_NO_DETECTED_EXPOSURE"],
+        "unknown_exposure_count": counts["UNKNOWN"],
+        # Backwards compatible keys
+        "critical_submerged": counts["HIGH_EXPOSURE"],
+        "moderate_buffer_risk": counts["MODERATE_EXPOSURE"],
+        "safe_dry": counts["LOW_OR_NO_DETECTED_EXPOSURE"],
+        "total_buildings": len(graded_features),
+        "data_source": bld_source,
+    }
+
+    return {
+        "summary": summary,
+        "features": graded_features,
+        "buildings_list": buildings_list,
+        "buildings_geojson": {
+            "type": "FeatureCollection",
+            "features": graded_features,
+        },
+    }
+
+
 def analyze_flood_damage(
     seg_mask: np.ndarray,
     bbox: List[float],
@@ -129,11 +284,11 @@ def analyze_flood_damage(
     population_density_factor: int = 32,
 ) -> Dict[str, Any]:
     """
-    Georeferenced Damage Mapping Pipeline:
+    Georeferenced Damage & Exposure Mapping Pipeline:
     1. Computes pixel-to-km2 spatial telemetry using affine transform.
     2. Extracts real-world WGS84 GeoJSON contours for Permanent Water, New Flood, and 100m Risk Buffer.
     3. Loads real OpenStreetMap building footprints for the preset AOI.
-    4. Intersects building geometries with the flood classification mask to grade damage status.
+    4. Computes building exposure categories using polygon footprint intersection.
     """
     h, w = seg_mask.shape[:2]
     georef = GeoSpatialTransform(bbox, width=w, height=h)
@@ -186,102 +341,30 @@ def analyze_flood_damage(
     _, blds_geo, from_cache, warning = osm_service.fetch_and_cache_osm_data(preset_id, bbox)
     raw_blds = blds_geo.get("features", [])
 
-    is_osm_data = len(raw_blds) > 0
-    bld_data_source = "OPENSTREETMAP_REAL" if is_osm_data else "SYNTHETIC_DEMO"
+    exposure_res = analyze_building_exposure(
+        buildings=raw_blds,
+        seg_mask=seg_mask,
+        georef=georef,
+        max_buildings=250,
+        nodata_val=255.0,
+        flood_val=CLASS_NEW_FLOOD,
+    )
 
-    # Select representative subset of building footprints for responsive frontend rendering (up to 250)
-    step = max(1, len(raw_blds) // 250) if is_osm_data else 1
-    sampled_blds = raw_blds[::step][:250] if is_osm_data else []
+    graded_buildings_geojson = exposure_res["features"]
+    buildings_list = exposure_res["buildings_list"]
+    buildings_summary = exposure_res["summary"]
+    bld_data_source = buildings_summary["data_source"]
 
-    graded_buildings_geojson: List[Dict[str, Any]] = []
-    critical_count = 0
-    moderate_count = 0
-    safe_count = 0
-    affected_population = 0
-
-    for idx, bld in enumerate(sampled_blds):
-        props = bld.get("properties", {})
-        geom = bld.get("geometry", {})
-        bld_id = props.get("osm_id", f"bld_{idx}")
-        bld_name = props.get("name", f"OSM Structure #{bld_id}")
-        bld_type = props.get("building_type", "building")
-
-        # Determine center coordinates
-        c_lon = props.get("center_lon")
-        c_lat = props.get("center_lat")
-        if c_lon is None or c_lat is None:
-            coords = geom.get("coordinates", [[]])[0]
-            if coords:
-                c_lon = sum(c[0] for c in coords) / len(coords)
-                c_lat = sum(c[1] for c in coords) / len(coords)
-            else:
-                continue
-
-        col_f, row_f = georef.lonlat_to_pixel(c_lon, c_lat)
-        col = int(round(np.clip(col_f, 0, w - 1)))
-        row = int(round(np.clip(row_f, 0, h - 1)))
-
-        # Inspect 3x3 pixel neighborhood in raster
-        y0, y1 = max(0, row - 1), min(h, row + 2)
-        x0, x1 = max(0, col - 1), min(w, col + 2)
-        patch_seg = seg_mask[y0:y1, x0:x1]
-        patch_buf = buffer_mask[y0:y1, x0:x1]
-
-        if np.any(patch_seg == CLASS_NEW_FLOOD) or np.any(patch_seg == CLASS_PERMANENT_WATER):
-            status = "CRITICAL_SUBMERGED"
-            color = "#f43f5e"
-            water_depth = round(2.5 + (idx % 7) * 0.8, 1)  # Clearly labelled model estimate
-            critical_count += 1
-            affected_population += int(population_density_factor * 1.5)
-        elif np.any(patch_buf):
-            status = "MODERATE_BUFFER_RISK"
-            color = "#f59e0b"
-            water_depth = round(0.5 + (idx % 4) * 0.3, 1)
-            moderate_count += 1
-            affected_population += int(population_density_factor * 0.6)
-        else:
-            status = "SAFE_DRY"
-            color = "#10b981"
-            water_depth = 0.0
-            safe_count += 1
-
-        graded_feat = {
-            "type": "Feature",
-            "id": f"bld/{bld_id}",
-            "properties": {
-                "building_id": str(bld_id),
-                "building_name": bld_name,
-                "building_type": bld_type,
-                "damage_status": status,
-                "color": color,
-                "center_lon": round(c_lon, 6),
-                "center_lat": round(c_lat, 6),
-                "estimated_water_depth_ft": water_depth,
-                "sar_backscatter_db": -20.5 if status == "CRITICAL_SUBMERGED" else (-14.0 if status == "MODERATE_BUFFER_RISK" else -6.2),
-                "elevation_m": None,  # Academic integrity: clearly null if not measured
-                "data_source": bld_data_source,
-            },
-            "geometry": geom,
-        }
-        graded_buildings_geojson.append(graded_feat)
-
-    # Simplified list for analytics components
-    buildings_list = [
-        {
-            "id": feat["properties"]["building_id"],
-            "name": feat["properties"]["building_name"],
-            "category": feat["properties"]["building_type"],
-            "status": feat["properties"]["damage_status"],
-            "color": feat["properties"]["color"],
-            "lat": feat["properties"]["center_lat"],
-            "lon": feat["properties"]["center_lon"],
-            "estimated_occupants": 35,
-            "estimated_water_depth_ft": feat["properties"]["estimated_water_depth_ft"],
-            "elevation_m": feat["properties"]["elevation_m"],
-            "data_source": bld_data_source,
-        }
-        for feat in graded_buildings_geojson
-    ]
+    # Estimated population exposure proportional to high and moderate exposure
+    affected_population = int(
+        buildings_summary["high_exposure_count"] * population_density_factor * 1.5
+        + buildings_summary["moderate_exposure_count"] * population_density_factor * 0.6
+    )
+    total_affected_pop = max(
+        affected_population,
+        int(flooded_area_km2 * population_density_factor * 18),
+    )
+    buildings_summary["estimated_affected_population"] = total_affected_pop
 
     total_affected_pop = max(affected_population, int(flooded_area_km2 * population_density_factor * 18))
 
@@ -307,9 +390,13 @@ def analyze_flood_damage(
         },
         "buildings_summary": {
             "total_buildings": len(graded_buildings_geojson),
-            "critical_submerged": critical_count,
-            "moderate_buffer_risk": moderate_count,
-            "safe_dry": safe_count,
+            "critical_submerged": buildings_summary.get("critical_submerged", buildings_summary.get("high_exposure_count", 0)),
+            "moderate_buffer_risk": buildings_summary.get("moderate_buffer_risk", buildings_summary.get("moderate_exposure_count", 0)),
+            "safe_dry": buildings_summary.get("safe_dry", buildings_summary.get("low_exposure_count", 0)),
+            "high_exposure_count": buildings_summary.get("high_exposure_count", 0),
+            "moderate_exposure_count": buildings_summary.get("moderate_exposure_count", 0),
+            "low_exposure_count": buildings_summary.get("low_exposure_count", 0),
+            "unknown_exposure_count": buildings_summary.get("unknown_exposure_count", 0),
             "estimated_affected_population": total_affected_pop,
             "data_source": bld_data_source,
         },

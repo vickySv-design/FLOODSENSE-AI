@@ -1,0 +1,63 @@
+{
+  "evaluation_scope": "Spatial Holdout Evaluation across 14 Geographic Locations in One Bolivia Flood Event",
+  "fixed_primary_threshold": "Delta VV < -5.0 dB",
+  "total_holdout_chips_evaluated": 14,
+  "exploratory_calibration_chip": "Bolivia_103757",
+  "exploratory_chip_isolated": true,
+  "pooled_pixel_metrics": {
+    "pooled_true_positives": 109916,
+    "pooled_false_positives": 158065,
+    "pooled_false_negatives": 276672,
+    "pooled_true_negatives": 2161753,
+    "pooled_total_evaluation_pixels": 2706406,
+    "pooled_precision": 0.41016340710722027,
+    "pooled_recall": 0.28432336233923455,
+    "pooled_iou": 0.20180922532327922,
+    "pooled_f1_score": 0.33584236344831486,
+    "pooled_accuracy": 0.8393674119847503
+  },
+  "per_chip_mean_and_std": {
+    "mean_iou": 0.08902023617496278,
+    "std_iou": 0.09715652733254596,
+    "mean_f1_score": 0.14980212509582005,
+    "std_f1_score": 0.15396821523258833,
+    "mean_precision": 0.2044805861723798,
+    "std_precision": 0.2285141999169869,
+    "mean_recall": 0.16107716285108914,
+    "std_recall": 0.1277848978951216,
+    "mean_accuracy": 0.8402714232512667,
+    "std_accuracy": 0.18122932050532872
+  },
+  "pooled_swath_changed_area": {
+    "total_changed_pixels_swath": 323705,
+    "total_changed_area_ha": 3120.947610012631,
+    "total_changed_area_km2": 31.20947610012631
+  },
+  "disaster_context": "Single regional disaster event: February 2018 Mamor\u00e9 and Beni River Basin Flooding, Bolivia",
+  "reference_pixel_reconciliation": {
+    "total_grid_pixels_14_chips": 3670016,
+    "mutual_valid_sar_pixels": 3365581,
+    "total_valid_labelled_pixels": 2736357,
+    "labelhand_nodata_pixels": 933659,
+    "binary_evaluation_domain_pixels": 2706406,
+    "class0_dry_land_pixels": 2319818,
+    "class2_flood_water_pixels": 386588,
+    "class1_permanent_water_excluded_pixels": 29951,
+    "domain_reconciliation_check": "2736357 valid labelled - 29951 permanent water = 2706406 binary eval pixels (exact)"
+  },
+  "top_three_chips_water_concentration": {
+    "chips": [
+      "Bolivia_129334",
+      "Bolivia_314919",
+      "Bolivia_432776"
+    ],
+    "chip_water_counts": {
+      "Bolivia_129334": 152073,
+      "Bolivia_314919": 83131,
+      "Bolivia_432776": 69982
+    },
+    "top_3_combined_water_pixels": 305186,
+    "total_class2_water_pixels": 386588,
+    "percentage_of_class2_water": 78.9435
+  }
+}

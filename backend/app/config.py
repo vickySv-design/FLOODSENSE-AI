@@ -60,7 +60,7 @@ NUM_CLASSES = 3
 
 # Rescue Routing Constants
 GRID_NODES_PER_SIDE = 12  # 12x12 planar road network graph
-AVERAGE_RESCUE_SPEED_KMH = 28.0  # Tactical amphibious/high-clearance rescue vehicle speed
+AVERAGE_RESCUE_SPEED_KMH = 25.0  # Assumed evacuation/rescue transit speed in urban disaster conditions (25 km/h)
 
 # Google Earth Engine Configuration
 GEE_PROJECT_ID = os.getenv("GEE_PROJECT_ID", "floodsense-ai-capstone")

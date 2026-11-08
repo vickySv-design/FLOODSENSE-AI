@@ -1,0 +1,66 @@
+{
+  "selected_flood_event": {
+    "event_id": 1,
+    "location": "Bolivia",
+    "iso_country_code": "BOL",
+    "geographic_region": "Department of Beni, Amazon River Basin (Mamore and Beni River Floodplain)",
+    "event_date": "2018-02-15",
+    "flood_disaster_summary": "Catastrophic riverine flooding caused by intense Amazonian monsoonal rainfall, resulting in major overflows of the Rio Mamore and Rio Beni in February 2018.",
+    "satellite_observations": {
+      "event_time_sar": {
+        "sensor": "Sentinel-1B C-Band SAR",
+        "acquisition_date": "2018-02-15T09:57:45Z",
+        "orbit_direction": "DESCENDING",
+        "relative_orbit_track": 156.0,
+        "product_type": "GRD (Ground Range Detected), IW (Interferometric Wide Swath)",
+        "polarizations": ["VV", "VH"],
+        "status": "Available Locally (15 chips in backend/data/official_sen1floods11/raw/S1Hand/)",
+        "temporal_role": "Event-Time Peak Inundation Observation"
+      },
+      "event_time_optical": {
+        "sensor": "Sentinel-2A MSI",
+        "acquisition_date": "2018-02-15",
+        "product_type": "Level-1C Top-Of-Atmosphere (TOA) Digital Numbers",
+        "bands_available": 13,
+        "status": "Available Locally (15 chips in backend/data/official_sen1floods11/raw/S2Hand/)",
+        "temporal_role": "Coincident Optical Surface Context"
+      },
+      "event_time_ground_truth": {
+        "source": "Human Expert Labeling (Bonafilia et al., 2020)",
+        "product_type": "Binary Water Extent {-1, 0, 1}",
+        "status": "Available Locally (15 chips in backend/data/official_sen1floods11/raw/LabelHand/)",
+        "temporal_role": "Empirical Ground Truth at Event Time"
+      },
+      "historical_water_reference": {
+        "source": "JRC Global Surface Water (Pekel et al., 2016)",
+        "climatological_span": "1984–2018 (34-Year Occurrence Frequency >= 80%)",
+        "status": "Available Locally (15 chips in backend/data/official_sen1floods11/raw/JRCWaterHand/)",
+        "temporal_role": "Climatological Permanent Water Baseline (NOT a specific pre-event satellite observation)"
+      }
+    },
+    "pre_event_satellite_requirement": {
+      "target_sensor": "Sentinel-1 C-Band SAR (GRD, IW)",
+      "target_orbit_direction": "DESCENDING",
+      "target_relative_orbit_track": 156.0,
+      "target_acquisition_window": "2018-01-20 to 2018-02-05",
+      "exact_prior_cycle_date": "2018-02-03T09:57:45Z (12-day orbital repeat cycle along Track 156)",
+      "cdse_catalogue_scene_id": "S1B_IW_GRDH_1SDV_20180203T095745_20180203T095810_009457_01101A_C4EF.SAFE",
+      "full_scene_size_mb": 1727.8,
+      "clipped_512x512_chip_size_mb": 2.1,
+      "status": "Missing from Local Storage (Requires CDSE OData download or GEE authenticated clip)"
+    },
+    "geographic_bounding_boxes": {
+      "representative_chip": "Bolivia_103757",
+      "crs": "EPSG:4326 (WGS 84)",
+      "bounds": {
+        "west_longitude": -65.26512067407877,
+        "south_latitude": -14.258060189545049,
+        "east_longitude": -65.21912693153185,
+        "north_latitude": -14.212066446998126
+      },
+      "pixel_dimensions": [512, 512],
+      "spatial_resolution_meters": 10.0
+    }
+  }
+}
+

@@ -126,27 +126,40 @@ export default function MapViewport({ analysisData, layerVisibility }) {
           }}
         />
 
-        {/* Layer 0: Actual OpenStreetMap Road Network (Underlying neutral lines) */}
+        {/* Layer 0: Actual OpenStreetMap Road Network */}
         {layerVisibility?.allRoads && allRoadsData?.features?.length > 0 && (
           <GeoJSON
             key={`all_roads_${scenarioKey}`}
             data={allRoadsData}
-            style={(feature) => ({
-              color: "#94a3b8",
-              weight: feature?.properties?.highway?.includes("primary") || feature?.properties?.highway?.includes("trunk") ? 2.5 : 1.2,
-              opacity: 0.55,
-            })}
+            style={(feature) => {
+              const haz = feature?.properties?.hazard_category;
+              const color =
+                haz === "POTENTIAL_HAZARD"
+                  ? "#ef4444"
+                  : haz === "CAUTION"
+                  ? "#f59e0b"
+                  : haz === "NO_DETECTED_INTERSECTION"
+                  ? "#10b981"
+                  : "#94a3b8";
+              return {
+                color: color,
+                weight: haz === "POTENTIAL_HAZARD" ? 3.0 : (haz === "CAUTION" ? 2.2 : 1.2),
+                opacity: haz ? 0.85 : 0.55,
+              };
+            }}
             onEachFeature={(feature, layer) => {
               const p = feature.properties || {};
               layer.bindPopup(
                 `<div class="font-mono text-xs space-y-1">
-                  <div class="font-bold text-slate-100">${p.name || "OSM Street"}</div>
+                  <div class="font-bold text-slate-100">${p.name || p.road_name || "OSM Street"}</div>
                   <div>Highway Class: <span class="text-cyan-300 font-semibold">${p.highway || "residential"}</span></div>
                   <div>OSM Way ID: <span class="text-slate-400">#${p.osm_id || ""}</span></div>
+                  ${p.hazard_category ? `<div>Hazard Grade: <span class="font-bold ${p.hazard_category === 'POTENTIAL_HAZARD' ? 'text-red-400' : p.hazard_category === 'CAUTION' ? 'text-amber-400' : 'text-emerald-400'}">${p.hazard_category}</span></div>` : ""}
+                  ${p.flood_intersection_pct !== undefined ? `<div>Flood Overlap: <span class="text-amber-300 font-bold">${p.flood_intersection_pct}%</span></div>` : ""}
                   <div>Bridge Status: <span class="text-amber-300">${p.is_bridge ? "Elevated Bridge Deck" : "Standard Surface"}</span></div>
                   <div>One-Way: ${p.is_oneway ? "Yes" : "Two-Way"} | Surface: ${p.surface || "paved"}</div>
                   <div class="pt-1 border-t border-slate-700 text-[10px] text-emerald-400">
-                    &copy; OpenStreetMap contributors
+                    &copy; OpenStreetMap contributors (ODbL)
                   </div>
                 </div>`
               );
@@ -298,13 +311,15 @@ export default function MapViewport({ analysisData, layerVisibility }) {
             key={`osm_blds_${scenarioKey}`}
             data={osmBuildingsData}
             style={(feature) => {
-              const status = feature?.properties?.damage_status;
+              const cat = feature?.properties?.exposure_category || feature?.properties?.damage_status;
               const color =
-                status === "CRITICAL_SUBMERGED"
-                  ? "#f43f5e"
-                  : status === "MODERATE_BUFFER_RISK"
+                cat === "HIGH_EXPOSURE" || cat === "CRITICAL_SUBMERGED"
+                  ? "#ef4444"
+                  : cat === "MODERATE_EXPOSURE" || cat === "MODERATE_BUFFER_RISK"
                   ? "#f59e0b"
-                  : "#10b981";
+                  : cat === "LOW_OR_NO_DETECTED_EXPOSURE" || cat === "SAFE_DRY"
+                  ? "#10b981"
+                  : "#94a3b8";
               return {
                 color: "#0f172a",
                 weight: 0.8,
@@ -314,17 +329,16 @@ export default function MapViewport({ analysisData, layerVisibility }) {
             }}
             onEachFeature={(feature, layer) => {
               const p = feature.properties || {};
+              const cat = p.exposure_category || p.damage_status;
               layer.bindPopup(
                 `<div class="font-mono text-xs space-y-1">
-                  <div class="font-bold text-slate-100">${p.building_name}</div>
+                  <div class="font-bold text-slate-100">${p.building_name || p.name || "Structure"}</div>
                   <div>Building Type: <span class="text-cyan-300">${p.building_type || "building"}</span></div>
-                  <div>OSM ID: <span class="text-slate-400">#${p.building_id}</span></div>
-                  <div>Damage Grade: <span style="color: ${p.color}" class="font-bold">${p.damage_status}</span></div>
-                  <div class="grid grid-cols-2 gap-x-2 pt-1 border-t border-slate-700 text-[11px]">
-                    <div>Est. Water Depth: <strong class="text-rose-300">${p.estimated_water_depth_ft ?? 0.0} ft</strong></div>
-                    <div>SAR Return: <strong class="text-cyan-300">${p.sar_backscatter_db ?? -10.0} dB</strong></div>
-                  </div>
-                  <div class="text-[10px] text-slate-400 pt-0.5">
+                  <div>OSM ID: <span class="text-slate-400">#${p.building_id || p.osm_id || ""}</span></div>
+                  <div>Exposure Category: <span class="font-bold ${cat?.includes('HIGH') ? 'text-red-400' : cat?.includes('MODERATE') ? 'text-amber-400' : 'text-emerald-400'}">${cat}</span></div>
+                  ${p.exposed_area_pct !== undefined ? `<div>Footprint Overlap: <span class="text-cyan-300 font-bold">${p.exposed_area_pct}%</span></div>` : ""}
+                  ${p.valid_sampled_pixels !== undefined ? `<div class="text-[11px] text-slate-400">Sampled Pixels: ${p.valid_sampled_pixels}</div>` : ""}
+                  <div class="text-[10px] text-slate-400 pt-0.5 border-t border-slate-800">
                     Data Source: <span class="text-emerald-400">${p.data_source || "OpenStreetMap"}</span>
                   </div>
                 </div>`

@@ -1,0 +1,224 @@
+{
+  "validation_timestamp": "2026-11-08T11:40:00.216542",
+  "is_valid": true,
+  "spatial_grid_aligned": true,
+  "nan_masks_identical": true,
+  "dimensions": [
+    995,
+    997
+  ],
+  "resolution": [
+    10.0,
+    10.0
+  ],
+  "crs": "EPSG:32643",
+  "total_pixels": 992015,
+  "valid_pixels": 774988,
+  "invalid_pixels": 217027,
+  "valid_pixel_percentage": 78.12,
+  "sentinel1": {
+    "file_path": "C:\\Users\\vicky\\Desktop\\Disaster Response\\Image\\sentinel1_sar.tif",
+    "file_size_mb": 14.65,
+    "is_valid": true,
+    "dimensions": [
+      995,
+      997
+    ],
+    "band_count": 2,
+    "expected_band_count": 2,
+    "crs": "EPSG:32643",
+    "transform": [
+      10.0,
+      0.0,
+      708720.0,
+      0.0,
+      -10.0,
+      1223520.0
+    ],
+    "resolution": [
+      10.0,
+      10.0
+    ],
+    "bounds": {
+      "left": 708720.0,
+      "bottom": 1213550.0,
+      "right": 718670.0,
+      "top": 1223520.0
+    },
+    "total_pixels": 992015,
+    "valid_pixel_count": 774988,
+    "invalid_pixel_count": 217027,
+    "valid_pixel_percentage": 78.12,
+    "bands": {
+      "VV": {
+        "band_index": 1,
+        "dtype": "float64",
+        "valid_pixel_count": 774988,
+        "valid_percentage": 78.12,
+        "nan_count": 217027,
+        "pos_inf_count": 0,
+        "neg_inf_count": 0,
+        "min": -24.5153,
+        "p5": -12.0495,
+        "p25": -9.305,
+        "p50_median": -7.8294,
+        "p75": -6.1763,
+        "p95": -2.5583,
+        "max": 24.6099,
+        "mean": -7.7605,
+        "std": 3.4322
+      },
+      "VH": {
+        "band_index": 2,
+        "dtype": "float64",
+        "valid_pixel_count": 774988,
+        "valid_percentage": 78.12,
+        "nan_count": 217027,
+        "pos_inf_count": 0,
+        "neg_inf_count": 0,
+        "min": -37.2651,
+        "p5": -19.1328,
+        "p25": -16.0017,
+        "p50_median": -14.5954,
+        "p75": -13.1264,
+        "p95": -10.12,
+        "max": 12.7064,
+        "mean": -14.7057,
+        "std": 3.3092
+      }
+    },
+    "outlier_audit": {
+      "vv_low_count": 0,
+      "vv_high_count": 482,
+      "vv_high_pct": 0.0622,
+      "vh_low_count": 0,
+      "vh_high_count": 17,
+      "vh_high_pct": 0.0022,
+      "physical_explanation": "SAR backscatter > +10 dB represents high-dielectric double-bounce reflections from metallic pylons, transmission towers, and industrial metal sheet roofing in urban Coimbatore. These values are retained without artificial clipping to preserve authentic physical scattering."
+    }
+  },
+  "sentinel2": {
+    "file_path": "C:\\Users\\vicky\\Desktop\\Disaster Response\\Image\\sentinel2_optical.tif",
+    "file_size_mb": 7.79,
+    "is_valid": true,
+    "dimensions": [
+      995,
+      997
+    ],
+    "band_count": 4,
+    "expected_band_count": 4,
+    "crs": "EPSG:32643",
+    "transform": [
+      10.0,
+      0.0,
+      708720.0,
+      0.0,
+      -10.0,
+      1223520.0
+    ],
+    "resolution": [
+      10.0,
+      10.0
+    ],
+    "bounds": {
+      "left": 708720.0,
+      "bottom": 1213550.0,
+      "right": 718670.0,
+      "top": 1223520.0
+    },
+    "total_pixels": 992015,
+    "valid_pixel_count": 774988,
+    "invalid_pixel_count": 217027,
+    "valid_pixel_percentage": 78.12,
+    "bands": {
+      "B2": {
+        "band_index": 1,
+        "dtype": "float64",
+        "valid_pixel_count": 774988,
+        "valid_percentage": 78.12,
+        "nan_count": 217027,
+        "pos_inf_count": 0,
+        "neg_inf_count": 0,
+        "min": 222.0,
+        "p5": 476.0,
+        "p25": 720.0,
+        "p50_median": 990.0,
+        "p75": 1300.0,
+        "p95": 1864.0,
+        "max": 5976.0,
+        "mean": 1052.1638,
+        "std": 447.6687
+      },
+      "B3": {
+        "band_index": 2,
+        "dtype": "float64",
+        "valid_pixel_count": 774988,
+        "valid_percentage": 78.12,
+        "nan_count": 217027,
+        "pos_inf_count": 0,
+        "neg_inf_count": 0,
+        "min": 304.0,
+        "p5": 683.0,
+        "p25": 942.5,
+        "p50_median": 1198.0,
+        "p75": 1502.0,
+        "p95": 2084.0,
+        "max": 5956.0,
+        "mean": 1263.7809,
+        "std": 451.9047
+      },
+      "B4": {
+        "band_index": 3,
+        "dtype": "float64",
+        "valid_pixel_count": 774988,
+        "valid_percentage": 78.12,
+        "nan_count": 217027,
+        "pos_inf_count": 0,
+        "neg_inf_count": 0,
+        "min": 225.0,
+        "p5": 547.0,
+        "p25": 966.0,
+        "p50_median": 1358.0,
+        "p75": 1751.0,
+        "p95": 2372.0,
+        "max": 6068.0,
+        "mean": 1391.4576,
+        "std": 572.4933
+      },
+      "B8": {
+        "band_index": 4,
+        "dtype": "float64",
+        "valid_pixel_count": 774988,
+        "valid_percentage": 78.12,
+        "nan_count": 217027,
+        "pos_inf_count": 0,
+        "neg_inf_count": 0,
+        "min": 166.0,
+        "p5": 1689.5,
+        "p25": 2214.0,
+        "p50_median": 2492.0,
+        "p75": 2766.0,
+        "p95": 3233.0,
+        "max": 5796.0,
+        "mean": 2465.0123,
+        "std": 540.3679
+      }
+    },
+    "outlier_audit": {}
+  },
+  "sar_outlier_audit": {
+    "vv_low_count": 0,
+    "vv_high_count": 482,
+    "vv_high_pct": 0.0622,
+    "vh_low_count": 0,
+    "vh_high_count": 17,
+    "vh_high_pct": 0.0022,
+    "physical_explanation": "SAR backscatter > +10 dB represents high-dielectric double-bounce reflections from metallic pylons, transmission towers, and industrial metal sheet roofing in urban Coimbatore. These values are retained without artificial clipping to preserve authentic physical scattering."
+  },
+  "scientific_notes": [
+    "Sentinel-1 SAR data is pre-converted to decibels (dB). No log conversion will be duplicated.",
+    "Sentinel-2 Optical data is stored as surface reflectance scaled by 10,000 (standard ESA L2A format).",
+    "High-backscatter SAR returns (> +10 dB, 482 pixels) are retained as physically authentic double-bounce corner reflectors from Coimbatore urban structures.",
+    "217,027 pixels (21.88%) are nodata outside the polygon boundary and will be strictly masked during evaluation."
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "preprocessing_timestamp": "2026-11-08T11:40:00.571279",
+  "status": "COMPLETED",
+  "duration_ms": 548.42,
+  "dimensions": [
+    995,
+    997
+  ],
+  "valid_pixels": 774988,
+  "invalid_pixels": 217027,
+  "valid_percentage": 78.12,
+  "generated_files": {
+    "valid_data_mask": "C:\\Users\\vicky\\Desktop\\Disaster Response\\data\\processed\\valid_data_mask.tif",
+    "sentinel1_preprocessed": "C:\\Users\\vicky\\Desktop\\Disaster Response\\data\\processed\\sentinel1_preprocessed.tif",
+    "sentinel2_preprocessed": "C:\\Users\\vicky\\Desktop\\Disaster Response\\data\\processed\\sentinel2_preprocessed.tif",
+    "tiles_generated": 25
+  },
+  "radiometric_scaling": {
+    "sentinel1": "Original decibel (dB) scale preserved without duplicate logarithmic conversion.",
+    "sentinel2": "Scaled from 10,000 integer DN to [0.0, 1.0] physical surface reflectance."
+  },
+  "scientific_provenance": {
+    "source": "Google Earth Engine 2025 Annual Median Composite",
+    "aoi": "Coimbatore, Tamil Nadu",
+    "crs": "EPSG:32643",
+    "resolution": [
+      10.0,
+      0.0
+    ]
+  }
+}

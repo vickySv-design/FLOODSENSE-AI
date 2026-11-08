@@ -121,6 +121,11 @@ def preprocess_multimodal_pair(
     4. NDWI baseline calculation
     5. PyTorch tensor conversion
     """
+    if optical_4ch.shape[0] != 4:
+        raise ValueError(f"optical_4ch must have shape [4, H, W]; received shape {optical_4ch.shape}")
+    if sar_2ch.shape[0] != 2:
+        raise ValueError(f"sar_2ch must have shape [2, H, W]; received shape {sar_2ch.shape}")
+
     H, W = optical_4ch.shape[1], optical_4ch.shape[2]
     if sar_2ch.shape[1:] != (H, W):
         sar_2ch = (

@@ -25,6 +25,12 @@ export const NAV_ITEMS = [
     description: "Disaster Monitoring Overview",
   },
   {
+    id: "pipeline",
+    label: "End-to-End Pipeline",
+    icon: Radar,
+    description: "Unified Workflow Orchestrator",
+  },
+  {
     id: "satellite-analysis",
     label: "Satellite Analysis",
     icon: Satellite,
