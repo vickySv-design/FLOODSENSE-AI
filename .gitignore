@@ -46,6 +46,8 @@ Thumbs.db
 *.bak
 *.tmp
 *.log
+~$*
+.~lock.*
 
 # Pipeline runtime cache
 backend/data/pipeline_runs/
