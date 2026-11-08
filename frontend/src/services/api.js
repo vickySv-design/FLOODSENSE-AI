@@ -121,8 +121,28 @@ export async function analyzeDynamicAOI({ aoiName, bbox, geojsonGeometry, terrai
 }
 
 // Data Provider & Offline Caching API Client
+export async function checkProviderConnection(provider) {
+  const { data } = await apiClient.post("/api/data-providers/check-connection", { provider });
+  return data;
+}
+
 export async function searchSatelliteCatalog(params) {
   const { data } = await apiClient.post("/api/data/satellite/search", params);
+  return data;
+}
+
+export async function acquireSatellitePair(payload) {
+  const { data } = await apiClient.post("/api/data/satellite/acquire-pair", payload);
+  return data;
+}
+
+export async function validateRasterFile(filePath) {
+  const { data } = await apiClient.post("/api/data/raster/validate", { file_path: filePath });
+  return data;
+}
+
+export async function fetchDataProvenance(analysisId) {
+  const { data } = await apiClient.get(`/api/data/provenance/${analysisId}`);
   return data;
 }
 

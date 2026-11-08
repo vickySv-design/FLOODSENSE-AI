@@ -523,15 +523,37 @@ npm run dev
 ```
 
 ### 18.4 Running the Test Suite
-To execute the automated regression suite validating API integration and result consistency:
+To execute the automated regression suite validating dual-provider integration, API consistency, and frontend builds:
 ```powershell
-python backend/scripts/test_ui_api_integration.py
+# 1. Dual-Provider & Raster Validation Suite (Copernicus + GEE + RasterValidator):
+python backend/scripts/test_dual_provider.py
+
+# 2. Scenario Consistency & Parameter Transparency Suite:
 python backend/scripts/test_scenario_consistency.py
-```
-To verify the frontend production build:
-```powershell
+
+# 3. UI API Integration Suite:
+python backend/scripts/test_ui_api_integration.py
+
+# 4. Frontend Production Build Check:
 npm.cmd --prefix frontend run build
 ```
+
+---
+
+## 19. Dual-Provider Documentation & Technical Deliverables
+
+The dual-provider remote sensing integration is documented across 8 specialized technical reference guides:
+
+| Reference Guide | Markdown File | Key Architectural Coverage |
+|---|---|---|
+| **Dual-Provider Architecture** | [`DUAL_PROVIDER_ARCHITECTURE.md`](file:///c:/Users/vicky/Desktop/Disaster%20Response/DUAL_PROVIDER_ARCHITECTURE.md) | Common `BaseSatelliteProvider` interface, CDSE and GEE adapters, and rasterio enforcement. |
+| **Copernicus CDSE Setup** | [`COPERNICUS_SETUP.md`](file:///c:/Users/vicky/Desktop/Disaster%20Response/COPERNICUS_SETUP.md) | Free registration, OAuth2 client credentials, OData/STAC endpoints, and offline fallback. |
+| **Earth Engine Setup** | [`EARTH_ENGINE_SETUP.md`](file:///c:/Users/vicky/Desktop/Disaster%20Response/EARTH_ENGINE_SETUP.md) | Non-commercial academic access, `earthengine authenticate`, collections, and direct GeoTIFF export. |
+| **Satellite Data Provenance** | [`SATELLITE_DATA_PROVENANCE.md`](file:///c:/Users/vicky/Desktop/Disaster%20Response/SATELLITE_DATA_PROVENANCE.md) | Immutable JSON metadata manifests, sensor properties, and verifiable processing history. |
+| **Raster Validation Report** | [`RASTER_VALIDATION_REPORT.md`](file:///c:/Users/vicky/Desktop/Disaster%20Response/RASTER_VALIDATION_REPORT.md) | GDAL/Rasterio verification of CRS (`EPSG:4326`), affine matrices, and non-zero pixel stats. |
+| **Model Inference Validation** | [`MODEL_INFERENCE_VALIDATION.md`](file:///c:/Users/vicky/Desktop/Disaster%20Response/MODEL_INFERENCE_VALIDATION.md) | Dual-Stream Attention U-Net mathematical formulation, CMAF, 2D Hann blending, and PyTorch latency. |
+| **Zero-Cost Deployment Guide** | [`ZERO_COST_DEPLOYMENT_GUIDE.md`](file:///c:/Users/vicky/Desktop/Disaster%20Response/ZERO_COST_DEPLOYMENT_GUIDE.md) | Zero-cost academic policy, local RTX 4070 GPU acceleration, and single-click launch. |
+| **Dual-Provider Test Results** | [`DUAL_PROVIDER_TEST_RESULTS.md`](file:///c:/Users/vicky/Desktop/Disaster%20Response/DUAL_PROVIDER_TEST_RESULTS.md) | Full 20-point acceptance test matrix and empirical verification log (100% pass rate). |
 
 ---
 

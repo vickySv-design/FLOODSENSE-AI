@@ -33,6 +33,8 @@ from app.services.data_acquisition_manager import data_acquisition_manager
 from app.services.scenario_engine import scenario_manager
 from app.services.data_providers.open_meteo_provider import open_meteo_provider
 from app.services.data_providers.nasa_gpm_provider import nasa_gpm_provider
+from app.services.raster_validator import raster_validator
+from app.services.data_provenance import data_provenance_manager
 from app.services.simulation_engine import simulation_job_manager, PRESET_SCENARIOS, Physical2DFloodSimulator, get_or_generate_dem
 from app.services.aoi_service import aoi_service
 from scripts.init_demo_data import ensure_demo_data_initialized, generate_synthetic_multimodal_tile
@@ -119,6 +121,23 @@ class GPMFetchRequest(BaseModel):
     bbox: List[float] = Field(default=[13.01, 80.22, 13.06, 80.27])
     product: str = Field(default="early")
     hours: int = Field(default=24)
+
+
+class ProviderCheckRequest(BaseModel):
+    provider: str = Field(default="copernicus")
+
+
+class SatellitePairAcquisitionRequest(BaseModel):
+    bbox: List[float] = Field(default=[13.01, 80.22, 13.06, 80.27])
+    pre_date: str = Field(default="2025-11-10")
+    post_date: str = Field(default="2025-12-05")
+    provider: str = Field(default="copernicus")
+    cloud_cover_max: float = Field(default=20.0)
+    aoi_name: Optional[str] = Field(default="Selected Study Area")
+
+
+class RasterValidateRequest(BaseModel):
+    file_path: str
 
 
 class ScenarioCreateRequest(BaseModel):
@@ -599,37 +618,6 @@ async def validate_aoi(req: AOIValidateRequest) -> Dict[str, Any]:
         raise HTTPException(status_code=400, detail=str(ve))
 
 
-@app.get("/api/data-providers/status")
-async def get_data_providers_status() -> Dict[str, Any]:
-    """Returns availability, authentication status, and setup instructions for satellite providers."""
-    copernicus = CopernicusDataSpaceProvider()
-    gee = GoogleEarthEngineProvider()
-    local_p = LocalRasterProvider()
-
-    return {
-        "providers": {
-            "copernicus": {
-                "name": "European Space Agency (ESA) Copernicus Data Space Ecosystem",
-                "configured": copernicus.is_configured(),
-                "instructions": copernicus.get_auth_instructions(),
-                "supported_platforms": ["SENTINEL-1", "SENTINEL-2"],
-            },
-            "gee": {
-                "name": "Google Earth Engine",
-                "configured": gee.is_configured(),
-                "instructions": gee.get_auth_instructions(),
-                "supported_platforms": ["SENTINEL-1", "SENTINEL-2", "LANDSAT-8/9"],
-            },
-            "local_raster": {
-                "name": "Local GeoTIFF Ingestion",
-                "configured": local_p.is_configured(),
-                "instructions": local_p.get_auth_instructions(),
-                "discovered_files": local_p.scan_local_files(),
-            },
-        }
-    }
-
-
 @app.post("/api/data-providers/search")
 async def search_data_providers(req: DataSearchRequest) -> Dict[str, Any]:
     """Catalog search for satellite imagery scenes."""
@@ -792,6 +780,12 @@ async def get_data_providers_status() -> Dict[str, Any]:
     return data_acquisition_manager.get_all_provider_statuses()
 
 
+@app.post("/api/data-providers/check-connection")
+async def check_provider_connection_endpoint(req: ProviderCheckRequest) -> Dict[str, Any]:
+    """Tests live connection to chosen provider (Copernicus CDSE, GEE, or OpenStreetMap)."""
+    return data_acquisition_manager.check_provider_connection(req.provider)
+
+
 @app.post("/api/data/satellite/search")
 async def search_satellite_catalog(req: DataSearchRequest) -> Dict[str, Any]:
     """Searches Copernicus CDSE or Google Earth Engine catalog for Sentinel-1 / Sentinel-2 imagery."""
@@ -810,6 +804,34 @@ async def search_satellite_catalog(req: DataSearchRequest) -> Dict[str, Any]:
         "scenes_count": len(scenes),
         "scenes": scenes,
     }
+
+
+@app.post("/api/data/satellite/acquire-pair")
+async def acquire_satellite_pair_endpoint(req: SatellitePairAcquisitionRequest) -> Dict[str, Any]:
+    """Acquires and validates a genuine Sentinel-2 optical & Sentinel-1 SAR pair for the AOI."""
+    return data_acquisition_manager.acquire_multimodal_pair(
+        bbox=req.bbox,
+        pre_date=req.pre_date,
+        post_date=req.post_date,
+        provider=req.provider,
+        cloud_cover_max=req.cloud_cover_max,
+        aoi_name=req.aoi_name,
+    )
+
+
+@app.post("/api/data/raster/validate")
+async def validate_raster_file_endpoint(req: RasterValidateRequest) -> Dict[str, Any]:
+    """Inspects and validates any satellite raster or GeoTIFF on disk."""
+    return raster_validator.validate_raster_file(req.file_path)
+
+
+@app.get("/api/data/provenance/{analysis_id}")
+async def get_provenance_manifest_endpoint(analysis_id: str) -> Dict[str, Any]:
+    """Retrieves immutable data provenance record for an analysis session."""
+    manifest = data_provenance_manager.get_provenance(analysis_id)
+    if not manifest:
+        raise HTTPException(status_code=404, detail=f"Provenance manifest {analysis_id} not found.")
+    return manifest
 
 
 @app.post("/api/data/satellite/download")

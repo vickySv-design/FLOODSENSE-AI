@@ -1,9 +1,13 @@
+import os
 import time
+import logging
 from typing import Dict, Optional, Tuple
 import cv2
 import numpy as np
 import torch
 import torch.nn.functional as F
+
+logger = logging.getLogger("floodsense.inference_engine")
 
 from app.config import (
     CLASS_DRY_LAND,
@@ -279,6 +283,44 @@ class FloodInferenceEngine:
         stitched_att = net_att_accum / norm_weights
 
         return stitched_probs, stitched_att
+
+    def export_geotiff_flood_mask(
+        self,
+        seg_mask: np.ndarray,
+        bounds: Tuple[float, float, float, float],
+        output_path: str,
+    ) -> str:
+        """
+        Exports the classified flood segmentation mask (0: Dry Land, 1: Permanent Water, 2: Inundated)
+        as a georeferenced GeoTIFF raster using rasterio with WGS84 CRS (EPSG:4326).
+        """
+        try:
+            import rasterio
+            from rasterio.transform import from_bounds
+            min_lat, min_lon, max_lat, max_lon = bounds
+            H, W = seg_mask.shape
+            transform = from_bounds(min_lon, min_lat, max_lon, max_lat, W, H)
+
+            os.makedirs(os.path.dirname(output_path), exist_ok=True)
+            with rasterio.open(
+                output_path,
+                "w",
+                driver="GTiff",
+                height=H,
+                width=W,
+                count=1,
+                dtype="uint8",
+                crs="EPSG:4326",
+                transform=transform,
+                nodata=255,
+            ) as dst:
+                dst.write(seg_mask.astype(np.uint8), 1)
+            return output_path
+        except Exception as e:
+            logger.warning(f"Could not export GeoTIFF flood mask ({e}). Saving as .npy fallback.")
+            npy_path = output_path.replace(".tif", ".npy")
+            np.save(npy_path, seg_mask)
+            return npy_path
 
 
 # Global singleton engine instance

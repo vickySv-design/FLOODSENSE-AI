@@ -43,4 +43,8 @@ Thumbs.db
 *.npz
 *.npy
 *.geojson
+*.tif
+*.tiff
+backend/data/metadata/*.json
+backend/data/satellite_cache/
 
